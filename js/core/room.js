@@ -239,16 +239,26 @@
     var code = normalizeCode(rawCode);
     if (!validCode(code)) return function () {};
     var stop = function () {};
+    var closed = false;
     refFor(game, code).then(function (ref) {
+      if (closed) return;
       stop = ref.onSnapshot(function (snap) {
+        if (closed) return;
         if (typeof onDoc === 'function') onDoc(normalizeDoc(snap, game, code));
       }, function (err) {
+        if (closed) return;
         if (typeof onError === 'function') onError(makeError(describe(err), err && err.code));
       });
     }).catch(function (err) {
+      if (closed) return;
       if (typeof onError === 'function') onError(makeError(describe(err), err && err.code));
     });
-    return function () { stop(); };
+    return function () {
+      if (closed) return;
+      closed = true;
+      stop();
+      stop = function () {};
+    };
   };
 
   ROOM.patchSlot = function (game, rawCode, side, patch) {

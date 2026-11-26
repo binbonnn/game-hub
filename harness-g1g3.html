@@ -9,13 +9,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/tokens.css?v=stub-1795631000001">
-  <link rel="stylesheet" href="css/base.css?v=stub-1795631000001">
-  <link rel="stylesheet" href="css/components.css?v=stub-1795631000001">
-  <link rel="stylesheet" href="css/hub.css?v=stub-1795631000001">
-  <link rel="stylesheet" href="css/quiz.css?v=stub-1795631000001">
-  <link rel="stylesheet" href="css/memo.css?v=stub-1795631000001">
-  <link rel="stylesheet" href="css/nusantara.css?v=stub-1795631000001">
+  <link rel="stylesheet" href="css/tokens.css?v=stub-1795632000002">
+  <link rel="stylesheet" href="css/base.css?v=stub-1795632000002">
+  <link rel="stylesheet" href="css/components.css?v=stub-1795632000002">
+  <link rel="stylesheet" href="css/hub.css?v=stub-1795632000002">
+  <link rel="stylesheet" href="css/quiz.css?v=stub-1795632000002">
+  <link rel="stylesheet" href="css/memo.css?v=stub-1795632000002">
+  <link rel="stylesheet" href="css/nusantara.css?v=stub-1795632000002">
 </head>
 <body>
   <a class="skip-link" href="#main">Lewati ke konten utama</a>
@@ -29,7 +29,7 @@
 
   <header class="site-head" id="siteHead">
     <div class="site-head__inner">
-      <a class="brand" href="#/" data-nav="hub" aria-label="Game Hub, kembali ke beranda">
+      <a class="brand" href="#/" data-nav="hub" aria-label="Game Hub Lima dunia, satu ruang main, kembali ke beranda">
         <span class="brand__mark" aria-hidden="true">
           <svg viewBox="0 0 48 48" role="img" aria-hidden="true">
             <defs>
@@ -59,6 +59,7 @@
           <span class="mode-chip__dot" aria-hidden="true"></span>
           <span class="mode-chip__label" data-cloud-label>Menghubungkan…</span>
         </button>
+        <span class="sr-only" role="status" aria-live="polite" data-cloud-live></span>
         <button class="icon-btn" type="button" id="soundToggle" aria-label="Matikan suara" aria-pressed="true" title="Suara">
           <svg class="icon icon--sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
           <svg class="icon icon--sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 9l5 6m0-6l-5 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -138,11 +139,11 @@
           <h2>Pilih duniamu</h2>
           <p>Setiap game punya ritme dan identitasnya sendiri. Mulai dari yang paling kamu suka.</p>
         </div>
-        <div class="filter-tabs" role="tablist" aria-label="Filter game">
-          <button class="chip is-active" type="button" data-filter="all" role="tab" aria-selected="true">Semua</button>
-          <button class="chip" type="button" data-filter="kuis" role="tab" aria-selected="false">Kuis</button>
-          <button class="chip" type="button" data-filter="memori" role="tab" aria-selected="false">Memori</button>
-          <button class="chip" type="button" data-filter="strategi" role="tab" aria-selected="false">Strategi</button>
+        <div class="filter-tabs" role="group" aria-label="Filter game">
+          <button class="chip is-active" type="button" data-filter="all" aria-pressed="true">Semua</button>
+          <button class="chip" type="button" data-filter="kuis" aria-pressed="false">Kuis</button>
+          <button class="chip" type="button" data-filter="memori" aria-pressed="false">Memori</button>
+          <button class="chip" type="button" data-filter="strategi" aria-pressed="false">Strategi</button>
         </div>
       </div>
 
@@ -330,7 +331,7 @@
         <div class="hub-note__icon" aria-hidden="true"><span class="cloud-banner__dot"></span></div>
         <div>
           <strong data-cloud-title>Penyimpanan global: menghubungkan…</strong>
-          <p data-cloud-desc>Skor tetap aman di perangkat ini. Koneksi ke Firestore sedang diperiksa.</p>
+          <p data-cloud-desc>Skor tamu hanya tersimpan sementara di memori tab ini. Koneksi ke Firestore sedang diperiksa.</p>
           <p class="tiny muted cloud-banner__meta" data-cloud-meta>Proyek multgame-9f7e6 · Firebase Firestore</p>
         </div>
         <button class="text-btn" type="button" data-open="cloud-status">Detail</button>
@@ -363,9 +364,9 @@
   <div class="toast-stack" id="toastStack" role="status" aria-live="polite"></div>
   <div id="modalRoot"></div>
 
-  <script src="js/core/util.js?v=stub-1795631000001"></script>
-  <script src="js/core/audio.js?v=stub-1795631000001"></script>
-  <script src="js/core/firebase-config.js?v=stub-1795631000001"></script>
+  <script src="js/core/util.js?v=stub-1795632000002"></script>
+  <script src="js/core/audio.js?v=stub-1795632000002"></script>
+  <script src="js/core/firebase-config.js?v=stub-1795632000002"></script>
   <!-- Stub harus dipasang sebelum cloud agar adapter memakai window.firebase buatan uji. -->
   <script src="tools/stub-cloud.js"></script>
   <script>
@@ -384,31 +385,31 @@
     };
   })();
   </script>
-  <script src="js/core/cloud.js?v=stub-1795631000001"></script>
-  <script src="js/core/store.js?v=stub-1795631000001"></script>
-  <script src="js/core/identity.js?v=stub-1795631000001"></script>
-  <script src="js/core/ui.js?v=stub-1795631000001"></script>
+  <script src="js/core/cloud.js?v=stub-1795632000002"></script>
+  <script src="js/core/store.js?v=stub-1795632000002"></script>
+  <script src="js/core/identity.js?v=stub-1795632000002"></script>
+  <script src="js/core/ui.js?v=stub-1795632000002"></script>
   <script>window.GH.ui.countdown=function(){return Promise.resolve();};window.GH.ui.confetti=function(){};</script>
-  <script src="js/core/profile-ui.js?v=stub-1795631000001"></script>
-  <script src="js/core/room.js?v=stub-1795631000001"></script>
-  <script src="js/core/router.js?v=stub-1795631000001"></script>
-  <script src="js/data/knowledge.js?v=stub-1795631000001"></script>
-  <script src="js/data/advmath.js?v=stub-1795631000001"></script>
-  <script src="js/data/nusantara-data.js?v=stub-1795631000001"></script>
-  <script src="js/data/ns-schema.js?v=stub-1795631000001"></script>
-  <script src="js/data/ns-data.js?v=stub-1795631000001"></script>
-  <script src="js/data/ns-rng.js?v=stub-1795631000001"></script>
-  <script src="js/data/ns-core.js?v=stub-1795631000001"></script>
-  <script src="js/data/ns-battle.js?v=stub-1795631000001"></script>
-  <script src="js/data/ns-synergy.js?v=stub-1795631000001"></script>
-  <script src="js/data/ns-match.js?v=stub-1795631000001"></script>
-  <script src="js/data/ns-id.js?v=stub-1795631000001"></script>
-  <script src="js/data/ns-view.js?v=stub-1795631000001"></script>
-  <script src="js/game-quiz.js?v=stub-1795631000001"></script>
-  <script src="js/data/memo-core.js?v=stub-1795631000001"></script>
-  <script src="js/data/memo-data.js?v=stub-1795631000001"></script>
-  <script src="js/game-memo.js?v=stub-1795631000001"></script>
-  <script src="js/game-nusantara.js?v=stub-1795631000001"></script>
-  <script src="js/app.js?v=stub-1795631000001"></script>
+  <script src="js/core/profile-ui.js?v=stub-1795632000002"></script>
+  <script src="js/core/room.js?v=stub-1795632000002"></script>
+  <script src="js/core/router.js?v=stub-1795632000002"></script>
+  <script src="js/data/knowledge.js?v=stub-1795632000002"></script>
+  <script src="js/data/advmath.js?v=stub-1795632000002"></script>
+  <script src="js/data/nusantara-data.js?v=stub-1795632000002"></script>
+  <script src="js/data/ns-schema.js?v=stub-1795632000002"></script>
+  <script src="js/data/ns-data.js?v=stub-1795632000002"></script>
+  <script src="js/data/ns-rng.js?v=stub-1795632000002"></script>
+  <script src="js/data/ns-core.js?v=stub-1795632000002"></script>
+  <script src="js/data/ns-battle.js?v=stub-1795632000002"></script>
+  <script src="js/data/ns-synergy.js?v=stub-1795632000002"></script>
+  <script src="js/data/ns-match.js?v=stub-1795632000002"></script>
+  <script src="js/data/ns-id.js?v=stub-1795632000002"></script>
+  <script src="js/data/ns-view.js?v=stub-1795632000002"></script>
+  <script src="js/game-quiz.js?v=stub-1795632000002"></script>
+  <script src="js/data/memo-core.js?v=stub-1795632000002"></script>
+  <script src="js/data/memo-data.js?v=stub-1795632000002"></script>
+  <script src="js/game-memo.js?v=stub-1795632000002"></script>
+  <script src="js/game-nusantara.js?v=stub-1795632000002"></script>
+  <script src="js/app.js?v=stub-1795632000002"></script>
 </body>
 </html>

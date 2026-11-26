@@ -40,6 +40,7 @@
   display: grid;
   place-items: center;
   perspective: 1200px;
+  overflow: hidden;
 }
 .hub-hero__stage::before {
   content: "";
@@ -577,17 +578,17 @@
 .recent-item__value { font-family: var(--font-mono); font-size: 0.75rem; color: var(--brand); font-weight: 700; }
 
 .hub-note {
-  max-width: var(--container);
+  width: min(100%, calc(var(--container) - 2 * clamp(1rem, 3.5vw, 2.5rem)));
   margin: clamp(1rem, 2vw, 1.5rem) auto 0;
-  padding: var(--sp-4) var(--sp-5);
+  padding: var(--sp-4) calc(var(--sp-5) + var(--safe-right)) var(--sp-4) calc(var(--sp-5) + var(--safe-left));
   display: flex;
   align-items: center;
   gap: var(--sp-4);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
   background: rgba(255, 255, 255, 0.028);
-  margin-inline: clamp(1rem, 3.5vw, 2.5rem);
 }
+.hub-note > div:not(.hub-note__icon) { min-width: 0; flex: 1 1 240px; }
 .hub-note__icon {
   flex: none;
   width: 38px; height: 38px;
@@ -598,7 +599,7 @@
   font-size: 1.1rem;
 }
 .hub-note strong { font-size: 0.84rem; }
-.hub-note p { font-size: 0.75rem; color: var(--muted); margin-top: 0.12rem; }
+.hub-note p { font-size: 0.75rem; color: var(--muted); margin-top: 0.12rem; overflow-wrap: anywhere; }
 .hub-note .text-btn { margin-left: auto; flex: none; }
 
 /* Status penyimpanan global */
@@ -683,6 +684,7 @@
   .hub-hero__actions .btn { width: 100%; }
   .hero-stats { gap: 1rem; }
   .daily-body .btn { width: 100%; }
+  .hub-note > .btn { width: 100%; margin-left: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-console, .globe, .rocket, .mimo--card, .floating-token, .orbit, .memo-star, .hero-console__step { animation: none !important; }

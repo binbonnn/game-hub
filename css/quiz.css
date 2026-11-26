@@ -166,7 +166,7 @@ body[data-route="nusantara"] { --theme: var(--g5); --theme-2: var(--g5-2); --the
 .best-card__meta { color: var(--muted); font-size: 0.74rem; font-weight: 600; }
 .mini-tabs { display: flex; gap: 0.2rem; padding: 3px; margin-bottom: 0.75rem; border-radius: var(--r-pill); background: rgba(4,8,18,0.42); border: 1px solid var(--line); }
 .mini-tab { flex: 1; min-height: 34px; border-radius: var(--r-pill); color: var(--muted); font-size: 0.72rem; font-weight: 800; }
-.mini-tab[aria-selected="true"] { background: var(--theme-soft, var(--brand-soft)); color: var(--theme, var(--brand)); }
+.mini-tab[aria-pressed="true"] { background: var(--theme-soft, var(--brand-soft)); color: var(--theme, var(--brand)); }
 .lb-card .panel__body { padding-top: 0.5rem; }
 .rules-details {
   border: 1px solid var(--line);

@@ -104,7 +104,8 @@ main { flex: 1; outline: none; }
   width: 100%;
   max-width: var(--container);
   margin-inline: auto;
-  padding-inline: clamp(1rem, 3.5vw, 2.5rem);
+  padding-left: calc(clamp(1rem, 3.5vw, 2.5rem) + var(--safe-left));
+  padding-right: calc(clamp(1rem, 3.5vw, 2.5rem) + var(--safe-right));
 }
 
 /* ---------- Header ---------- */
@@ -122,7 +123,8 @@ main { flex: 1; outline: none; }
   max-width: var(--container);
   margin-inline: auto;
   min-height: var(--head-h);
-  padding-inline: clamp(1rem, 3.5vw, 2.5rem);
+  padding-left: calc(clamp(1rem, 3.5vw, 2.5rem) + var(--safe-left));
+  padding-right: calc(clamp(1rem, 3.5vw, 2.5rem) + var(--safe-right));
   display: flex;
   align-items: center;
   gap: clamp(0.75rem, 2.5vw, 2rem);
@@ -276,6 +278,33 @@ main { flex: 1; outline: none; }
 }
 @media (max-width: 520px) {
   .brand__type small { display: none; }
-  .site-head__inner { gap: 0.5rem; }
+  .brand { gap: 0.4rem; }
+  .brand__mark { width: 32px; height: 32px; }
+  .site-head__inner {
+    gap: 0.35rem;
+    padding-left: calc(0.75rem + var(--safe-left));
+    padding-right: calc(0.75rem + var(--safe-right));
+  }
+  .site-head__actions { gap: 0.35rem; }
   .site-foot__inner { gap: 0.75rem; }
+}
+
+/* Gerak dikurangi: berlaku untuk semua halaman, termasuk mode "Kurangi animasi". */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+html[data-reduced-motion="true"] { scroll-behavior: auto; }
+html[data-reduced-motion="true"] *,
+html[data-reduced-motion="true"] *::before,
+html[data-reduced-motion="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
 }

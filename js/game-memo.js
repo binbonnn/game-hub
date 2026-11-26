@@ -98,8 +98,8 @@
     return GH.identity.getIdentity();
   }
   function isRegistered() {
-    if (!GH.identity || typeof GH.identity.isRegistered === 'function') {
-      if (typeof GH.identity.isRegistered === 'function') return !!GH.identity.isRegistered();
+    if (GH.identity && typeof GH.identity.isRegistered === 'function') {
+      try { return !!GH.identity.isRegistered(); } catch (e) { /* pakai snapshot */ }
     }
     var snap = identitySnapshot();
     return !!(snap && snap.registered);
@@ -135,6 +135,7 @@
 
   function clearTimers(run) {
     if (!run) return;
+    if (run.rhythmAutoTimer) { clearTimeout(run.rhythmAutoTimer); run.rhythmAutoTimer = null; }
     (run.timers || []).forEach(function (id) { clearTimeout(id); clearInterval(id); });
     run.timers = [];
     if (run.tick) { clearInterval(run.tick); run.tick = null; }
@@ -424,8 +425,11 @@
     if (el) el.textContent = text;
   }
   function markDot(i) {
-    var dot = $$('[data-memo-dot]')[i];
-    if (dot) dot.classList.add('is-now');
+    var dots = $$('[data-memo-dot]');
+    dots.forEach(function (dot, idx) { dot.classList.toggle('is-now', idx === i); });
+  }
+  function clearObserveDots() {
+    $$('[data-memo-dot]').forEach(function (dot) { dot.classList.remove('is-now'); });
   }
   function showBigStim(item) {
     var stage = $('[data-memo-stage]');
@@ -477,6 +481,8 @@
     if (round.interference) steps.push('interference');
     if (round.delayMs) steps.push('delay');
     if (round.mini) steps.push('mini');
+    clearObserveDots();
+    clearBigStim();
     run.stage = 'transition';
     run.skip = null;
     run.stepQueue = steps;
@@ -914,14 +920,16 @@
     if (!room || !doc) return;
     room.doc = doc;
     if (doc.status === 'abandoned') {
-      if (state.screen === 'roomLobby' || state.screen === 'roomWaiting') {
+      if (!room.abandoned) {
+        room.abandoned = true;
         UI.toast({ title: 'Room dibatalkan', msg: 'Tuan room menutup pertandingan.', type: 'warning' });
-        closeRoom();
-        state.duel = null;
-        state.duelResult = null;
-        state.screen = 'lobby';
-        paintHost();
       }
+      if (state.run) { clearTimers(state.run); state.run = null; }
+      closeRoom();
+      state.duel = null;
+      state.duelResult = null;
+      state.screen = 'lobby';
+      paintHost();
       return;
     }
     if (doc.status === 'countdown' && doc.guest && room.side === 'host' && !room.started && GH.room) {
@@ -1259,7 +1267,7 @@
       body = '<div class="memo-rhythm-stage">' +
         '<button class="memo-rhythm-pad" type="button" data-memo-tap>🥁<small>KETUK</small></button>' +
         '<div class="memo-beat-dots">' + Array.from({ length: rc.beats }, function (_, i) {
-          return '<i' + (i < input.taps.length ? ' class="is-on"' : '') + '></i>';
+          return '<i data-memo-beat' + (i < input.taps.length ? ' class="is-on"' : '') + '></i>';
         }).join('') + '</div>' +
         '<button class="btn btn--ghost btn--sm" type="button" data-memo-clear-taps>Ulangi ketukan</button></div>';
     }
@@ -1432,6 +1440,10 @@
       if (submitSeq) submitSeq.addEventListener('click', function () {
         if (run.input.seq.length === run.round.recall.need) submit(false);
       });
+      var clearRhythmAuto = function () {
+        if (run.rhythmAutoTimer) { clearTimeout(run.rhythmAutoTimer); run.rhythmAutoTimer = null; }
+      };
+      run.clearRhythmAuto = clearRhythmAuto;
       var tap = $('[data-memo-tap]', stage);
       if (tap) {
         var hit = function (ev) {
@@ -1442,7 +1454,11 @@
           setTimeout(function () { tap.classList.remove('is-hit'); }, 120);
           $$('[data-memo-beat]', stage).forEach(function (dot, i) { dot.classList.toggle('is-on', i < run.input.taps.length); });
           if (run.input.taps.length === run.round.recall.beats) {
-            schedule(run, function () { if (state.run === run && run.stage === 'recall') submit(false); }, 350);
+            clearRhythmAuto();
+            run.rhythmAutoTimer = schedule(run, function () {
+              run.rhythmAutoTimer = null;
+              if (state.run === run && run.stage === 'recall') submit(false);
+            }, 350);
           }
         };
         run.tapPad = hit;
@@ -1453,6 +1469,7 @@
       }
       var clearTaps = $('[data-memo-clear-taps]', stage);
       if (clearTaps) clearTaps.addEventListener('click', function () {
+        clearRhythmAuto();
         run.input.taps = [];
         run.input.corrections += 1;
         $$('[data-memo-beat]', stage).forEach(function (dot) { dot.classList.remove('is-on'); });
@@ -1613,10 +1630,13 @@
       if (e.target && ['INPUT', 'TEXTAREA', 'SELECT'].indexOf(e.target.tagName) >= 0) return;
       var rc = run.round.recall;
       if (rc.type === 'choice') {
-        var map = { '1': 0, '2': 1, '3': 2, '4': 3, a: 0, b: 1, c: 2, d: 3, A: 0, B: 1, C: 2, D: 3 };
-        if (map[e.key] !== undefined) {
+        var idx = null;
+        var num = parseInt(e.key, 10);
+        if (!isNaN(num) && num >= 1 && num <= 8) idx = num - 1;
+        else if (/^[a-hA-H]$/.test(String(e.key || ''))) idx = e.key.toLowerCase().charCodeAt(0) - 97;
+        if (idx !== null) {
           e.preventDefault();
-          var btn = $$('[data-memo-choice]')[map[e.key]];
+          var btn = $$('[data-memo-choice]')[idx];
           if (btn && !btn.disabled) btn.click();
         }
       } else if (rc.type === 'seq') {
@@ -1767,6 +1787,9 @@
           value: function (r) { return fmt(r.score) + '<small>poin</small>'; },
           sub: function (r) { return (r.meta && r.meta.label) || U.formatDate(r.date); }
         }) : UI.emptyState('◇', 'Kosong', 'Belum ada skor global untuk kategori ini.');
+      }).catch(function () {
+        if (token !== state.paintToken || !globalHost.isConnected) return;
+        globalHost.innerHTML = '<p class="tiny muted">Papan global belum dapat dimuat. Skor lokal tetap tersedia.</p>';
       });
     } else if (globalHost) {
       globalHost.innerHTML = '<p class="tiny muted">Layanan papan ZIP tidak aktif.</p>';
@@ -1776,7 +1799,7 @@
       Promise.resolve(C.memoGetProfile(uid)).then(function (res) {
         if (token !== state.paintToken || !profileLabel.isConnected || !res || !res.ok) return;
         profileLabel.textContent = res.profile.name + ' · ' + (res.profile.st.sessions || 0) + ' sesi';
-      });
+      }).catch(function () { /* Profil cloud tidak mengganggu tampilan lokal. */ });
     }
   }
 
@@ -2140,7 +2163,15 @@
 
     $('[data-game-back]', host).addEventListener('click', function () { state.screen = 'lobby'; state.result = null; paintHost(); });
     $('[data-memo-again]', host).addEventListener('click', function () {
-      startRun({ style: data.runStyle === 'practice' ? 'practice' : data.runStyle, mode: s.mode || state.mode, difficulty: s.diff || state.difficulty, totalRounds: s.plannedRounds || state.rounds });
+      var again = {
+        style: data.runStyle === 'practice' ? 'practice' : data.runStyle,
+        mode: s.mode || state.mode,
+        difficulty: s.diff || state.difficulty,
+        totalRounds: s.plannedRounds || state.rounds
+      };
+      // Tantangan harian harus memakai seed tanggal yang sama saat diulang.
+      if (s.type === 'daily') again.seed = s.seed || dailySeed();
+      startRun(again);
     });
     $('[data-memo-dashboard]', host).addEventListener('click', function () { state.screen = 'lobby'; state.result = null; paintHost(); });
     var lb = $('[data-open="leaderboards"]', host);

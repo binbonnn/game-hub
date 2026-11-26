@@ -304,7 +304,8 @@
 .memo-stimulus__head p { margin-inline: auto; }
 .memo-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--rows, 3), minmax(0, 1fr));
   gap: clamp(0.4rem, 1vw, 0.7rem);
   width: 100%;
   max-width: 520px;

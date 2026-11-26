@@ -283,24 +283,51 @@
   UI.countdown = function (host, opts) {
     opts = opts || {};
     var from = opts.from == null ? 3 : opts.from;
-    return new Promise(function (resolve) {
+    var cancel = null;
+    var promise = new Promise(function (resolve) {
       var overlay = document.createElement('div');
+      var timers = [];
+      var settled = false;
       overlay.className = 'countdown';
       overlay.setAttribute('role', 'status');
       overlay.setAttribute('aria-live', 'assertive');
       overlay.innerHTML = '<span class="countdown__num">' + from + '</span>' +
         '<span class="countdown__hint">' + U.esc(opts.hint || 'Siap-siap…') + '</span>';
       host.appendChild(overlay);
+
+      function later(fn, ms) {
+        var id = setTimeout(function () {
+          timers = timers.filter(function (t) { return t !== id; });
+          fn();
+        }, ms);
+        timers.push(id);
+        return id;
+      }
+
+      function finish(value) {
+        if (settled) return;
+        settled = true;
+        timers.forEach(clearTimeout);
+        timers = [];
+        if (overlay.parentNode) overlay.remove();
+        promise.cancel = null;
+        resolve(value);
+      }
+
+      cancel = function () { finish(false); };
+
       var n = from;
       function step() {
+        if (settled) return;
         if (n <= 0) {
           overlay.querySelector('.countdown__num').textContent = opts.finalLabel || 'Mulai!';
           overlay.classList.add('is-final');
           if (opts.onTick) opts.onTick(0);
           if (GH.audio) GH.audio.countdown(true);
-          setTimeout(function () {
+          later(function () {
+            if (settled) return;
             overlay.classList.add('is-leaving');
-            setTimeout(function () { overlay.remove(); resolve(); }, 260);
+            later(function () { finish(true); }, 260);
           }, opts.finalHold || 450);
           return;
         }
@@ -311,10 +338,12 @@
         if (opts.onTick) opts.onTick(n);
         if (GH.audio) GH.audio.countdown(n === 1);
         n--;
-        setTimeout(step, opts.interval || 750);
+        later(step, opts.interval || 750);
       }
       step();
     });
+    promise.cancel = cancel;
+    return promise;
   };
 
   /* ---------------- Starfield ---------------- */

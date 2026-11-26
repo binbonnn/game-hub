@@ -49,6 +49,7 @@ for (let i = 0; i < src.length; i++) {
   }
   if (c === '/' && src[i + 1] === '*') {
     const end = src.indexOf('*/', i + 2);
+    if (end === -1) errors.push(`Baris ${lineOf(i)}: komentar block tidak ditutup dengan */ .`);
     const stop = end === -1 ? src.length : end + 2;
     for (; i < stop; i++) {
       const ch = src[i];

@@ -296,6 +296,7 @@
       match: match,
       waveModule: waveMod,
       econ: {
+        prepSeconds: Number((data.rounds && data.rounds.prepSeconds) || 60),
         startGold: eco.startingGold,
         baseIncome: eco.baseIncomePerRound,
         interestPer: eco.interest.goldPerBonus,

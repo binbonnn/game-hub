@@ -96,6 +96,8 @@
     if (st.advanceTimer) { clearTimeout(st.advanceTimer); st.advanceTimer = null; }
     if (st.gainTimer) { clearTimeout(st.gainTimer); st.gainTimer = null; }
     if (st.startTimer) { clearTimeout(st.startTimer); st.startTimer = null; }
+    if (typeof st.cancelCountdown === 'function') { st.cancelCountdown(); st.cancelCountdown = null; }
+    st.countdown = null;
     if (typeof st.hintClose === 'function') { st.hintClose(); st.hintClose = null; }
     if (st.abort) { st.abort.abort(); st.abort = null; }
     st.keyHandler = null;
@@ -151,7 +153,7 @@
   }
 
   function tenthOf(entry) {
-    return Math.round(Number(entry && entry.score) || 0);
+    return Math.round((Number(entry && entry.score) || 0) * 10);
   }
 
   function gapToBeat(row, candidate) {
@@ -350,14 +352,13 @@
       '<div class="identity-card__body">' +
         '<span class="label">Identitas pemain</span>' +
         '<strong class="identity-card__name" data-gh-identity-name>' + U.esc(p.name) + '</strong>' +
-        '<p class="input-hint">' + (guest
+        '<p class="input-hint" data-gh-identity-note>' + (guest
           ? 'Identitas tamu hanya berlaku di sesi ini.'
           : 'Identitas terpusat dipakai di semua game.') + '</p>' +
       '</div>' +
       '<div class="identity-card__action">' +
-        (guest
-          ? '<button class="btn btn--primary btn--sm" type="button" data-open="create-profile" data-gh-create-profile>Create Profile</button>'
-          : '<button class="btn btn--ghost btn--sm" type="button" data-open="profile">Kelola profil</button>') +
+        '<button class="btn btn--primary btn--sm" type="button" data-open="create-profile" data-gh-create-profile' + (guest ? '' : ' hidden') + '>Create Profile</button>' +
+        '<button class="btn btn--ghost btn--sm" type="button" data-open="profile" data-gh-profile' + (guest ? ' hidden' : '') + '>Kelola profil</button>' +
       '</div>' +
     '</div>';
   }
@@ -441,9 +442,9 @@
             '<section class="panel lb-card">' +
               '<div class="panel__head"><div><span class="eyebrow">Peringkat</span><h3>' + (cfg.kind === 'rapid' ? '10 teratas' : '7 teratas') + '</h3></div></div>' +
               '<div class="panel__body">' +
-                (cfg.kind === 'timed' ? '<div class="mini-tabs" role="tablist" aria-label="Jumlah soal">' +
+                (cfg.kind === 'timed' ? '<div class="mini-tabs" role="group" aria-label="Jumlah soal">' +
                   cfg.counts.map(function (n) {
-                    return '<button class="mini-tab" type="button" role="tab" data-lb-count="' + n + '" aria-selected="' + (state.lbCount === n ? 'true' : 'false') + '">' + n + ' soal</button>';
+                    return '<button class="mini-tab" type="button" data-lb-count="' + n + '" aria-pressed="' + (state.lbCount === n ? 'true' : 'false') + '">' + n + ' soal</button>';
                   }).join('') + '</div>' : '') +
                 '<div data-lb-body>' + leaderboardFor(cfg, state.lbCount) + '</div>' +
               '</div>' +
@@ -483,7 +484,7 @@
       btn.addEventListener('click', function () {
         state.lbCount = Number(btn.dataset.lbCount);
         Array.prototype.forEach.call(host.querySelectorAll('[data-lb-count]'), function (b) {
-          b.setAttribute('aria-selected', b === btn ? 'true' : 'false');
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
         });
         var body = host.querySelector('[data-lb-body]');
         if (body) body.innerHTML = leaderboardFor(cfg, state.lbCount);
@@ -535,12 +536,21 @@
   }
 
   /* ---------------- Countdown / timer helpers ---------------- */
-  function countdown(host, cfg, done) {
+  function countdown(st, host, cfg, done) {
     var stage = host.querySelector('.game-shell') || host;
-    UI.countdown(stage, {
+    st.countdown = UI.countdown(stage, {
       from: 3,
       hint: cfg.kind === 'rapid' ? 'Ronde 60 detik dimulai…' : 'Kuis dimulai…'
-    }).then(done);
+    });
+    st.cancelCountdown = function () {
+      if (st.countdown && typeof st.countdown.cancel === 'function') st.countdown.cancel();
+    };
+    st.countdown.then(function (ok) {
+      st.countdown = null;
+      st.cancelCountdown = null;
+      if (ok === false || st.phase !== 'countdown') return;
+      done();
+    });
   }
 
   function startTimedOrRapid(cfg, host) {
@@ -604,6 +614,7 @@
     paint(cfg, host);
 
     var begin = function () {
+      if (!st.session || st.phase === 'idle') return;
       st.startTimer = null;
       st.phase = 'playing';
       st.session.startedAt = performance.now();
@@ -619,11 +630,18 @@
     if (opts.autoStartAt) {
       var delay = Math.max(0, Number(opts.autoStartAt) - Date.now());
       var stage = host.querySelector('.game-shell') || host;
-      UI.countdown(stage, {
+      st.countdown = UI.countdown(stage, {
         from: Math.max(1, Math.ceil(delay / 1000)),
         hint: 'Duel online dimulai…',
         finalLabel: 'Mulai!'
-      }).then(function () {
+      });
+      st.cancelCountdown = function () {
+        if (st.countdown && typeof st.countdown.cancel === 'function') st.countdown.cancel();
+      };
+      st.countdown.then(function (ok) {
+        st.countdown = null;
+        st.cancelCountdown = null;
+        if (ok === false || st.phase !== 'countdown' || !st.session) return;
         var rest = Math.max(0, Number(opts.autoStartAt) - Date.now());
         if (rest > 0) st.startTimer = setTimeout(begin, rest);
         else begin();
@@ -631,7 +649,7 @@
       return;
     }
 
-    countdown(host, cfg, begin);
+    countdown(st, host, cfg, begin);
   }
 
   function abortTimed(cfg, st) {
@@ -842,11 +860,19 @@
     }
   }
 
+  function bindGameChrome(cfg, host, signal) {
+    var back = host.querySelector('[data-game-back]');
+    if (back) back.addEventListener('click', function () { R.go('hub'); }, { signal: signal });
+    var sound = host.querySelector('[data-sound-toggle]');
+    if (sound) sound.addEventListener('click', UI.toggleSound, { signal: signal });
+  }
+
   function bindTimedPlay(cfg, host) {
     var st = getState(cfg.id);
     if (st.abort) st.abort.abort();
     st.abort = new AbortController();
     var signal = st.abort.signal;
+    bindGameChrome(cfg, host, signal);
     if (cfg.id === 'multiply') bindMultiplyPlay(cfg, host, st, signal);
     else bindAdvmathPlay(cfg, host, st, signal);
   }
@@ -894,7 +920,11 @@
           fb.className = 'feedback-line is-correct';
           fb.innerHTML = '<strong>✓ Benar!</strong> ' + q.a + ' × ' + q.b + ' = ' + q.answer + '.';
         }
-        setTimeout(function () { if (token === ss.questionToken) nextTimedQuestion(cfg, host); }, 480);
+        if (ss.index + 1 >= ss.questions.length) ss.lockedTotalMs = ss.elapsedMs;
+        st.advanceTimer = setTimeout(function () {
+          st.advanceTimer = null;
+          if (st.session === ss && token === ss.questionToken) nextTimedQuestion(cfg, host);
+        }, 480);
         return;
       }
       ss.mistakeCount++;
@@ -1005,7 +1035,11 @@
         var deadline = ss.hintDeadlines[level] || 0;
         var left = deadline ? Math.max(0, Math.ceil((deadline - now) / 1000)) : 0;
         btn.classList.remove('is-active', 'is-expired');
-        if (deadline && left > 0) {
+        if (ss.locked || ss.burnedThisQuestion) {
+          btn.classList.add('is-expired');
+          btn.disabled = true;
+          btn.style.setProperty('--p', '0');
+        } else if (deadline && left > 0) {
           btn.classList.add('is-active');
           btn.disabled = false;
           btn.style.setProperty('--p', (left / G3_HINT_CONFIG[level].durationSec).toFixed(4));
@@ -1014,7 +1048,7 @@
           btn.disabled = true;
           btn.style.setProperty('--p', '0');
         } else {
-          btn.disabled = !!(ss.locked || ss.burnedThisQuestion);
+          btn.disabled = false;
           btn.style.setProperty('--p', '1');
         }
         var status = btn.querySelector('.advmath-hint-status');
@@ -1226,9 +1260,7 @@
     st.phase = 'done';
     R.clearGuard();
     ss.elapsedMs = ss.elapsedMs || 0;
-    var totalMs = cfg.id === 'multiply'
-      ? ss.elapsedMs
-      : (ss.lockedTotalMs == null ? timedTotalMs(st) : ss.lockedTotalMs);
+    var totalMs = ss.lockedTotalMs == null ? timedTotalMs(st) : ss.lockedTotalMs;
     var key = boardKey(cfg, ss.questions.length);
     var candidate = {
       name: ss.player.name,
@@ -1249,7 +1281,7 @@
     var insight = buildRankInsight(cfg, key, candidate, S.getBoard(key));
     var result = {
       totalMs: totalMs,
-      actualMs: ss.elapsedMs,
+      actualMs: Math.max(0, totalMs - (cfg.id === 'multiply' ? 0 : ss.penaltySec) * 1000),
       penaltySec: cfg.id === 'multiply' ? 0 : ss.penaltySec,
       correct: ss.correct,
       mistakes: ss.mistakeCount,
@@ -1348,6 +1380,7 @@
   /* ---------------- Duel result (online) ---------------- */
   function exitDuelResult(cfg, host) {
     var st = getState(cfg.id);
+    cleanupState(st);
     closeRoom(st);
     st.duel = null; st.duelResult = null; st.session = null; st.rapid = null;
     st.phase = 'idle'; st.screen = 'dashboard';
@@ -1471,6 +1504,7 @@
     paint(cfg, host);
 
     var begin = function () {
+      if (!st.rapid || st.phase === 'idle') return;
       st.startTimer = null;
       st.phase = 'playing';
       st.rapid.startedAt = performance.now();
@@ -1488,11 +1522,18 @@
     if (opts.autoStartAt) {
       var delay = Math.max(0, Number(opts.autoStartAt) - Date.now());
       var stage = host.querySelector('.game-shell') || host;
-      UI.countdown(stage, {
+      st.countdown = UI.countdown(stage, {
         from: Math.max(1, Math.ceil(delay / 1000)),
         hint: 'Duel online dimulai…',
         finalLabel: 'Mulai!'
-      }).then(function () {
+      });
+      st.cancelCountdown = function () {
+        if (st.countdown && typeof st.countdown.cancel === 'function') st.countdown.cancel();
+      };
+      st.countdown.then(function (ok) {
+        st.countdown = null;
+        st.cancelCountdown = null;
+        if (ok === false || st.phase !== 'countdown' || !st.rapid) return;
         var rest = Math.max(0, Number(opts.autoStartAt) - Date.now());
         if (rest > 0) st.startTimer = setTimeout(begin, rest);
         else begin();
@@ -1500,7 +1541,7 @@
       return;
     }
 
-    countdown(host, cfg, begin);
+    countdown(st, host, cfg, begin);
   }
 
   function abortRapid(cfg, st) {
@@ -1684,6 +1725,7 @@
     if (st.abort) st.abort.abort();
     st.abort = new AbortController();
     var signal = st.abort.signal;
+    bindGameChrome(cfg, host, signal);
     var rp = st.rapid;
     if (!rp) return;
 
@@ -2026,8 +2068,11 @@
       penaltySec: ss.penaltySec
     };
     if (force) {
+      var actualMs = result && result.actualMs != null
+        ? result.actualMs
+        : (ss.lockedTotalMs != null ? ss.lockedTotalMs - ss.penaltySec * 1000 : ss.elapsedMs);
       patch.progress = ss.questions.length;
-      patch.time = Math.max(0, ss.elapsedMs) / 1000;
+      patch.time = Math.max(0, actualMs) / 1000;
       patch.finishedAt = Date.now();
     }
     GH.room.patchSlot(cfg.id, room.code, room.side, patch).catch(function () {});
@@ -2176,13 +2221,12 @@
     if (!room || !doc) return;
     room.doc = doc;
     if (doc.status === 'abandoned') {
-      if (st.screen === 'roomLobby' || st.screen === 'roomWaiting') {
-        UI.toast({ title: 'Room dibatalkan', msg: 'Tuan room menutup pertandingan.', type: 'warning' });
-        closeRoom(st);
-        st.duel = null; st.session = null; st.rapid = null; st.phase = 'idle';
-        st.screen = 'dashboard';
-        paint(cfg, host);
-      }
+      UI.toast({ title: 'Room dibatalkan', msg: 'Tuan room menutup pertandingan.', type: 'warning' });
+      cleanupState(st);
+      closeRoom(st);
+      st.duel = null; st.duelResult = null; st.session = null; st.rapid = null; st.phase = 'idle';
+      st.screen = 'dashboard';
+      paint(cfg, host);
       return;
     }
     if (doc.status === 'countdown' && doc.guest && room.side === 'host' && !room.started) {
@@ -2367,6 +2411,7 @@
     var room = st.room;
     var wasHost = room && room.side === 'host';
     var code = room && room.code;
+    cleanupState(st);
     closeRoom(st);
     if (wasHost && code && GH.room && typeof GH.room.abandon === 'function') GH.room.abandon(cfg.id, code);
     st.duel = null; st.session = null; st.rapid = null; st.phase = 'idle';

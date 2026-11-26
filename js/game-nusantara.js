@@ -14,10 +14,12 @@
   // sampai data ZIP selesai divalidasi. Semua angka/aturan dibaca dari view itu.
   var NS = GH.nsLegacyData || null;
   var ECON = {};
-  var PREP_SECONDS = 30;
   var TICK_MS = 360;
   var viewReady = false;
   var viewError = null;
+  var glassFitCleanup = null;
+  var rotateDismissed = false;
+  var orientationLockPending = false;
 
   function Core() { return (GH.ns && GH.ns.Core) || GH.nsCore || null; }
   function Battle() { return (GH.ns && GH.ns.Battle) || GH.nsBattle || null; }
@@ -444,7 +446,7 @@
       relics: [],
       shop: [],
       phase: 'prep',
-      timer: PREP_SECONDS,
+      timer: prepSeconds(),
       timerId: null,
       tickId: null,
       battle: null,
@@ -547,10 +549,10 @@
           '</div>' +
         '</section>' +
 
-        '<div class="ns-mode-tabs" role="tablist" aria-label="Mode Nusantara Sirna">' +
-          '<button class="ns-mode-tab' + (mode === 'solo' ? ' is-active' : '') + '" type="button" role="tab" data-ns-mode="solo" aria-selected="' + (mode === 'solo') + '">' +
+        '<div class="ns-mode-tabs" role="group" aria-label="Mode Nusantara Sirna">' +
+          '<button class="ns-mode-tab' + (mode === 'solo' ? ' is-active' : '') + '" type="button" data-ns-mode="solo" aria-pressed="' + (mode === 'solo') + '">' +
             '<strong>Solo</strong><small>Bertahan sejauh mungkin</small></button>' +
-          '<button class="ns-mode-tab' + (mode === 'party' ? ' is-active' : '') + '" type="button" role="tab" data-ns-mode="party" aria-selected="' + (mode === 'party') + '">' +
+          '<button class="ns-mode-tab' + (mode === 'party' ? ' is-active' : '') + '" type="button" data-ns-mode="party" aria-pressed="' + (mode === 'party') + '">' +
             '<strong>Party</strong><small>Perlu koneksi online</small></button>' +
         '</div>' +
 
@@ -759,51 +761,104 @@
       stopBattleTicker(state.run);
       clearRunTimeouts(state.run);
     }
+    if (typeof state.rewardClose === 'function') {
+      var closeReward = state.rewardClose;
+      state.rewardClose = null;
+      closeReward();
+    }
     state.run = null;
     state.result = null;
     state.screen = 'lobby';
     clearGuard();
+    teardownGlassFit();
     var host = document.querySelector('[data-view="nusantara"]');
     if (host && !host.hidden) renderLobby(host);
   }
 
   function currentHost() { return document.querySelector('[data-view="nusantara"]'); }
 
+  /** Kunci orientasi hanya saat G5 aktif. Tidak ada reload/navigasi ulang. */
+  function requestLandscape() {
+    var so = window.screen && window.screen.orientation;
+    if (!so || typeof so.lock !== 'function') return false;
+    if (so.type && /^landscape/.test(so.type)) return true;
+    if (orientationLockPending) return true;
+    orientationLockPending = true;
+    try {
+      var p = so.lock('landscape');
+      var done = function () { orientationLockPending = false; };
+      if (p && typeof p.then === 'function') p.then(done, done);
+      else done();
+    } catch (err) {
+      orientationLockPending = false;
+    }
+    return true;
+  }
+
+  function releaseLandscape() {
+    var so = window.screen && window.screen.orientation;
+    if (!so || typeof so.unlock !== 'function') return;
+    try {
+      var p = so.unlock();
+      if (p && typeof p.catch === 'function') p.catch(function () {});
+    } catch (err) { /* Orientasi tidak dikunci; abaikan. */ }
+  }
+
+  function teardownGlassFit() {
+    if (!glassFitCleanup) return;
+    var c = glassFitCleanup;
+    glassFitCleanup = null;
+    window.removeEventListener('resize', c.onResize);
+    window.removeEventListener('orientationchange', c.onResize);
+    if (c.viewport && c.viewport.removeEventListener) c.viewport.removeEventListener('resize', c.onResize);
+    document.body.classList.remove('ns-glass-active');
+  }
+
+  function fitGlassStage() {
+    if (!glassFitCleanup || !glassFitCleanup.stage.isConnected) return;
+    var s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+    glassFitCleanup.stage.style.transform = 'translate(-50%, -50%) scale(' + s + ')';
+  }
+
+  function setupGlassFit(stage) {
+    if (glassFitCleanup && glassFitCleanup.stage === stage) { fitGlassStage(); return; }
+    teardownGlassFit();
+    var onResize = function () { fitGlassStage(); };
+    var viewport = window.visualViewport || null;
+    window.addEventListener('resize', onResize);
+    window.addEventListener('orientationchange', onResize);
+    if (viewport && viewport.addEventListener) viewport.addEventListener('resize', onResize);
+    glassFitCleanup = { stage: stage, onResize: onResize, viewport: viewport };
+    document.body.classList.add('ns-glass-active');
+    fitGlassStage();
+  }
+
   function paint() {
     var host = currentHost();
     if (!host) return;
+    if (state.screen !== 'play') teardownGlassFit();
     if (state.screen === 'play' && state.run) renderPlay(host);
     else if (state.screen === 'result' && state.result) renderResult(host);
     else renderLobby(host);
   }
 
+  /** Topbar kaca. Kelas ns-hud dipertahankan agar paintBattle tidak perlu diubah. */
   function hudHtml(run) {
-    var hpPct = U.pct(run.hp, run.maxHp);
-    var xpNeed = xpToNext(run);
-    var xpMeta = xpInfo(run);
-    var xpPct = xpMeta.max ? 100 : U.pct(xpMeta.xp, Math.max(1, xpMeta.need));
-    var wave = run.waveInfo || NS.wave(run.round, run.arena.hpMult);
-    var waveTotal = (run.battle && run.battle.total) || wave.count;
+    var wave = run.waveInfo || currentWave(run);
     var isPrep = run.phase === 'prep';
     var timerText = isPrep ? run.timer + 's' : (run.phase === 'battle' ? 'Tempur' : '—');
+    var waveTotal = waveTotalCount(run, wave);
     var enemiesLeft = run.battle ? run.battle.enemies.filter(function (e) { return e.hp > 0; }).length : waveTotal;
-    return '<div class="ns-hud">' +
-      '<div class="ns-hud__cmd">' +
-        '<span class="ns-cmd-face" style="--pick:' + run.senapati.color + '">' + run.senapati.icon + '</span>' +
-        '<div class="ns-cmd-body">' +
-          '<span class="ns-hud__label">Senapati · ' + esc(run.playerName) + '</span>' +
-          '<strong>' + esc(run.senapati.name) + '</strong>' +
-          '<div class="ns-hpbar' + (hpPct < 35 ? ' is-danger' : '') + '"><i style="width:' + hpPct + '%"></i></div>' +
-          '<small class="ns-hud__sub">' + fmt(run.hp) + ' / ' + fmt(run.maxHp) + ' HP</small>' +
-        '</div>' +
+    var interest = Math.min(Math.floor(run.gold / (ECON.interestPer || 10)), ECON.interestCap + (run.mods.interestCap || 0));
+    return '<div class="ns-hud ns-glass-topbar ns-glass-panel">' +
+      '<div class="ns-glass-timer ns-hud__timer' + (isPrep && run.timer <= 8 ? ' is-urgent' : '') + (run.phase === 'battle' ? ' is-battle' : '') + '">' +
+        '<b data-ns-timer>' + timerText + '</b><span>' + (isPrep ? 'PERSIAPAN' : run.phase === 'battle' ? 'TEMPUR' : 'SELESAI') + '</span>' +
       '</div>' +
-      '<div class="ns-hud__stat"><span class="ns-hud__label">Pupuh</span><strong>' + run.round + '</strong><small>bertahan</small></div>' +
-      '<div class="ns-hud__stat"><span class="ns-hud__label">Emas</span><strong class="text-warning">' + fmt(run.gold) + '</strong><small>+bunga ' + fmt(Math.min(Math.floor(run.gold / (ECON.interestPer || 10)), ECON.interestCap + (run.mods.interestCap || 0))) + '</small></div>' +
-      '<div class="ns-hud__stat"><span class="ns-hud__label">Level ' + run.level + '</span><strong>' + (xpMeta.max ? 'MAX' : run.xp + ' XP') + '</strong><div class="ns-xpbar"><i style="width:' + xpPct + '%"></i></div><small>' + (xpMeta.max ? 'Batas ' + unitCap(run) + ' unit' : (xpNeed + ' XP lagi')) + '</small></div>' +
-      '<div class="ns-hud__stat ns-hud__timer' + (isPrep && run.timer <= 8 ? ' is-urgent' : '') + '"><span class="ns-hud__label">' + (isPrep ? 'Persiapan' : 'Pertempuran') + '</span><strong data-ns-timer>' + timerText + '</strong><small>' + (run.phase === 'battle' ? enemiesLeft + ' Sunyi tersisa' : wave.boss ? 'Penjaga berikutnya' : waveTotal + ' Sunyi') + '</small></div>' +
-      '<div class="ns-hud__actions">' +
-        (isPrep ? '<button class="btn btn--primary" type="button" data-ns-ready><span class="btn__icon" aria-hidden="true">⚔</span> Siap</button>' : '') +
-        '<button class="btn btn--ghost btn--sm" type="button" data-open="lontar">Lontar</button>' +
+      '<div class="ns-glass-roundmeta"><strong>Pupuh <b>' + run.round + '</b></strong><small>' + esc(wave.label || ('Gelombang ' + run.round)) + '</small></div>' +
+      '<div class="ns-glass-topstats">' +
+        '<div class="ns-glass-topstat"><span>🛡</span><b>' + run.units.length + '/' + unitCap(run) + '</b><small>Populasi</small></div>' +
+        '<div class="ns-glass-topstat"><span>💰</span><b>' + fmt(run.gold) + '</b><small class="' + (interest ? 'ns-glass-interest' : '') + '">' + (interest ? '+' + interest + ' bunga' : 'Tanpa bunga') + '</small></div>' +
+        '<div class="ns-glass-topstat"><span>◈</span><b>' + (run.phase === 'battle' ? enemiesLeft : waveTotal) + '</b><small>Sunyi</small></div>' +
       '</div>' +
     '</div>';
   }
@@ -893,7 +948,7 @@
   }
 
   function boardGridHtml(run) {
-    return '<div class="ns-board" role="grid" aria-label="Sasana ' + esc(run.arena.name) + ', 9 kolom 7 baris">' + boardCellsHtml(run) + '</div>';
+    return '<div class="ns-board" role="group" aria-label="Sasana ' + esc(run.arena.name) + ', 9 kolom 7 baris">' + boardCellsHtml(run) + '</div>';
   }
 
   function boardHtml(run) {
@@ -935,6 +990,37 @@
     return findUnit(run, run.selected.uid);
   }
 
+  /** Jumlah musuh yang benar-benar datang: Sunyi biasa + satu Penjaga. */
+  function waveTotalCount(run, wave) {
+    if (run && run.battle && run.battle.total) return run.battle.total;
+    wave = wave || (run ? currentWave(run) : null);
+    if (!wave) return 0;
+    if (wave.normalCount != null) return Number(wave.normalCount) + (wave.boss ? 1 : 0);
+    if (wave.zip && wave.zip.pre) return Number(wave.zip.pre.count) + (wave.boss ? 1 : 0);
+    return Number(wave.count) || 0;
+  }
+
+  function displaySellValue(run, unit) {
+    var core = Core(), data = zipData();
+    if (!unit || !core || !data || !run) return 0;
+    var loc = coreLocation(run, unit.uid);
+    var cu = loc ? core.getAt(run.core, loc) : null;
+    return cu ? core.sellValue(core.index(data), cu) : 0;
+  }
+
+  function currentWave(run) {
+    if (!run) return null;
+    return run.waveInfo || (NS ? NS.wave(run.round, run.arena) : null) || (NS ? NS.wave(run.round, 1) : null);
+  }
+
+  function refreshCostFor(run) {
+    var core = Core(), data = zipData();
+    if (!run || !run.core || !core || !data || typeof core.rerollCost !== 'function') return ECON.refreshCost;
+    return core.rerollCost(core.index(data), run.core);
+  }
+
+  function prepSeconds() { return Math.max(1, Number(ECON.prepSeconds) || 60); }
+
   function unitDetailHtml(run) {
     var unit = selectedUnit(run);
     if (!unit) {
@@ -944,7 +1030,7 @@
     var c = stats.char;
     var origin = NS.origins[c.origin];
     var path = NS.paths[c.path];
-    var sell = NS.sellValue[unit.star] || 1;
+    var sell = displaySellValue(run, unit);
     var relicChips = (unit.relicIds || []).map(function (rid) {
       var relic = NS.pusaka.filter(function (p) { return p.id === rid; })[0];
       return relic ? '<button class="ns-relic-chip" type="button" data-unequip="' + rid + '" title="Lepas ' + esc(relic.name) + '">' + relic.icon + ' <span>' + esc(relic.name) + '</span> ✕</button>' : '';
@@ -995,12 +1081,12 @@
   }
 
   function sideHtml(run) {
-    var wave = NS.wave(run.round, run.arena.hpMult);
+    var wave = currentWave(run);
     var log = run.log.slice(0, 4).map(function (l) { return '<li>' + esc(l.text) + '</li>'; }).join('');
     return '<aside class="ns-side">' +
       '<section class="panel ns-shop-panel">' +
         '<div class="panel__head ns-shop-head"><div><span class="eyebrow">Toko</span><h3>Tawaran Titisan</h3></div>' +
-          '<button class="btn btn--ghost btn--sm" type="button" data-refresh' + (run.gold >= ECON.refreshCost && (run.phase === 'prep' || run.phase === 'battle') ? '' : ' disabled') + '>↻ ' + ECON.refreshCost + ' emas</button>' +
+          '<button class="btn btn--ghost btn--sm" type="button" data-refresh' + (run.gold >= refreshCostFor(run) && (run.phase === 'prep' || run.phase === 'battle') ? '' : ' disabled') + '>↻ ' + refreshCostFor(run) + ' emas</button>' +
         '</div>' +
         '<div class="panel__body ns-shop-body">' +
           '<div class="ns-shop">' + run.shop.map(function (id, i) { return shopCardHtml(run, id, i); }).join('') + '</div>' +
@@ -1020,29 +1106,129 @@
     '</aside>';
   }
 
+  /* ---------------- Tata letak G5: glass stage 1280 × 720 ---------------- */
+  function glassActionsHtml(run) {
+    var elapsed = run.phase === 'battle' && run.battle
+      ? Math.floor((run.battle.tick * TICK_MS) / 1000)
+      : null;
+    var phaseText = run.phase === 'prep' ? 'Persiapan' : run.phase === 'battle' ? 'Tempur' : run.phase === 'reward' ? 'Hadiah' : 'Selesai';
+    return '<div class="ns-glass-actions">' +
+      '<button class="ns-glass-pill btn" type="button" data-open="leaderboards" data-game="nusantara" title="Papan informasi">📊 Papan</button>' +
+      (run.phase === 'prep'
+        ? '<button class="ns-glass-pill ns-glass-pill--primary btn" type="button" data-ns-ready>⚔ Siap</button>'
+        : '<span class="ns-glass-pill is-info">' + esc(phaseText) + '</span>') +
+      '<span class="ns-glass-pill is-info" title="Waktu permainan">⏱ <span data-ns-elapsed>' + (elapsed == null ? (run.phase === 'prep' ? run.timer + 's' : '—') : elapsed + 's') + '</span></span>' +
+    '</div>';
+  }
+
+  function glassLeftHtml(run) {
+    var wave = currentWave(run);
+    var log = run.log.slice(0, 5).map(function (l) { return '<li>' + esc(l.text) + '</li>'; }).join('');
+    var give = Math.min(100, Math.max(0, (Number(run.streak) || 0) * 20));
+    var take = Math.min(100, Math.max(0, (Number(run.totalLeaks) || 0) * 10));
+    return '<aside class="ns-glass-left">' +
+      '<section class="ns-glass-panel ns-glass-block"><div class="ns-glass-block__head">Warisan</div><div class="ns-glass-block__body">' + warisanHtml(run) + '</div></section>' +
+      '<section class="ns-glass-panel ns-glass-block"><div class="ns-glass-block__head">Damage</div><div class="ns-glass-block__body">' +
+        '<div class="ns-glass-dmghead"><span class="ns-glass-dmghead__give">◀ Diberikan</span><span class="ns-glass-dmghead__take">Diterima ▶</span></div>' +
+        '<div class="ns-glass-dmgrow"><div class="ns-glass-dmgbar"><i class="ns-glass-dmgbar__give" style="width:' + give + '%"></i><i class="ns-glass-dmgbar__take" style="width:' + take + '%"></i></div><small>Streak ' + (Number(run.streak) || 0) + ' · Bocor ' + (Number(run.totalLeaks) || 0) + '</small></div>' +
+      '</div></section>' +
+      '<section class="ns-glass-panel ns-glass-block ns-glass-log"><div class="ns-glass-block__head">Catatan</div><div class="ns-glass-block__body">' +
+        '<ul class="ns-glass-loglist">' + (log || '<li>Belum ada catatan.</li>') + '</ul>' +
+        '<div class="ns-glass-wave"><span class="' + (wave.boss ? 'is-boss' : '') + '">' + esc(wave.label) + '</span><small>' + (wave.boss ? waveTotalCount(run, wave) + ' musuh · hadiah Pusaka' : waveTotalCount(run, wave) + ' Sunyi · bocor ' + wave.leak + ' HP') + '</small></div>' +
+      '</div></section>' +
+    '</aside>';
+  }
+
+  function glassCenterHtml(run) {
+    var wave = currentWave(run);
+    var canAct = run.phase === 'prep' || run.phase === 'battle';
+    var canRefresh = run.gold >= refreshCostFor(run) && canAct;
+    var canXp = run.gold >= ECON.xpCost && run.level < ECON.maxLevel && canAct;
+    var banner = run.phase === 'clear'
+      ? '<div class="ns-glass-banner is-clear"><strong>Pupuh selesai</strong><span>Menyiapkan upah dan tawaran berikutnya…</span></div>'
+      : run.phase === 'reward'
+        ? '<div class="ns-glass-banner is-reward"><strong>Penjaga runtuh</strong><span>Pilih satu Pusaka untuk melanjutkan.</span></div>'
+        : '';
+    return '<main class="ns-glass-center">' +
+      '<div class="ns-glass-boardhead"><strong>' + esc(run.arena.name) + '</strong><span>' + esc(wave.label || 'Sasana') + ' · 9 × 7</span></div>' +
+      '<div class="ns-glass-boardwrap">' + boardHtml(run) + banner + '</div>' +
+      '<div class="ns-glass-benchwrap">' + benchHtml(run) + '</div>' +
+      '<div class="ns-glass-shopwrap">' + run.shop.map(function (id, i) { return shopCardHtml(run, id, i); }).join('') + '</div>' +
+      '<div class="ns-glass-shopfoot"><span>Level ' + run.level + ' · peluang biaya 1–5</span>' +
+        '<button class="ns-glass-mini btn" type="button" data-refresh' + (canRefresh ? '' : ' disabled') + '>↻ ' + refreshCostFor(run) + '💰</button>' +
+        '<button class="ns-glass-mini btn" type="button" data-buy-xp' + (canXp ? '' : ' disabled') + '>+4 XP · ' + ECON.xpCost + '💰</button>' +
+      '</div>' +
+    '</main>';
+  }
+
+  function glassRightHtml(run) {
+    var hpPct = U.pct(run.hp, run.maxHp);
+    return '<aside class="ns-glass-right">' +
+      '<section class="ns-glass-panel ns-glass-block"><div class="ns-glass-block__head">Senapati</div><div class="ns-glass-block__body">' +
+        '<div class="ns-glass-player"><span class="ns-glass-player__face" style="--pick:' + run.senapati.color + '">' + run.senapati.icon + '</span>' +
+          '<div><strong>' + esc(run.senapati.name) + '</strong><small>' + esc(run.playerName) + '</small></div>' +
+        '</div>' +
+        '<div class="ns-glass-hpbar' + (hpPct < 35 ? ' is-danger' : '') + '"><i style="width:' + hpPct + '%"></i><b>' + fmt(run.hp) + ' / ' + fmt(run.maxHp) + '</b></div>' +
+      '</div></section>' +
+      '<section class="ns-glass-panel ns-glass-block"><div class="ns-glass-block__head">Detail Titisan</div><div class="ns-glass-block__body">' + unitDetailHtml(run) + '</div></section>' +
+      '<section class="ns-glass-panel ns-glass-block"><div class="ns-glass-block__head">Pusaka</div><div class="ns-glass-block__body">' + relicsHtml(run) + '</div></section>' +
+    '</aside>';
+  }
+
+  function glassBottomHtml(run) {
+    var xpMeta = xpInfo(run);
+    var xpPct = xpMeta.max ? 100 : U.pct(xpMeta.xp, Math.max(1, xpMeta.need));
+    var xpText = xpMeta.max ? 'MAX' : xpMeta.xp + '/' + xpMeta.need;
+    var canXp = run.gold >= ECON.xpCost && !xpMeta.max && (run.phase === 'prep' || run.phase === 'battle');
+    var xpLabel = xpMeta.max ? 'Level sudah maksimal' : 'Beli +4 XP dengan ' + ECON.xpCost + ' emas';
+    var selected = selectedUnit(run);
+    var sell = selected ? displaySellValue(run, selected) : 0;
+    return '<button class="ns-glass-exp btn" type="button" data-buy-xp style="--p:' + xpPct + '" title="' + esc(xpLabel) + '" aria-label="' + esc(xpLabel) + '"' + (canXp ? '' : ' disabled') + '>' +
+        '<span class="ns-glass-exp__t">+' + (xpMeta.max ? 0 : (xpMeta.need - xpMeta.xp)) + ' XP</span><span class="ns-glass-exp__n">' + xpText + '</span>' +
+      '</button>' +
+      '<div class="ns-glass-panel ns-glass-eco"><strong>Lv ' + run.level + '</strong><span>💰 ' + fmt(run.gold) + '</span></div>' +
+      '<button class="ns-glass-trash btn" type="button" data-sell="' + (selected ? esc(String(selected.uid)) : '') + '"' + (selected ? '' : ' disabled') + ' title="Jual Titisan terpilih">🗑<small>' + (selected ? '+' + sell : 'Jual') + '</small></button>';
+  }
+
   function renderPlay(host) {
     var run = state.run;
     if (!run) { state.screen = 'lobby'; renderLobby(host); return; }
     host.dataset.game = 'nusantara';
-    host.innerHTML = '<div class="game-shell ns-shell">' +
-      UI.gameHeader({ title: 'Nusantara Sirna', subtitle: 'Pupuh ' + run.round + ' · ' + (run.phase === 'battle' ? 'Pertempuran' : 'Persiapan'), glyph: '♜', backLabel: 'Keluar' }) +
+    host.innerHTML = '<div class="game-shell ns-shell ns-shell--glass">' +
       '<div class="game-wrap game-wrap--play ns-play-wrap">' +
-        hudHtml(run) +
-        '<div class="ns-stage">' +
-          '<div class="ns-board-col">' +
-            '<div class="ns-board-head"><span class="ns-board-title">' + esc(run.arena.name) + '</span><span class="tiny muted">Ketuk petak untuk menempatkan · 9 × 7</span></div>' +
-            boardHtml(run) +
-            (run.phase === 'clear' ? '<div class="ns-phase-banner is-clear"><strong>Pupuh selesai</strong><span>Menyiapkan upah dan tawaran berikutnya…</span></div>' : '') +
-            (run.phase === 'reward' ? '<div class="ns-phase-banner is-reward"><strong>Penjaga runtuh</strong><span>Pilih satu Pusaka untuk melanjutkan.</span></div>' : '') +
-            '<div class="ns-board-legend"><span><i class="ns-legend ns-legend--path"></i>Jalur Sunyi</span><span><i class="ns-legend ns-legend--tile"></i>Petak unit</span><span><i class="ns-legend ns-legend--cmd"></i>Senapati</span><span><i class="ns-legend ns-legend--portal"></i>Lawang Sunyi</span></div>' +
-            '<div class="ns-mobile-side">' + sideHtml(run) + '</div>' +
+        '<div class="ns-glass-frame">' +
+          '<div class="ns-glass-stage" data-ns-stage>' +
+            '<div class="ns-glass-orbs" aria-hidden="true"><i></i><i></i><i></i><i></i></div>' +
+            '<div class="ns-glass-menu">' +
+              '<button class="ns-glass-round ns-glass-round--exit btn" type="button" data-game-back title="Keluar dari game" aria-label="Keluar dari game">⏻</button>' +
+              '<button class="ns-glass-round btn" type="button" data-open="lontar" title="Info / Panduan" aria-label="Panduan">ℹ</button>' +
+              '<button class="ns-glass-round btn" type="button" data-open="settings" title="Pengaturan" aria-label="Pengaturan">⚙</button>' +
+              '<button class="ns-glass-round btn" type="button" data-sound-toggle title="Suara" aria-label="Suara">♫</button>' +
+            '</div>' +
+            hudHtml(run) +
+            glassActionsHtml(run) +
+            glassLeftHtml(run) +
+            glassCenterHtml(run) +
+            glassRightHtml(run) +
+            glassBottomHtml(run) +
           '</div>' +
-          '<div class="ns-desktop-side">' + sideHtml(run) + '</div>' +
+        // Overlay di luar stage yang diskalakan supaya teks tetap terbaca di portrait.
+        '<div class="ns-glass-rotate' + (rotateDismissed ? ' is-dismissed' : '') + '" data-ns-rotate>' +
+          '<div class="ns-glass-rotate__card" role="alertdialog" aria-modal="false" aria-labelledby="nsRotateTitle" aria-describedby="nsRotateDesc">' +
+            '<span class="ns-glass-rotate__icon" aria-hidden="true">▭↻</span>' +
+            '<strong id="nsRotateTitle">Gunakan landscape</strong>' +
+            '<p id="nsRotateDesc">Putar perangkat secara melintang agar Sasana, bangku, dan toko tampil maksimal.</p>' +
+            '<div class="ns-glass-rotate__actions">' +
+              '<button class="ns-glass-pill ns-glass-pill--primary btn" type="button" data-ns-orient>↻ Aktifkan landscape</button>' +
+              '<button class="ns-glass-pill btn" type="button" data-ns-rotate-dismiss>Tetap lanjutkan</button>' +
+            '</div>' +
+          '</div>' +
         '</div>' +
       '</div>' +
     '</div>';
 
     bindPlay(host);
+    setupGlassFit($('[data-ns-stage]', host));
     ensurePrepTimer(run);
     updateTimerUi(run);
   }
@@ -1108,7 +1294,8 @@
     NO_UNIT: 'Pilih Titisan di Sasana atau bangku terlebih dahulu.',
     FULL: 'Titisan ini sudah memakai 3 Pusaka.',
     NOT_EQUIPPED: 'Pusaka belum terpasang.',
-    NO_OFFER: 'Pusaka tidak tersedia dalam tawaran Penjaga.'
+    NO_OFFER: 'Pusaka tidak tersedia dalam tawaran Penjaga.',
+    BATTLE_BOARD: 'Formasi terkunci saat pertempuran. Atur Titisan sebelum menekan Siap.'
   };
   function coreToast(reason, title) {
     UI.toast({ type: 'warning', title: title || 'Aksi ditolak', msg: CORE_REASON[reason] || reason || 'Aksi tidak dapat dilakukan.' });
@@ -1247,8 +1434,9 @@
     });
     var refresh = $('[data-refresh]', host);
     if (refresh) refresh.addEventListener('click', refreshShop);
-    var xp = $('[data-buy-xp]', host);
-    if (xp) xp.addEventListener('click', buyXp);
+    $$('[data-buy-xp]', host).forEach(function (xp) {
+      xp.addEventListener('click', buyXp);
+    });
     $$('[data-bench]', host).forEach(function (btn) {
       btn.addEventListener('click', function () { selectUnit(btn.dataset.bench); });
     });
@@ -1265,8 +1453,9 @@
         placeUnit(run, unit, Number(parts[0]), Number(parts[1]));
       });
     });
-    var sell = $('[data-sell]', host);
-    if (sell) sell.addEventListener('click', function () { sellUnit(sell.dataset.sell); });
+    $$('[data-sell]', host).forEach(function (sell) {
+      sell.addEventListener('click', function () { sellUnit(sell.dataset.sell); });
+    });
     var deselect = $('[data-deselect]', host);
     if (deselect) deselect.addEventListener('click', function () { run.selected = null; paint(); });
     $$('[data-equip]', host).forEach(function (btn) {
@@ -1274,24 +1463,34 @@
     });
     $$('[data-unequip]', host).forEach(function (btn) {
       btn.addEventListener('click', function () {
-        var uid = run.selected && run.selected.uid;
-        var unit = uid ? findUnit(run, uid) : null;
-        if (!unit) return;
-        unit.relicIds = unit.relicIds.filter(function (id) { return id !== btn.dataset.unequip; });
-        recomputeRun(run);
+        var core = Core();
+        var rid = btn.dataset.unequip;
+        if (!core || !run.core || !rid) return;
+        var res = core.unequipPusaka(run.core, rid);
+        if (!res.ok) { coreToast(res.reason, 'Pusaka'); return; }
+        syncFromCore(run);
         paint();
       });
     });
     var auto = $('[data-auto-relic]', host);
     if (auto) auto.addEventListener('click', function () {
-      autoEquipRelics(run);
-      UI.toast({ type: 'success', title: 'Pusaka terpasang', msg: 'Pembagian otomatis mengikuti peran Titisan.' });
+      var n = autoEquipRelics(run);
+      if (n > 0) UI.toast({ type: 'success', title: 'Pusaka terpasang', msg: n + ' Pusaka mengikuti peran Titisan.' });
+      else UI.toast({ type: 'info', title: 'Tidak ada Pusaka', msg: 'Tidak ada Pusaka baru yang bisa dipasang otomatis.' });
       paint();
     });
     var sound = $('[data-sound-toggle]', host);
     if (sound) sound.addEventListener('click', UI.toggleSound);
     var settings = $('[data-open="settings"]', host);
     if (settings) settings.addEventListener('click', function () { GH.app.openSettings(); });
+    var rotate = $('[data-ns-rotate-dismiss]', host);
+    if (rotate) rotate.addEventListener('click', function () {
+      rotateDismissed = true;
+      var card = rotate.closest('.ns-glass-rotate');
+      if (card) card.classList.add('is-dismissed');
+    });
+    var orient = $('[data-ns-orient]', host);
+    if (orient) orient.addEventListener('click', requestLandscape);
   }
 
   /* ---------------- Round flow ---------------- */
@@ -1301,7 +1500,7 @@
     stopPrepTimer(run);
     stopBattleTicker(run);
     run.phase = 'prep';
-    run.timer = PREP_SECONDS;
+    run.timer = prepSeconds();
     run.selected = null;
     run.battle = null;
     run.battleEngine = null;
@@ -1367,6 +1566,7 @@
     if (!B || !run.battle) return;
     var byUid = {};
     B.units.forEach(function (u) { byUid[u.uid] = u; });
+    run.transient = run.transient || {};
     run.units.forEach(function (u) {
       var bu = byUid[u.uid];
       if (!bu) return;
@@ -1377,6 +1577,15 @@
       u.shield = Math.round((bu.sh0 || 0) + (bu.sh1 || 0));
       u.alive = !!bu.alive;
       if (u.stats) u.stats.manaMax = u.manaMax;
+      // syncFromCore() dipanggil setelah jual/beli/naik level. Simpan keadaan
+      // pertempuran supaya token tidak kembali ke HP/mana penuh di tengah ronde.
+      run.transient[u.uid] = {
+        hp: u.hp,
+        maxHp: u.maxHp,
+        mana: u.mana,
+        shield: u.shield,
+        alive: u.alive
+      };
     });
     run.battle.enemies = B.enemies.filter(function (e) { return e.hp > 0; }).map(function (e) {
       return battleEnemyView(B, e);
@@ -1399,6 +1608,8 @@
     } catch (err) {
       run.phase = 'prep';
       UI.toast({ type: 'warning', title: 'Pertempuran batal', msg: (err && err.message) || 'Data pertempuran tidak valid.' });
+      ensurePrepTimer(run);
+      paint();
       return;
     }
     run.battleEngine = B;
@@ -1406,7 +1617,7 @@
     run.battle = {
       enemies: [],
       wave: run.waveInfo,
-      total: ((run.waveInfo.zip && run.waveInfo.zip.pre) ? run.waveInfo.zip.pre.count : 0) + run.waveInfo.count,
+      total: waveTotalCount(null, run.waveInfo),
       tick: 0,
       leaked: 0
     };
@@ -1444,6 +1655,8 @@
     if (hud) hud.outerHTML = hudHtml(run);
     var timerBox = $('.ns-hud__timer', host);
     if (timerBox) timerBox.classList.toggle('is-urgent', false);
+    var elapsed = $('[data-ns-elapsed]', host);
+    if (elapsed && run.battle) elapsed.textContent = Math.floor((run.battle.tick * TICK_MS) / 1000) + 's';
   }
 
   /** Tutup pupuh lewat Core ZIP: HP, streak, upah, XP, toko, dan tawaran Pusaka. */
@@ -1526,11 +1739,15 @@
       dismissible: false,
       actions: [{ label: 'Lewati hadiah', value: 'skip', variant: 'ghost' }],
       onMount: function (modal, close) {
+        state.rewardClose = function () { close('__abandoned__'); };
         $$('[data-reward]', modal).forEach(function (btn) {
           btn.addEventListener('click', function () { close(btn.dataset.reward); });
         });
       }
     }).then(function (value) {
+      state.rewardClose = null;
+      if (state.run !== run) return;
+      if (value === '__abandoned__') return;
       if (value && value !== 'skip') {
         var chosen = core.choosePusaka(data, run.core, value);
         if (chosen.ok) {
@@ -1627,9 +1844,12 @@
         matchId: run.matchId, mode: 'solo', round: run.roundsCleared, hp: run.hp, score: score
       }, function (res) {
         if (soloToken !== state.cloudToken || state.screen !== 'result' || !state.result) return;
+        var cloudRank = res && (res.rank || (res.tot && res.tot.rank));
         state.result.cloud = res && res.ok
-          ? { status: 'saved', reason: '' }
+          ? { status: 'saved', reason: '', rank: cloudRank || state.result.rank || null }
           : { status: res && res.skipped ? 'skipped' : 'error', reason: (res && res.reason) || 'Gagal menyimpan skor.' };
+        if (cloudRank && !state.result.rank) state.result.rank = cloudRank;
+        if (GH.app && typeof GH.app.invalidateLeaderboards === 'function') GH.app.invalidateLeaderboards();
         loadNsGlobal(true);
         refreshNsIdentity();
         paint();
@@ -1701,6 +1921,7 @@
     if (lobby) lobby.addEventListener('click', function () {
       state.result = null;
       state.screen = 'lobby';
+      teardownGlassFit();
       renderLobby(host);
     });
     var sound = $('[data-sound-toggle]', host);
@@ -1753,6 +1974,8 @@
       R.register('nusantara', {
         title: 'Nusantara Sirna',
         render: function (host) {
+          requestLandscape();
+          if (state.screen !== 'play') teardownGlassFit();
           if (state.screen === 'play' && state.run) renderPlay(host);
           else if (state.screen === 'result' && state.result) renderResult(host);
           else renderLobby(host);
@@ -1767,6 +1990,8 @@
           state.result = null;
           state.screen = 'lobby';
           clearGuard();
+          teardownGlassFit();
+          releaseLandscape();
         }
       });
       return loadView(false);

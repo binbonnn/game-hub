@@ -108,6 +108,9 @@
   var cloudUid = null;
   var saveTimer = null;
   var savePromise = Promise.resolve();
+  var hydrateUid = null;
+  var hydratePromise = null;
+  var hydrateResult = false;
 
   function isMap(value) {
     return !!value && typeof value === 'object' && !Array.isArray(value);
@@ -192,14 +195,26 @@
     if (!uid || !GH.cloud || typeof GH.cloud.getUserData !== 'function') {
       return Promise.resolve(false);
     }
+    // Satu UID hanya boleh memiliki satu hydrasi. adoptIdentity() dan
+    // app.js meminta data yang sama; tanpa penjaga ini, respons yang lebih
+    // lambat dapat menimpa state yang sudah diperbarui pemain.
+    if (hydrateUid === uid) {
+      return hydratePromise || Promise.resolve(hydrateResult);
+    }
     var target = uid;
-    return GH.cloud.getUserData().then(function (data) {
+    hydrateUid = uid;
+    hydratePromise = GH.cloud.getUserData().then(function (data) {
       var active = currentUid();
       if (active && active !== target) return false;
       if (data) applyCloudData(data);
       cloudUid = target;
       return !!data;
-    }).catch(function () { return false; });
+    }).catch(function () { return false; }).then(function (result) {
+      hydrateResult = result;
+      hydratePromise = null;
+      return result;
+    });
+    return hydratePromise;
   }
 
   S.get = function () { return state; };
@@ -226,6 +241,7 @@
     try {
       GH.cloud.saveScore(key, payload).catch(function () { /* status ditangani cloud */ });
     } catch (e) { /* abaikan */ }
+    if (GH.app && typeof GH.app.invalidateLeaderboards === 'function') GH.app.invalidateLeaderboards();
 
     if (typeof GH.cloud.saveGameStat !== 'function') return;
     try {
@@ -244,6 +260,7 @@
     try {
       GH.cloud.saveDuelWin(game, name, avatar, { uid: uid }).catch(function () { /* abaikan */ });
     } catch (e) { /* abaikan */ }
+    if (GH.app && typeof GH.app.invalidateLeaderboards === 'function') GH.app.invalidateLeaderboards();
   }
 
   S.getProfile = function () { return state.profile; };
@@ -462,9 +479,13 @@
     }
     state = defaults();
     cloudUid = null;
+    hydrateUid = null;
+    hydratePromise = null;
+    hydrateResult = false;
     var uid = currentUid();
     if (uid && GH.cloud && typeof GH.cloud.clearUserData === 'function') {
-      GH.cloud.clearUserData().catch(function () { /* status ditangani cloud */ });
+      return GH.cloud.clearUserData().catch(function () { /* status ditangani cloud */ });
     }
+    return Promise.resolve();
   };
 })();

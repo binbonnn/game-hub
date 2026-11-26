@@ -309,8 +309,8 @@
       state.checkedAt = Date.now();
       var offline = (typeof navigator !== 'undefined' && navigator.onLine === false);
       state.detail = offline
-        ? 'Perangkat sedang offline. Skor disimpan lokal dan dikirim lagi saat online.'
-        : 'Firestore belum bisa dijangkau. Skor tetap tersimpan lokal.';
+        ? 'Perangkat sedang offline. Skor hanya tersimpan di memori tab ini dan tidak dikirim ke Firestore.'
+        : 'Firestore belum bisa dijangkau. Skor hanya tersimpan di memori tab ini.';
       setPhase(offline ? 'offline' : 'degraded', state.detail, describeError(err));
       return false;
     }).then(function (ok) {
@@ -583,7 +583,7 @@
           .then(function (snap) {
             var old = (snap && snap.data()) || {};
             var now = Date.now();
-            var score = Number(stat && stat.score) || 0;
+            var score = Math.round(Number(stat && stat.score) || 0);
             var payload = {
               uid: user.uid,
               gameId: gameId,

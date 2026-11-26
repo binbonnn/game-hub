@@ -161,9 +161,16 @@
 
     $$('[data-gh-identity-name]').forEach(function (el) { el.textContent = name; });
     $$('[data-gh-identity-avatar]').forEach(function (el) { el.textContent = avatar; });
+    $$('[data-gh-identity-note]').forEach(function (el) {
+      el.textContent = registered
+        ? 'Identitas terpusat dipakai di semua game.'
+        : 'Identitas tamu hanya berlaku di sesi ini.';
+    });
+    $$('[data-gh-create-profile]').forEach(function (el) { el.hidden = registered; });
+    $$('[data-gh-profile]').forEach(function (el) { el.hidden = !registered; });
 
     if (registered) {
-      $$('[data-gh-guest-notice], [data-gh-create-profile]').forEach(function (el) {
+      $$('[data-gh-guest-notice]').forEach(function (el) {
         if (el.parentNode) el.parentNode.removeChild(el);
       });
     }
@@ -182,7 +189,7 @@
         $$('[data-filter]').forEach(function (b) {
           var on = b === btn;
           b.classList.toggle('is-active', on);
-          b.setAttribute('aria-selected', on ? 'true' : 'false');
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
         });
         $$('.game-card[data-game]').forEach(function (card) {
           var show = filter === 'all' || card.dataset.category === filter;
@@ -225,10 +232,12 @@
     connecting: 'Menghubungkan…',
     online: 'Global aktif',
     degraded: 'Global terganggu',
-    offline: 'Offline · lokal',
-    disabled: 'Mode lokal',
+    offline: 'Offline · memori',
+    disabled: 'Mode tamu',
     error: 'Global gagal'
   };
+
+  var lastCloudPhase = null;
 
   var CLOUD_BANNER = {
     idle: {
@@ -293,6 +302,11 @@
       }
     }
 
+    if (phase !== lastCloudPhase) {
+      lastCloudPhase = phase;
+      var live = $('[data-cloud-live]');
+      if (live) live.textContent = 'Status penyimpanan: ' + (CLOUD_CHIP[phase] || snap.label || phase) + '. ' + copy.desc;
+    }
     document.documentElement.setAttribute('data-cloud', phase);
   }
 
@@ -384,7 +398,7 @@
             UI.toast({
               type: ok ? 'success' : 'warning',
               title: ok ? 'Firestore tersambung' : 'Belum tersambung',
-              msg: ok ? 'Skor baru akan dikirim ke papan global.' : 'Skor tetap aman di perangkat ini.',
+              msg: ok ? 'Skor baru akan dikirim ke papan global.' : 'Perubahan sementara hanya ada di memori tab ini.',
               duration: 2600
             });
           });
@@ -453,6 +467,8 @@
   var GLOBAL_CACHE = {};
   var GLOBAL_CACHE_MS = 60000;
 
+  function invalidateLeaderboards() { GLOBAL_CACHE = {}; }
+
   function showGlobalLoading(host, text) {
     var bodyHost = $('[data-global-body]', host);
     var meta = $('[data-global-meta]', host);
@@ -506,7 +522,7 @@
         var meta = $('[data-global-meta]', host);
         if (meta) meta.textContent = 'Tidak aktif';
         var bodyHost = $('[data-global-body]', host);
-        if (bodyHost) bodyHost.innerHTML = '<div class="lb-global__state">Penyimpanan global tidak aktif. Skor tetap tersimpan di perangkat ini.</div>';
+        if (bodyHost) bodyHost.innerHTML = '<div class="lb-global__state">Penyimpanan global tidak aktif. Skor hanya tersimpan di memori tab ini.</div>';
         return;
       }
       var cached = GLOBAL_CACHE[key];
@@ -514,9 +530,10 @@
         paintGlobal(host, key, cached.res);
         return;
       }
+      var requestToken = Number(host.dataset.boardRequest || 0);
       GH.cloud.fetchBoard(key).then(function (res) {
         GLOBAL_CACHE[key] = { res: res, at: Date.now() };
-        if (ownToken !== modalToken) return;
+        if (ownToken !== modalToken || Number(host.dataset.boardRequest || 0) !== requestToken) return;
         paintGlobal(host, key, res);
       });
     });
@@ -534,15 +551,15 @@
     function render() {
       modalToken += 1;
       ownToken = modalToken;
-      body.innerHTML = '<div class="lb-tabs" role="tablist" aria-label="Pilih game">' +
+      body.innerHTML = '<div class="lb-tabs" role="group" aria-label="Pilih game">' +
         Object.keys(LB_GROUPS).map(function (id) {
-          return '<button class="lb-tab' + (id === active ? ' is-active' : '') + '" type="button" role="tab" data-lb-game="' + id + '" aria-selected="' + (id === active) + '">' + GAMES[id].icon + ' ' + esc(LB_GROUPS[id].label) + '</button>';
+          return '<button class="lb-tab' + (id === active ? ' is-active' : '') + '" type="button" data-lb-game="' + id + '" aria-pressed="' + (id === active) + '">' + GAMES[id].icon + ' ' + esc(LB_GROUPS[id].label) + '</button>';
         }).join('') + '</div>' +
         '<div class="lb-modal__body">' + LB_GROUPS[active].keys.map(function (key) { return boardSection(key, 7); }).join('') + '</div>' +
         '<p class="tiny muted lb-modal__note">' + (active === 'nusantara' && GH.cloud && typeof GH.cloud.nsWeekInfo === 'function'
           ? 'Papan mingguan Nusantara berganti setiap Senin 00:00 UTC. Berikutnya: ' + esc(new Date(GH.cloud.nsWeekInfo().nextAtMs).toLocaleString()) + '. '
           : '') +
-        '“Lokal” adalah penyimpanan di perangkat ini. “Global” dimuat langsung dari Firestore saat terhubung; bila offline, hanya rekor lokal yang tampil.</p>';
+        '“Lokal” adalah rekor di memori tab ini. “Global” dimuat langsung dari Firestore saat terhubung; bila offline, skor baru tidak dikirim.</p>';
       $$('[data-lb-game]', body).forEach(function (btn) {
         btn.addEventListener('click', function () {
           active = btn.dataset.lbGame;
@@ -560,12 +577,12 @@
       if (!host || !GH.cloud) return;
       var key = host.dataset.globalBoard;
       delete GLOBAL_CACHE[key];
-      modalToken += 1;
-      var retryToken = modalToken;
+      var retryToken = Number(host.dataset.boardRequest || 0) + 1;
+      host.dataset.boardRequest = String(retryToken);
       showGlobalLoading(host, 'Memuat ulang papan global…');
       GH.cloud.fetchBoard(key).then(function (res) {
         GLOBAL_CACHE[key] = { res: res, at: Date.now() };
-        if (retryToken !== modalToken || !host.isConnected) return;
+        if (Number(host.dataset.boardRequest || 0) !== retryToken || !host.isConnected) return;
         paintGlobal(host, key, res);
       });
     });
@@ -818,6 +835,7 @@
     // Identitas terpusat: perubahan langsung disebarkan ke seluruh game.
     // Data user di Firestore dibaca ulang begitu UID profil tersedia.
     var hydratedUid = null;
+    var identityReady = false;
     function hydrateIdentity(snap) {
       if (!snap || !snap.registered || !snap.uid) {
         hydratedUid = null;
@@ -833,11 +851,14 @@
     });
     if (I && typeof I.init === 'function') {
       I.init().then(function (snap) {
+        identityReady = true;
         applyIdentityUI(snap);
         hydrateIdentity(snap);
         if (I.consumeLegacyPrompt && I.consumeLegacyPrompt() && PU && typeof PU.open === 'function') {
           PU.open({ mode: 'activate' });
         }
+      }, function () {
+        identityReady = true;
       });
     }
 
@@ -845,6 +866,16 @@
     if (GH.cloud) {
       GH.cloud.onChange(applyCloudStatus);
       applyCloudStatus(GH.cloud.getStatus());
+      var lastCloudPhase = (GH.cloud.getStatus() || {}).phase || '';
+      GH.cloud.onChange(function (snap) {
+        var phase = (snap && snap.phase) || '';
+        // Identitas Firestore sempat gagal dibaca saat offline. Segera pulihkan
+        // tanpa menunggu pemain memuat ulang halaman.
+        if (identityReady && phase === 'online' && lastCloudPhase !== 'online' && I && typeof I.refresh === 'function') {
+          I.refresh().catch(function () { /* status ditangani identity */ });
+        }
+        lastCloudPhase = phase;
+      });
       GH.cloud.start().then(function () { applyCloudStatus(GH.cloud.getStatus()); });
     } else {
       applyCloudStatus({ phase: 'disabled', label: 'Mode lokal', enabled: false, projectId: '', authLabel: '', sdk: '', writes: 0, writeErrors: 0 });
@@ -862,6 +893,7 @@
     openLontar: openLontar,
     openAbout: openAbout,
     openLocalMode: openLocalMode,
+    invalidateLeaderboards: invalidateLeaderboards,
     refreshHub: updateHub,
     games: GAMES
   };

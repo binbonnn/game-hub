@@ -42,7 +42,7 @@
 }
 .btn--accent {
   background: linear-gradient(135deg, #a08cff 0%, #7d69f5 55%, #ff79c6 130%);
-  color: #fff;
+  color: #180f04;
   box-shadow: 0 10px 26px rgba(125, 105, 245, 0.24), inset 0 1px 0 rgba(255,255,255,0.22);
 }
 .btn--success { background: linear-gradient(135deg, #6ff0bd, #2fc38b); color: #06231a; }
@@ -613,4 +613,29 @@
   .modal__foot { flex-direction: column-reverse; }
   .modal__foot .btn { width: 100%; }
   .segmented__btn { padding: 0.4rem 0.65rem; font-size: 0.74rem; }
+}
+
+/* Layar landscape pendek: modal tetap bisa digulir tanpa memotong aksi. */
+@media (max-height: 480px) {
+  .modal-backdrop { padding: 6px; align-items: flex-start; }
+  .modal { max-height: calc(100dvh - 12px); }
+  .modal__head { padding: 12px 14px 0; }
+  .modal__body { padding: 12px 14px; }
+  .modal__foot { padding: 10px 14px 12px; }
+}
+
+/* High-contrast / forced-colors: jangan andalkan gradien atau warna saja. */
+@media (forced-colors: active) {
+  .btn, .chip, .segmented__btn, .panel, .card, .game-card, .hub-note, .modal {
+    border: 1px solid CanvasText;
+  }
+  .btn--primary, .btn--accent, .btn--success, .btn--danger {
+    background: ButtonFace;
+    color: ButtonText;
+    box-shadow: none;
+  }
+  .mode-chip__dot, .stat__value, .badge { border: 1px solid CanvasText; }
+  .ns-glass-exp { background: ButtonFace; color: ButtonText; border: 2px solid ButtonText; }
+  .ns-glass-exp::before { display: none; }
+  .ns-glass-hpbar i, .ns-glass-dmgbar i { forced-color-adjust: none; }
 }

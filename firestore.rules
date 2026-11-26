@@ -497,7 +497,7 @@ service cloud.firestore {
         && request.time.toMillis() - resource.data.createdAt > 86400000;
     }
 
-    /* =====================================================================
+    // =====================================================================
     // Game 4 — Memo Mayhem (ronde deterministik identik di dua perangkat)
     match /memo_duels/{code} {
       allow get: if validDuelCode(code) && isSignedIn();

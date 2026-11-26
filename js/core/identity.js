@@ -248,10 +248,9 @@
   };
 
   I.resetLocal = function () {
-    if (S.resetAll) S.resetAll();
-
-    var after = C && typeof C.signOut === 'function'
-      ? C.signOut().catch(function () { /* abaikan */ })
+    // Tunggu penghapusan Firestore sebelum caller melakukan reload/sign-out.
+    var clearing = S && typeof S.resetAll === 'function'
+      ? Promise.resolve(S.resetAll()).catch(function () { /* status ditangani cloud */ })
       : Promise.resolve();
 
     set({
@@ -263,6 +262,11 @@
       avatar: '🦊',
       error: ''
     });
-    return after;
+
+    return clearing.then(function () {
+      return C && typeof C.signOut === 'function'
+        ? C.signOut().catch(function () { /* abaikan */ })
+        : undefined;
+    });
   };
 })();
