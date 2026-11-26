@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#070b17">
+  <meta name="description" content="Game Hub — lima game edukasi dan hiburan dalam satu ruang main. Perkalian, pengetahuan dasar, memori kosmik, dan strategi Nusantara.">
+  <title>Game Hub — Lima Dunia, Satu Ruang Main</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/tokens.css?v=stub-1795631000001">
+  <link rel="stylesheet" href="css/base.css?v=stub-1795631000001">
+  <link rel="stylesheet" href="css/components.css?v=stub-1795631000001">
+  <link rel="stylesheet" href="css/hub.css?v=stub-1795631000001">
+  <link rel="stylesheet" href="css/quiz.css?v=stub-1795631000001">
+  <link rel="stylesheet" href="css/memo.css?v=stub-1795631000001">
+  <link rel="stylesheet" href="css/nusantara.css?v=stub-1795631000001">
+</head>
+<body>
+  <a class="skip-link" href="#main">Lewati ke konten utama</a>
+
+  <div class="ambient" aria-hidden="true">
+    <canvas id="starfield" class="ambient__canvas"></canvas>
+    <div class="ambient__aurora ambient__aurora--one"></div>
+    <div class="ambient__aurora ambient__aurora--two"></div>
+    <div class="ambient__grain"></div>
+  </div>
+
+  <header class="site-head" id="siteHead">
+    <div class="site-head__inner">
+      <a class="brand" href="#/" data-nav="hub" aria-label="Game Hub, kembali ke beranda">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" role="img" aria-hidden="true">
+            <defs>
+              <linearGradient id="brandGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#ffd479"/>
+                <stop offset=".55" stop-color="#ff8c5b"/>
+                <stop offset="1" stop-color="#9b7bff"/>
+              </linearGradient>
+            </defs>
+            <path d="M24 3.5l5.9 12.6 13.8 1.7-10.2 9.5 2.7 13.6L24 34.3l-12.2 6.6 2.7-13.6L4.3 17.8l13.8-1.7L24 3.5z" fill="url(#brandGrad)"/>
+            <circle cx="24" cy="23" r="4.6" fill="#0a0f20"/>
+          </svg>
+        </span>
+        <span class="brand__type">
+          <strong>Game Hub</strong>
+          <small>Lima dunia, satu ruang main</small>
+        </span>
+      </a>
+      <nav class="site-nav" aria-label="Navigasi utama">
+        <a href="#/" data-nav="hub" class="site-nav__link is-active">Beranda</a>
+        <button class="site-nav__link" type="button" data-open="leaderboards">Papan skor</button>
+        <button class="site-nav__link" type="button" data-open="lontar">Panduan</button>
+        <button class="site-nav__link" type="button" data-open="about">Tentang</button>
+      </nav>
+      <div class="site-head__actions">
+        <button class="mode-chip" type="button" id="cloudChip" data-open="cloud-status" data-state="connecting" title="Status penyimpanan global" aria-label="Status penyimpanan: menghubungkan">
+          <span class="mode-chip__dot" aria-hidden="true"></span>
+          <span class="mode-chip__label" data-cloud-label>Menghubungkan…</span>
+        </button>
+        <button class="icon-btn" type="button" id="soundToggle" aria-label="Matikan suara" aria-pressed="true" title="Suara">
+          <svg class="icon icon--sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <svg class="icon icon--sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 9l5 6m0-6l-5 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <button class="avatar-btn" type="button" id="profileButton" aria-label="Profil pemain" title="Profil">
+          <span id="profileAvatar">🦊</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <!-- ===== HUB ===== -->
+    <section class="view view--hub" id="view-hub" data-view="hub" aria-labelledby="hubTitle">
+      <div class="hub-hero">
+        <div class="hub-hero__copy">
+          <div class="eyebrow"><span class="eyebrow__pulse"></span> Ruang main pribadi · 5 game</div>
+          <h1 id="hubTitle">Lima dunia.<br><span class="text-gradient">Satu ruang main.</span></h1>
+          <p class="hub-hero__lead">Latih perkalian, uji pengetahuan, asah memori kosmik, lalu pimpin pertahanan Nusantara. Semua dalam satu tempat — tanpa unduh, tanpa iklan.</p>
+          <div class="hub-hero__actions">
+            <button class="btn btn--primary btn--lg" type="button" data-resume>
+              <span class="btn__icon" aria-hidden="true">▶</span>
+              <span data-resume-label>Mulai bermain</span>
+            </button>
+            <button class="btn btn--ghost btn--lg" type="button" data-open="leaderboards">Lihat papan skor</button>
+          </div>
+          <dl class="hero-stats" id="heroStats">
+            <div><dt>Total sesi</dt><dd>0</dd></div>
+            <div><dt>Game dimainkan</dt><dd>0 / 5</dd></div>
+            <div><dt>Streak harian</dt><dd>0 hari</dd></div>
+          </dl>
+        </div>
+        <div class="hub-hero__stage" aria-hidden="true">
+          <div class="orbit orbit--a"><span class="orbit__dot"></span></div>
+          <div class="orbit orbit--b"><span class="orbit__dot"></span></div>
+          <div class="hero-console">
+            <div class="hero-console__top">
+              <span class="hero-console__lights"><i></i><i></i><i></i></span>
+              <span class="hero-console__tag">SESI HARI INI</span>
+            </div>
+            <div class="hero-console__screen">
+              <div class="hero-console__step" data-stage="1">
+                <span class="hero-console__num">7 × 8</span>
+                <span class="hero-console__hint">= ?</span>
+              </div>
+              <div class="hero-console__step" data-stage="2">
+                <div class="mini-memory">
+                  <i class="mini-memory__cell" style="--c:#ff8a5b">◆</i>
+                  <i class="mini-memory__cell" style="--c:#7ee0c2">●</i>
+                  <i class="mini-memory__cell" style="--c:#9b7bff">▲</i>
+                  <i class="mini-memory__cell" style="--c:#ffd166">★</i>
+                </div>
+              </div>
+              <div class="hero-console__step" data-stage="3">
+                <div class="mini-board">
+                  <i></i><i class="mini-board__path"></i><i></i>
+                  <i class="mini-board__path"></i><i class="mini-board__unit">S</i><i class="mini-board__path"></i>
+                  <i></i><i class="mini-board__path"></i><i class="mini-board__core">♜</i>
+                </div>
+              </div>
+            </div>
+            <div class="hero-console__pad">
+              <span></span><span></span><span></span><span></span><span></span><span></span>
+            </div>
+            <div class="hero-console__marquee">
+              <span>✦ PERKALIAN</span><span>✦ MEMORI</span><span>✦ NUSANTARA</span>
+            </div>
+          </div>
+          <div class="floating-token floating-token--one">+10</div>
+          <div class="floating-token floating-token--two">★</div>
+          <div class="floating-token floating-token--three">♛</div>
+        </div>
+      </div>
+
+      <div class="hub-section-head">
+        <div>
+          <h2>Pilih duniamu</h2>
+          <p>Setiap game punya ritme dan identitasnya sendiri. Mulai dari yang paling kamu suka.</p>
+        </div>
+        <div class="filter-tabs" role="tablist" aria-label="Filter game">
+          <button class="chip is-active" type="button" data-filter="all" role="tab" aria-selected="true">Semua</button>
+          <button class="chip" type="button" data-filter="kuis" role="tab" aria-selected="false">Kuis</button>
+          <button class="chip" type="button" data-filter="memori" role="tab" aria-selected="false">Memori</button>
+          <button class="chip" type="button" data-filter="strategi" role="tab" aria-selected="false">Strategi</button>
+        </div>
+      </div>
+
+      <div class="game-grid" id="gameGrid">
+        <button class="game-card game-card--multiply" type="button" data-game="multiply" data-category="kuis">
+          <span class="game-card__glow" aria-hidden="true"></span>
+          <span class="game-card__top">
+            <span class="game-card__index">01</span>
+            <span class="badge">Kuis &amp; Duel</span>
+          </span>
+          <span class="game-card__art game-card__art--multiply" aria-hidden="true">
+            <span class="num-tile num-tile--a">7</span>
+            <span class="num-tile num-tile--b">×</span>
+            <span class="num-tile num-tile--c">8</span>
+            <span class="num-tile num-tile--d">?</span>
+          </span>
+          <span class="game-card__body">
+            <span class="game-card__title">Perkalian 1–10</span>
+            <span class="game-card__desc">Kuis 10, 20, atau 30 soal dengan keypad, hint, dan penalti waktu.</span>
+            <span class="game-card__meta">
+              <span class="game-card__stat" data-stat="multiply">Belum dimainkan</span>
+              <span class="game-card__cta">Mainkan <span aria-hidden="true">→</span></span>
+            </span>
+          </span>
+        </button>
+
+        <button class="game-card game-card--knowledge" type="button" data-game="knowledge" data-category="kuis">
+          <span class="game-card__glow" aria-hidden="true"></span>
+          <span class="game-card__top">
+            <span class="game-card__index">02</span>
+            <span class="badge">Ronde 60 detik</span>
+          </span>
+          <span class="game-card__art game-card__art--knowledge" aria-hidden="true">
+            <span class="globe"><span class="globe__ring"></span><span class="globe__mark">?</span></span>
+            <span class="orbit-chip orbit-chip--one">A</span>
+            <span class="orbit-chip orbit-chip--two">B</span>
+            <span class="orbit-chip orbit-chip--three">C</span>
+          </span>
+          <span class="game-card__body">
+            <span class="game-card__title">Pengetahuan Dasar</span>
+            <span class="game-card__desc">Jawab sebanyak mungkin dalam 60 detik. Streak dan hint menentukan skor.</span>
+            <span class="game-card__meta">
+              <span class="game-card__stat" data-stat="knowledge">Belum dimainkan</span>
+              <span class="game-card__cta">Mainkan <span aria-hidden="true">→</span></span>
+            </span>
+          </span>
+        </button>
+
+        <button class="game-card game-card--advmath" type="button" data-game="advmath" data-category="kuis">
+          <span class="game-card__glow" aria-hidden="true"></span>
+          <span class="game-card__top">
+            <span class="game-card__index">03</span>
+            <span class="badge">Level lanjutan</span>
+          </span>
+          <span class="game-card__art game-card__art--advmath" aria-hidden="true">
+            <span class="rocket">
+              <span class="rocket__body"></span>
+              <span class="rocket__window"></span>
+              <span class="rocket__fin rocket__fin--l"></span>
+              <span class="rocket__fin rocket__fin--r"></span>
+              <span class="rocket__flame"></span>
+            </span>
+            <span class="spark spark--1">×</span>
+            <span class="spark spark--2">9</span>
+            <span class="spark spark--3">4</span>
+          </span>
+          <span class="game-card__body">
+            <span class="game-card__title">Perkalian Lanjutan</span>
+            <span class="game-card__desc">Soal perkalian yang lebih besar, aturan waktu yang sama.</span>
+            <span class="game-card__meta">
+              <span class="game-card__stat" data-stat="advmath">Belum dimainkan</span>
+              <span class="game-card__cta">Mainkan <span aria-hidden="true">→</span></span>
+            </span>
+          </span>
+        </button>
+
+        <button class="game-card game-card--memo" type="button" data-game="memo" data-category="memori">
+          <span class="game-card__glow" aria-hidden="true"></span>
+          <span class="game-card__top">
+            <span class="game-card__index">04</span>
+            <span class="badge">6 mode memori</span>
+          </span>
+          <span class="game-card__art game-card__art--memo" aria-hidden="true">
+            <span class="mimo mimo--card">
+              <span class="mimo__antenna"></span>
+              <span class="mimo__body"><i class="mimo__eye"></i><i class="mimo__eye"></i><i class="mimo__mouth"></i></span>
+            </span>
+            <span class="memo-orbit memo-orbit--a"></span>
+            <span class="memo-orbit memo-orbit--b"></span>
+            <span class="memo-star memo-star--a">✦</span>
+            <span class="memo-star memo-star--b">✦</span>
+          </span>
+          <span class="game-card__body">
+            <span class="game-card__title">Memo Mayhem</span>
+            <span class="game-card__desc">Enam mode memori kosmik, boss lima fase, dan tantangan harian.</span>
+            <span class="game-card__meta">
+              <span class="game-card__stat" data-stat="memo">Belum dimainkan</span>
+              <span class="game-card__cta">Mainkan <span aria-hidden="true">→</span></span>
+            </span>
+          </span>
+        </button>
+
+        <button class="game-card game-card--nusantara" type="button" data-game="nusantara" data-category="strategi">
+          <span class="game-card__glow" aria-hidden="true"></span>
+          <span class="game-card__top">
+            <span class="game-card__index">05</span>
+            <span class="badge">Solo · Duel · Party</span>
+          </span>
+          <span class="game-card__art game-card__art--nusantara" aria-hidden="true">
+            <span class="gate">
+              <span class="gate__roof gate__roof--top"></span>
+              <span class="gate__roof gate__roof--mid"></span>
+              <span class="gate__pillar gate__pillar--l"></span>
+              <span class="gate__pillar gate__pillar--r"></span>
+              <span class="gate__door"></span>
+            </span>
+            <span class="batik-dot batik-dot--a"></span>
+            <span class="batik-dot batik-dot--b"></span>
+            <span class="batik-dot batik-dot--c"></span>
+          </span>
+          <span class="game-card__body">
+            <span class="game-card__title">Nusantara Sirna</span>
+            <span class="game-card__desc">Auto-chess + tower defense. Pilih Senapati, susun Titisan, bertahan.</span>
+            <span class="game-card__meta">
+              <span class="game-card__stat" data-stat="nusantara">Belum dimainkan</span>
+              <span class="game-card__cta">Mainkan <span aria-hidden="true">→</span></span>
+            </span>
+          </span>
+        </button>
+      </div>
+
+      <div class="hub-lower">
+        <section class="panel panel--daily" aria-labelledby="dailyTitle">
+          <div class="panel__head">
+            <div>
+              <span class="eyebrow">Tantangan hari ini</span>
+              <h3 id="dailyTitle">Satu ronde singkat, setiap hari.</h3>
+            </div>
+            <span class="daily-date" id="dailyDate">—</span>
+          </div>
+          <div class="daily-body">
+            <div class="daily-seed">
+              <span class="daily-seed__label">Seed harian</span>
+              <strong id="dailySeed">—</strong>
+              <span class="daily-seed__note">Tantangan Memo Mayhem dengan urutan yang sama untuk semua orang hari ini.</span>
+            </div>
+            <button class="btn btn--accent" type="button" data-daily-memo>Mainkan tantangan <span aria-hidden="true">→</span></button>
+          </div>
+        </section>
+
+        <section class="panel panel--recent" aria-labelledby="recentTitle">
+          <div class="panel__head">
+            <div>
+              <span class="eyebrow">Aktivitas</span>
+              <h3 id="recentTitle">Sesi terakhir</h3>
+            </div>
+            <button class="text-btn" type="button" data-open="leaderboards">Semua skor</button>
+          </div>
+          <ul class="recent-list" id="recentList">
+            <li class="empty-inline">Belum ada sesi. Pilih satu dunia di atas untuk mulai.</li>
+          </ul>
+        </section>
+      </div>
+
+      <section class="hub-note guest-banner" aria-label="Profil pemain" data-guest-banner hidden>
+        <div class="hub-note__icon guest-banner__icon" aria-hidden="true">!</div>
+        <div>
+          <strong>Belum punya profil pemain</strong>
+          <p>You're currently playing as a guest. Create a player profile to save your progress, scores, and achievements across all games.</p>
+          <p class="tiny muted">Data sesi tamu hanya tersimpan sementara di tab ini dan tidak dikirim ke server.</p>
+        </div>
+        <button class="btn btn--primary btn--sm" type="button" data-open="create-profile" data-gh-create-profile>Create Profile</button>
+      </section>
+
+      <section class="hub-note identity-banner" aria-label="Profil aktif" data-registered-banner hidden>
+        <div class="hub-note__icon identity-banner__avatar" aria-hidden="true" data-gh-identity-avatar>🦊</div>
+        <div>
+          <strong>Profil aktif · <span data-gh-identity-name>Pemain</span></strong>
+          <p class="tiny muted">Identitas ini dipakai otomatis di semua game, papan skor, dan statistik.</p>
+        </div>
+        <button class="text-btn" type="button" data-open="profile">Kelola profil</button>
+      </section>
+
+      <section class="hub-note cloud-banner" aria-label="Status penyimpanan global" data-cloud-banner data-state="connecting">
+        <div class="hub-note__icon" aria-hidden="true"><span class="cloud-banner__dot"></span></div>
+        <div>
+          <strong data-cloud-title>Penyimpanan global: menghubungkan…</strong>
+          <p data-cloud-desc>Skor tetap aman di perangkat ini. Koneksi ke Firestore sedang diperiksa.</p>
+          <p class="tiny muted cloud-banner__meta" data-cloud-meta>Proyek multgame-9f7e6 · Firebase Firestore</p>
+        </div>
+        <button class="text-btn" type="button" data-open="cloud-status">Detail</button>
+      </section>
+    </section>
+
+    <!-- ===== GAME VIEWS (diisi oleh modul game) ===== -->
+    <section class="view view--game" id="view-multiply" data-view="multiply" aria-label="Perkalian 1–10" hidden></section>
+    <section class="view view--game" id="view-knowledge" data-view="knowledge" aria-label="Pengetahuan Dasar" hidden></section>
+    <section class="view view--game" id="view-advmath" data-view="advmath" aria-label="Perkalian 1–10 Lanjutan" hidden></section>
+    <section class="view view--game" id="view-memo" data-view="memo" aria-label="Memo Mayhem: Cosmic Recall" hidden></section>
+    <section class="view view--game view--nusantara" id="view-nusantara" data-view="nusantara" aria-label="Nusantara Sirna" hidden></section>
+  </main>
+
+  <footer class="site-foot">
+    <div class="site-foot__inner">
+      <span class="brand brand--small">
+        <span class="brand__mark" aria-hidden="true">✦</span>
+        <span class="brand__type"><strong>Game Hub</strong><small>Rebuild v2.0 · Bahasa Indonesia</small></span>
+      </span>
+      <p>Dibuat untuk lingkup privat. Tanpa iklan, pembelian, atau pay-to-win.</p>
+      <div class="site-foot__links">
+        <button class="text-btn" type="button" data-open="lontar">Panduan</button>
+        <button class="text-btn" type="button" data-open="about">Tentang</button>
+        <button class="text-btn" type="button" data-open="cloud-status">Penyimpanan</button>
+      </div>
+    </div>
+  </footer>
+
+  <div class="toast-stack" id="toastStack" role="status" aria-live="polite"></div>
+  <div id="modalRoot"></div>
+
+  <script src="js/core/util.js?v=stub-1795631000001"></script>
+  <script src="js/core/audio.js?v=stub-1795631000001"></script>
+  <script src="js/core/firebase-config.js?v=stub-1795631000001"></script>
+  <!-- Stub harus dipasang sebelum cloud agar adapter memakai window.firebase buatan uji. -->
+  <script src="tools/stub-cloud.js"></script>
+  <script>
+  (function () {
+    var params = new URLSearchParams(location.search);
+    if (params.get('registered') !== '1') return;
+    var uid = params.get('uid') || 'stub-' + Math.random().toString(36).slice(2, 8);
+    if (!window.__stubAuthUser) window.__stubAuthUser = { uid: uid };
+    window.__stubDocs['players/' + uid] = {
+      uid: uid,
+      displayName: 'Uji Pemain',
+      name: 'Uji Pemain',
+      avatar: '🦊',
+      registered: true,
+      createdAt: new Date().toISOString()
+    };
+  })();
+  </script>
+  <script src="js/core/cloud.js?v=stub-1795631000001"></script>
+  <script src="js/core/store.js?v=stub-1795631000001"></script>
+  <script src="js/core/identity.js?v=stub-1795631000001"></script>
+  <script src="js/core/ui.js?v=stub-1795631000001"></script>
+  <script>window.GH.ui.countdown=function(){return Promise.resolve();};window.GH.ui.confetti=function(){};</script>
+  <script src="js/core/profile-ui.js?v=stub-1795631000001"></script>
+  <script src="js/core/room.js?v=stub-1795631000001"></script>
+  <script src="js/core/router.js?v=stub-1795631000001"></script>
+  <script src="js/data/knowledge.js?v=stub-1795631000001"></script>
+  <script src="js/data/advmath.js?v=stub-1795631000001"></script>
+  <script src="js/data/nusantara-data.js?v=stub-1795631000001"></script>
+  <script src="js/data/ns-schema.js?v=stub-1795631000001"></script>
+  <script src="js/data/ns-data.js?v=stub-1795631000001"></script>
+  <script src="js/data/ns-rng.js?v=stub-1795631000001"></script>
+  <script src="js/data/ns-core.js?v=stub-1795631000001"></script>
+  <script src="js/data/ns-battle.js?v=stub-1795631000001"></script>
+  <script src="js/data/ns-synergy.js?v=stub-1795631000001"></script>
+  <script src="js/data/ns-match.js?v=stub-1795631000001"></script>
+  <script src="js/data/ns-id.js?v=stub-1795631000001"></script>
+  <script src="js/data/ns-view.js?v=stub-1795631000001"></script>
+  <script src="js/game-quiz.js?v=stub-1795631000001"></script>
+  <script src="js/data/memo-core.js?v=stub-1795631000001"></script>
+  <script src="js/data/memo-data.js?v=stub-1795631000001"></script>
+  <script src="js/game-memo.js?v=stub-1795631000001"></script>
+  <script src="js/game-nusantara.js?v=stub-1795631000001"></script>
+  <script src="js/app.js?v=stub-1795631000001"></script>
+</body>
+</html>

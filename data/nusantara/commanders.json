@@ -1,0 +1,101 @@
+{
+ "note": "Commander dipilih sebelum match; dua pemain boleh memilih Commander yang sama. HP awal Commander 100.",
+ "commanders": [
+  {
+   "id": "sen",
+   "name": "Sen",
+   "formerName": "Senapati Raden Wirasena",
+   "asal": "Sri",
+   "affinityArena": "Pelataran Keraton Wirasana",
+   "backstory": "Penjaga terakhir Lontar Sangkala di keraton; ia menuturkan ulang kisah leluhur tiap fajar",
+   "passive": "Unit di petak tengah mendapat tameng awal",
+   "passiveValue": 0.12,
+   "passiveUnit": "% HP maks",
+   "passiveValueOnAffinityArena": 0.132
+  },
+  {
+   "id": "yung",
+   "name": "Yung",
+   "formerName": "Prabu Layung Kancana",
+   "asal": "Hyang",
+   "affinityArena": "Kawah Putri Sanghyang",
+   "backstory": "Raja bijak yang mengungsikan rakyat ke pegunungan saat Sunyi pertama muncul",
+   "passive": "Unit Penyembuh pulih lebih cepat",
+   "passiveValue": 0.25,
+   "passiveUnit": "% kecepatan pemulihan",
+   "passiveValueOnAffinityArena": 0.275
+  },
+  {
+   "id": "tuk",
+   "name": "Tuk",
+   "formerName": "Datuk Sati Basa",
+   "asal": "Tau",
+   "affinityArena": "Ngarai Silang Bajanjang",
+   "backstory": "Pemimpin adat yang menyusun pepatah sebagai mantra pelindung",
+   "passive": "Emas ekstra dari kemenangan beruntun (mulai 2 menang)",
+   "passiveValue": 1,
+   "passiveUnit": "emas per pupuh",
+   "passiveValueOnAffinityArena": 1
+  },
+  {
+   "id": "hat",
+   "name": "Hat",
+   "formerName": "Guru Hatiabulan",
+   "asal": "Hut",
+   "affinityArena": "Kaldera Toba Purba",
+   "backstory": "Datu bijak penerus kisah Si Boru Deak Parujar",
+   "passive": "Unit penyerang mendapat serangan tambahan tiap gempa",
+   "passiveValue": 0.2,
+   "passiveUnit": "% ATK",
+   "passiveValueOnAffinityArena": 0.22
+  },
+  {
+   "id": "deng",
+   "name": "Deng",
+   "formerName": "Daeng Mattola",
+   "asal": "Jong",
+   "affinityArena": "Dermaga Tallo Apung",
+   "backstory": "Nakhoda yang berlayar membawa naskah-naskah terakhir ke seluruh pulau",
+   "passive": "Toko memuat lebih banyak pilihan unit",
+   "passiveValue": 1,
+   "passiveUnit": "slot toko tambahan",
+   "passiveValueOnAffinityArena": 1
+  },
+  {
+   "id": "jro",
+   "name": "Jro",
+   "formerName": "Jero Mangku Dwipantara",
+   "asal": "Dwi",
+   "affinityArena": "Pura Segara Tirta Langit",
+   "backstory": "Pemangku pura yang menjaga api suci agar tidak padam",
+   "passive": "Efek Warisan bertahan lebih lama",
+   "passiveValue": 0.25,
+   "passiveUnit": "% durasi efek",
+   "passiveValueOnAffinityArena": 0.275
+  },
+  {
+   "id": "pang",
+   "name": "Pang",
+   "formerName": "Panglima Tingang Rimba",
+   "asal": "Rim",
+   "affinityArena": "Rimba Tabalong Kayangan",
+   "backstory": "Panglima yang disegani burung enggang, penjaga roh hutan",
+   "passive": "Unit di barisan belakang sulit dibidik",
+   "passiveValue": 0.3,
+   "passiveUnit": "% pengurangan peluang dibidik",
+   "passiveValueOnAffinityArena": 0.33
+  },
+  {
+   "id": "pit",
+   "name": "Pit",
+   "formerName": "Kapitan Salawaku",
+   "asal": "Kei",
+   "affinityArena": "Pelabuhan Karang Banda",
+   "backstory": "Pelaut pembawa perisai salawaku; ia menyatukan para pela (saudara) dari timur",
+   "passive": "Unit bersebelahan saling membagi sebagian tameng",
+   "passiveValue": 0.15,
+   "passiveUnit": "% tameng dibagi",
+   "passiveValueOnAffinityArena": 0.165
+  }
+ ]
+}

@@ -1,0 +1,290 @@
+{
+ "startingGold": 5,
+ "baseIncomePerRound": 5,
+ "interest": {
+  "goldPerBonus": 10,
+  "maxBonus": 5
+ },
+ "streakBonus": [
+  {
+   "minStreak": 2,
+   "gold": 1
+  },
+  {
+   "minStreak": 4,
+   "gold": 2
+  },
+  {
+   "minStreak": 6,
+   "gold": 3
+  }
+ ],
+ "rerollCost": 2,
+ "buyXpCost": 4,
+ "xpPerPurchase": 4,
+ "passiveXpPerRound": 2,
+ "shopSlots": 5,
+ "benchSlots": 9,
+ "maxLevel": 9,
+ "sellMultiplierByStar": {
+  "star1": 1,
+  "star2": 3,
+  "star3": 9
+ },
+ "starMultiplier": {
+  "star1": 1,
+  "star2": 1.8,
+  "star3": 3.24
+ },
+ "mergeRule": "3 unit sama dan bintang sama menjadi 1 unit bintang berikutnya (maks bintang 3); cek di bench dan papan.",
+ "levels": [
+  {
+   "level": 1,
+   "xpToNext": 2,
+   "unitLimit": 1,
+   "shopOddsPercent": [
+    100,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "level": 2,
+   "xpToNext": 6,
+   "unitLimit": 2,
+   "shopOddsPercent": [
+    100,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "level": 3,
+   "xpToNext": 10,
+   "unitLimit": 3,
+   "shopOddsPercent": [
+    75,
+    25,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "level": 4,
+   "xpToNext": 20,
+   "unitLimit": 4,
+   "shopOddsPercent": [
+    55,
+    30,
+    15,
+    0,
+    0
+   ]
+  },
+  {
+   "level": 5,
+   "xpToNext": 36,
+   "unitLimit": 5,
+   "shopOddsPercent": [
+    45,
+    33,
+    20,
+    2,
+    0
+   ]
+  },
+  {
+   "level": 6,
+   "xpToNext": 56,
+   "unitLimit": 6,
+   "shopOddsPercent": [
+    30,
+    40,
+    25,
+    5,
+    0
+   ]
+  },
+  {
+   "level": 7,
+   "xpToNext": 80,
+   "unitLimit": 7,
+   "shopOddsPercent": [
+    19,
+    30,
+    35,
+    15,
+    1
+   ]
+  },
+  {
+   "level": 8,
+   "xpToNext": 100,
+   "unitLimit": 8,
+   "shopOddsPercent": [
+    15,
+    20,
+    35,
+    25,
+    5
+   ]
+  },
+  {
+   "level": 9,
+   "xpToNext": 0,
+   "unitLimit": 9,
+   "shopOddsPercent": [
+    10,
+    15,
+    25,
+    35,
+    15
+   ]
+  }
+ ],
+ "poolByCost": {
+  "1": {
+   "characters": 10,
+   "copiesPerCharacter": 22
+  },
+  "2": {
+   "characters": 10,
+   "copiesPerCharacter": 20
+  },
+  "3": {
+   "characters": 9,
+   "copiesPerCharacter": 17
+  },
+  "4": {
+   "characters": 7,
+   "copiesPerCharacter": 12
+  },
+  "5": {
+   "characters": 4,
+   "copiesPerCharacter": 9
+  }
+ },
+  "poolScaleByPlayers": { "1": 1, "2": 0.625, "3": 0.75, "4": 0.875, "5": 1 },
+ "baseStatsByCost": {
+  "1": {
+   "hp": 600,
+   "atk": 50
+  },
+  "2": {
+   "hp": 780,
+   "atk": 64
+  },
+  "3": {
+   "hp": 1000,
+   "atk": 82
+  },
+  "4": {
+   "hp": 1300,
+   "atk": 105
+  },
+  "5": {
+   "hp": 1650,
+   "atk": 135
+  }
+ },
+ "lakuArchetypes": {
+  "Mpu": {
+   "role": "Penyerang jarak dekat",
+   "hpMult": 1.1,
+   "atkMult": 1.25,
+   "attackSpeed": 0.8,
+   "range": 1,
+   "armor": 25,
+   "resist": 10,
+   "manaStart": 0,
+   "manaMax": 80
+  },
+  "Lir": {
+   "role": "Pengendali",
+   "hpMult": 0.9,
+   "atkMult": 0.8,
+   "attackSpeed": 0.7,
+   "range": 2,
+   "armor": 10,
+   "resist": 20,
+   "manaStart": 20,
+   "manaMax": 70
+  },
+  "Dung": {
+   "role": "Penahan",
+   "hpMult": 1.6,
+   "atkMult": 0.6,
+   "attackSpeed": 0.6,
+   "range": 1,
+   "armor": 45,
+   "resist": 25,
+   "manaStart": 30,
+   "manaMax": 60
+  },
+  "Nah": {
+   "role": "Penyerang jarak jauh",
+   "hpMult": 0.75,
+   "atkMult": 1.2,
+   "attackSpeed": 0.9,
+   "range": 4,
+   "armor": 5,
+   "resist": 5,
+   "manaStart": 0,
+   "manaMax": 90
+  },
+  "Tam": {
+   "role": "Penyembuh",
+   "hpMult": 0.85,
+   "atkMult": 0.55,
+   "attackSpeed": 0.6,
+   "range": 3,
+   "armor": 5,
+   "resist": 20,
+   "manaStart": 20,
+   "manaMax": 60
+  },
+  "Wang": {
+   "role": "Penyihir",
+   "hpMult": 0.75,
+   "atkMult": 1,
+   "attackSpeed": 0.7,
+   "range": 3,
+   "armor": 0,
+   "resist": 25,
+   "manaStart": 10,
+   "manaMax": 70
+  },
+  "Kar": {
+   "role": "Penyerang cepat",
+   "hpMult": 1,
+   "atkMult": 1.1,
+   "attackSpeed": 1,
+   "range": 1,
+   "armor": 15,
+   "resist": 15,
+   "manaStart": 0,
+   "manaMax": 70
+  },
+  "Gong": {
+   "role": "Pendukung",
+   "hpMult": 0.85,
+   "atkMult": 0.7,
+   "attackSpeed": 0.7,
+   "range": 3,
+   "armor": 5,
+   "resist": 20,
+   "manaStart": 30,
+   "manaMax": 60
+  }
+ },
+ "notes": [
+  "Karakter terjual mengembalikan salinan ke pool (3^(bintang-1) salinan).",
+  "passiveXpPerRound adalah asumsi prototype; tidak ada di spreadsheet.",
+  "Level mulai dari 1 dengan batas unit = level."
+ ]
+}

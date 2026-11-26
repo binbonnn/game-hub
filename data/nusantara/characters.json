@@ -1,0 +1,1593 @@
+{
+ "note": "Statistik bintang 1 dihitung dari BASE per biaya x arketipe Laku (lihat economy.json dan Tabel Balancing). Bintang 2 = x1,8; bintang 3 = x3,24 untuk HP dan ATK. | F3: skill.fx = daftar efek mesin (jenis k: dmg, heal, shield, buff, mana, cc, swap, echo); nilai m = pengali x ATK.",
+ "characters": [
+  {
+   "id": "wung",
+   "name": "Wung",
+   "formerName": "Jaka Wulung",
+   "cost": 1,
+   "asal": "Sri",
+   "laku": "Kar",
+   "backstory": "Murid padepokan penjaga lumbung, belajar silat untuk melindungi panen",
+   "stats1Star": {
+    "hp": 600,
+    "atk": 50.6,
+    "attackSpeed": 1,
+    "range": 1,
+    "armor": 15,
+    "resist": 15,
+    "manaStart": 0,
+    "manaMax": 70
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Silat Lumbung",
+    "type": "Damage",
+    "target": "Musuh terdekat",
+    "description": "Melompat ke musuh terdekat lalu menyerang dua kali.",
+    "value": 2.2,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "near",
+      "m": 2.2
+     }
+    ]
+   }
+  },
+  {
+   "id": "hoi",
+   "name": "Hoi",
+   "formerName": "Ina Ohoi",
+   "cost": 1,
+   "asal": "Kei",
+   "laku": "Gong",
+   "backstory": "Penabuh tifa kampung (ohoi) yang suaranya menenangkan para pelaut",
+   "stats1Star": {
+    "hp": 586,
+    "atk": 57,
+    "attackSpeed": 0.7,
+    "range": 3,
+    "armor": 5,
+    "resist": 20,
+    "manaStart": 30,
+    "manaMax": 60
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Tabuhan Tifa",
+    "type": "Buff",
+    "target": "Sekutu radius 2 petak",
+    "description": "Menabuh tifa; kecepatan serang sekutu naik.",
+    "value": 0.2,
+    "durationSec": 4,
+    "fx": [
+     {
+      "k": "buff",
+      "t": "radius:2",
+      "stat": "as",
+      "amt": 0.2,
+      "dur": 4
+     }
+    ]
+   }
+  },
+  {
+   "id": "bay",
+   "name": "Bay",
+   "formerName": "Ki Kabayan",
+   "cost": 1,
+   "asal": "Hyang",
+   "laku": "Tam",
+   "backstory": "Si jenaka yang menyembuhkan dengan ramuan dan guyonan",
+   "stats1Star": {
+    "hp": 612,
+    "atk": 66,
+    "attackSpeed": 0.6,
+    "range": 3,
+    "armor": 5,
+    "resist": 20,
+    "manaStart": 20,
+    "manaMax": 60
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Ramuan Guyon",
+    "type": "Heal",
+    "target": "Sekutu HP terendah",
+    "description": "Menyembuhkan sekutu dengan HP terendah.",
+    "value": 2.5,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "heal",
+      "t": "lowest",
+      "m": 2.5
+     }
+    ]
+   }
+  },
+  {
+   "id": "jeng",
+   "name": "Jeng",
+   "formerName": "Ajeng Kancana",
+   "cost": 1,
+   "asal": "Hyang",
+   "laku": "Nah",
+   "backstory": "Gadis pemanah dari lereng gunung, panahnya bercahaya emas",
+   "stats1Star": {
+    "hp": 540,
+    "atk": 27,
+    "attackSpeed": 0.765,
+    "range": 4,
+    "armor": 5,
+    "resist": 5,
+    "manaStart": 0,
+    "manaMax": 90
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Panah Emas",
+    "type": "Damage",
+    "target": "Musuh terjauh",
+    "description": "Panah bercahaya emas menembus satu garis.",
+    "value": 2.5,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "line",
+      "m": 2.5
+     }
+    ]
+   }
+  },
+  {
+   "id": "gad",
+   "name": "Gad",
+   "formerName": "Buyung Gadang",
+   "cost": 1,
+   "asal": "Tau",
+   "laku": "Dung",
+   "backstory": "Anak rantau bertubuh besar yang pantang mundur",
+   "stats1Star": {
+    "hp": 960,
+    "atk": 81,
+    "attackSpeed": 0.9,
+    "range": 1,
+    "armor": 45,
+    "resist": 25,
+    "manaStart": 30,
+    "manaMax": 60
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Pantang Mundur",
+    "type": "Shield",
+    "target": "Diri sendiri",
+    "description": "Mendapat tameng dan menarik perhatian musuh sekitar.",
+    "value": 3,
+    "durationSec": 3,
+    "fx": [
+     {
+      "k": "shield",
+      "t": "self",
+      "m": 3,
+      "dur": 3
+     }
+    ]
+   }
+  },
+  {
+   "id": "sau",
+   "name": "Sau",
+   "formerName": "Saudara Pela",
+   "cost": 1,
+   "asal": "Kei",
+   "laku": "Nah",
+   "backstory": "Pemburu yang terikat sumpah persaudaraan (pela) antar kampung",
+   "stats1Star": {
+    "hp": 518,
+    "atk": 27,
+    "attackSpeed": 0.765,
+    "range": 4,
+    "armor": 5,
+    "resist": 5,
+    "manaStart": 0,
+    "manaMax": 90
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Sumpah Pela",
+    "type": "Damage dan Shield",
+    "target": "Musuh, sekutu bersebelahan",
+    "description": "Memanah; sebagian damage menjadi tameng bagi sekutu di sebelah.",
+    "value": 2,
+    "durationSec": 3,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "near",
+      "m": 2
+     },
+     {
+      "k": "shield",
+      "t": "adj",
+      "m": 1,
+      "dur": 3
+     }
+    ]
+   }
+  },
+  {
+   "id": "los",
+   "name": "Los",
+   "formerName": "Boru Tumbaga",
+   "cost": 1,
+   "asal": "Hut",
+   "laku": "Wang",
+   "backstory": "Penenun ulos yang menyisipkan mantra ke tiap benang",
+   "stats1Star": {
+    "hp": 450,
+    "atk": 42.5,
+    "attackSpeed": 0.7,
+    "range": 3,
+    "armor": 0,
+    "resist": 25,
+    "manaStart": 10,
+    "manaMax": 70
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Benang Mantra",
+    "type": "Damage berkala",
+    "target": "Area kecil",
+    "description": "Kutukan benang ulos yang melukai musuh dari waktu ke waktu.",
+    "value": 3,
+    "durationSec": 4,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "aoe:1",
+      "m": 3,
+      "dot": 4,
+      "magic": 1
+     }
+    ]
+   }
+  },
+  {
+   "id": "kor",
+   "name": "Kor",
+   "formerName": "Jero Kebayan",
+   "cost": 1,
+   "asal": "Dwi",
+   "laku": "Dung",
+   "backstory": "Pengawal gerbang pura yang bersumpah tak membiarkan Sunyi masuk",
+   "stats1Star": {
+    "hp": 1056,
+    "atk": 108,
+    "attackSpeed": 0.9,
+    "range": 1,
+    "armor": 45,
+    "resist": 25,
+    "manaStart": 30,
+    "manaMax": 60
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Gerbang Pura",
+    "type": "Shield",
+    "target": "Diri dan sekutu bersebelahan",
+    "description": "Tameng bagi diri sendiri dan sekutu yang bersebelahan.",
+    "value": 2,
+    "durationSec": 3,
+    "fx": [
+     {
+      "k": "shield",
+      "t": "adj",
+      "m": 2,
+      "dur": 3
+     }
+    ]
+   }
+  },
+  {
+   "id": "bes",
+   "name": "Bes",
+   "formerName": "Daeng Taba",
+   "cost": 1,
+   "asal": "Jong",
+   "laku": "Mpu",
+   "backstory": "Pandai besi muda dari pelabuhan, menempa parang laut",
+   "stats1Star": {
+    "hp": 660,
+    "atk": 63,
+    "attackSpeed": 0.8,
+    "range": 1,
+    "armor": 25,
+    "resist": 10,
+    "manaStart": 0,
+    "manaMax": 80
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Parang Laut",
+    "type": "Damage",
+    "target": "Musuh terdekat",
+    "description": "Tebasan parang yang menembus sebagian armor.",
+    "value": 2.4,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "near",
+      "m": 2.4,
+      "pierce": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "id": "luh",
+   "name": "Luh",
+   "formerName": "Ni Luh Sari",
+   "cost": 1,
+   "asal": "Dwi",
+   "laku": "Gong",
+   "backstory": "Penari yang gerakannya mengikat irama gamelan",
+   "stats1Star": {
+    "hp": 561,
+    "atk": 55,
+    "attackSpeed": 0.7,
+    "range": 3,
+    "armor": 5,
+    "resist": 20,
+    "manaStart": 30,
+    "manaMax": 60
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Tarian Pengikat Irama",
+    "type": "Mana",
+    "target": "Sekutu terdekat",
+    "description": "Menambah mana sekutu terdekat (nilai = jumlah mana).",
+    "value": 20,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "mana",
+      "t": "nearAlly",
+      "n": 20
+     }
+    ]
+   }
+  },
+  {
+   "id": "gus",
+   "name": "Gus",
+   "formerName": "Raden Bagus Arya",
+   "cost": 2,
+   "asal": "Sri",
+   "laku": "Mpu",
+   "backstory": "Putra keraton penempa keris pertamanya",
+   "stats1Star": {
+    "hp": 858,
+    "atk": 80,
+    "attackSpeed": 0.8,
+    "range": 1,
+    "armor": 25,
+    "resist": 10,
+    "manaStart": 0,
+    "manaMax": 80
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Keris Pertama",
+    "type": "Damage dan Buff",
+    "target": "Musuh terdekat",
+    "description": "Menebas lalu menambah ATK diri sendiri sementara.",
+    "value": 2.6,
+    "durationSec": 4,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "near",
+      "m": 2.6
+     },
+     {
+      "k": "buff",
+      "t": "self",
+      "stat": "atk",
+      "amt": 0.2,
+      "dur": 4
+     }
+    ]
+   }
+  },
+  {
+   "id": "wai",
+   "name": "Wai",
+   "formerName": "Lawai Sumpit",
+   "cost": 2,
+   "asal": "Rim",
+   "laku": "Nah",
+   "backstory": "Pemburu hutan dengan sumpit beracun sunyi",
+   "stats1Star": {
+    "hp": 585,
+    "atk": 26,
+    "attackSpeed": 0.765,
+    "range": 4,
+    "armor": 5,
+    "resist": 5,
+    "manaStart": 0,
+    "manaMax": 90
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Sumpit Sunyi",
+    "type": "Damage berkala",
+    "target": "Tiga musuh",
+    "description": "Menembakkan tiga sumpit beracun sunyi.",
+    "value": 3,
+    "durationSec": 4,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "multi:3",
+      "m": 3,
+      "dot": 4
+     }
+    ]
+   }
+  },
+  {
+   "id": "mau",
+   "name": "Mau",
+   "formerName": "Ujang Maung",
+   "cost": 2,
+   "asal": "Hyang",
+   "laku": "Kar",
+   "backstory": "Pendekar yang bergerak senyap seperti harimau",
+   "stats1Star": {
+    "hp": 936,
+    "atk": 80,
+    "attackSpeed": 1,
+    "range": 1,
+    "armor": 15,
+    "resist": 15,
+    "manaStart": 0,
+    "manaMax": 70
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Langkah Senyap",
+    "type": "Damage",
+    "target": "Musuh terlemah",
+    "description": "Menghilang sebentar lalu menyerang dari belakang.",
+    "value": 2.8,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "weak",
+      "m": 2.8
+     }
+    ]
+   }
+  },
+  {
+   "id": "bri",
+   "name": "Bri",
+   "formerName": "Mambri Waropen",
+   "cost": 2,
+   "asal": "Kei",
+   "laku": "Nah",
+   "backstory": "Pemanah pesisir yang mahir membaca arus",
+   "stats1Star": {
+    "hp": 673,
+    "atk": 35,
+    "attackSpeed": 0.765,
+    "range": 4,
+    "armor": 5,
+    "resist": 5,
+    "manaStart": 0,
+    "manaMax": 90
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Pembaca Arus",
+    "type": "Damage",
+    "target": "Musuh HP terendah",
+    "description": "Serangan berikutnya mengejar musuh terlemah dengan peluang kritis.",
+    "value": 2.6,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "weak",
+      "m": 2.6,
+      "crit": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "id": "men",
+   "name": "Men",
+   "formerName": "Sutan Pamenan",
+   "cost": 2,
+   "asal": "Tau",
+   "laku": "Kar",
+   "backstory": "Pesilat silek yang gerakannya meniru alam",
+   "stats1Star": {
+    "hp": 780,
+    "atk": 58,
+    "attackSpeed": 1,
+    "range": 1,
+    "armor": 15,
+    "resist": 15,
+    "manaStart": 0,
+    "manaMax": 70
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Silek Alam",
+    "type": "Damage",
+    "target": "Musuh terdekat",
+    "description": "Tiga serangan beruntun yang makin kuat.",
+    "value": 3,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "near",
+      "m": 3
+     }
+    ]
+   }
+  },
+  {
+   "id": "ram",
+   "name": "Ram",
+   "formerName": "Mama Sagu Seram",
+   "cost": 2,
+   "asal": "Kei",
+   "laku": "Tam",
+   "backstory": "Penyembuh kampung yang meramu sagu dan rempah",
+   "stats1Star": {
+    "hp": 762,
+    "atk": 83,
+    "attackSpeed": 0.6,
+    "range": 3,
+    "armor": 5,
+    "resist": 20,
+    "manaStart": 20,
+    "manaMax": 60
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Sagu Rempah",
+    "type": "Heal",
+    "target": "Sekutu terdekat",
+    "description": "Menyembuhkan sekutu dan membersihkan satu debuff.",
+    "value": 2.2,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "heal",
+      "t": "nearAlly",
+      "m": 2.2,
+      "cleanse": 1
+     }
+    ]
+   }
+  },
+  {
+   "id": "nus",
+   "name": "Nus",
+   "formerName": "Raja Panusunan",
+   "cost": 2,
+   "asal": "Hut",
+   "laku": "Mpu",
+   "backstory": "Pemimpin huta yang menempa pusaka kampung",
+   "stats1Star": {
+    "hp": 858,
+    "atk": 80,
+    "attackSpeed": 0.8,
+    "range": 1,
+    "armor": 25,
+    "resist": 10,
+    "manaStart": 0,
+    "manaMax": 80
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Pusaka Huta",
+    "type": "Damage area",
+    "target": "Area sekitar",
+    "description": "Menghantam tanah dengan pusaka kampung.",
+    "value": 2.2,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "selfaoe:1",
+      "m": 2.2
+     }
+    ]
+   }
+  },
+  {
+   "id": "ton",
+   "name": "Ton",
+   "formerName": "Karaeng Bonto",
+   "cost": 2,
+   "asal": "Jong",
+   "laku": "Dung",
+   "backstory": "Pengawal kapal yang tubuhnya bagai lambung pinisi",
+   "stats1Star": {
+    "hp": 1248,
+    "atk": 114.0,
+    "attackSpeed": 0.9,
+    "range": 1,
+    "armor": 45,
+    "resist": 25,
+    "manaStart": 30,
+    "manaMax": 60
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Lambung Pinisi",
+    "type": "Shield",
+    "target": "Diri sendiri",
+    "description": "Tameng besar yang memantulkan sebagian damage.",
+    "value": 3.5,
+    "durationSec": 3,
+    "fx": [
+     {
+      "k": "shield",
+      "t": "self",
+      "m": 3.5,
+      "dur": 3,
+      "reflect": 0.3
+     }
+    ]
+   }
+  },
+  {
+   "id": "byar",
+   "name": "Byar",
+   "formerName": "I Wayan Kebyar",
+   "cost": 2,
+   "asal": "Dwi",
+   "laku": "Lir",
+   "backstory": "Dalang muda yang bayangannya ikut bertarung",
+   "stats1Star": {
+    "hp": 772,
+    "atk": 61,
+    "attackSpeed": 0.7,
+    "range": 2,
+    "armor": 10,
+    "resist": 20,
+    "manaStart": 20,
+    "manaMax": 70
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Bayangan Kebyar",
+    "type": "Summon",
+    "target": "Area depan",
+    "description": "Memanggil bayangan yang ikut menyerang.",
+    "value": 1.5,
+    "durationSec": 5,
+    "fx": [
+     {
+      "k": "echo",
+      "m": 0.5,
+      "dur": 5
+     }
+    ]
+   }
+  },
+  {
+   "id": "ting",
+   "name": "Ting",
+   "formerName": "Tingang Muda",
+   "cost": 2,
+   "asal": "Rim",
+   "laku": "Kar",
+   "backstory": "Pemuda yang diberkati roh burung enggang",
+   "stats1Star": {
+    "hp": 780,
+    "atk": 61,
+    "attackSpeed": 1,
+    "range": 1,
+    "armor": 15,
+    "resist": 15,
+    "manaStart": 0,
+    "manaMax": 70
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Restu Enggang",
+    "type": "Damage",
+    "target": "Musuh barisan belakang",
+    "description": "Melompat ke barisan belakang lalu menyerang.",
+    "value": 2.5,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "rear",
+      "m": 2.5
+     }
+    ]
+   }
+  },
+  {
+   "id": "sur",
+   "name": "Sur",
+   "formerName": "Sura Dilaga",
+   "cost": 3,
+   "asal": "Sri",
+   "laku": "Dung",
+   "backstory": "Prajurit keraton yang tak pernah mundur selangkah",
+   "stats1Star": {
+    "hp": 1600,
+    "atk": 147.0,
+    "attackSpeed": 0.9,
+    "range": 1,
+    "armor": 45,
+    "resist": 25,
+    "manaStart": 30,
+    "manaMax": 60
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Tak Mundur Selangkah",
+    "type": "Shield",
+    "target": "Diri sendiri",
+    "description": "Tameng dan kebal terdorong.",
+    "value": 3.5,
+    "durationSec": 4,
+    "fx": [
+     {
+      "k": "shield",
+      "t": "self",
+      "m": 3.5,
+      "dur": 4,
+      "ccImmune": 4
+     }
+    ]
+   }
+  },
+  {
+   "id": "nyi",
+   "name": "Nyi",
+   "formerName": "Nyi Pohaci",
+   "cost": 3,
+   "asal": "Hyang",
+   "laku": "Tam",
+   "backstory": "Penjaga padi dan kesuburan, menyembuhkan lewat panen",
+   "stats1Star": {
+    "hp": 1020,
+    "atk": 107,
+    "attackSpeed": 0.6,
+    "range": 3,
+    "armor": 5,
+    "resist": 20,
+    "manaStart": 20,
+    "manaMax": 60
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Panen Kesuburan",
+    "type": "Heal area",
+    "target": "Semua sekutu",
+    "description": "Menyembuhkan semua sekutu sedikit dan memberi regenerasi.",
+    "value": 1.8,
+    "durationSec": 4,
+    "fx": [
+     {
+      "k": "heal",
+      "t": "allAllies",
+      "m": 1.8,
+      "regen": 0.02,
+      "dur": 4
+     }
+    ]
+   }
+  },
+  {
+   "id": "dat",
+   "name": "Dat",
+   "formerName": "Tuanku Rajo Basa",
+   "cost": 3,
+   "asal": "Tau",
+   "laku": "Dung",
+   "backstory": "Pemuka adat yang melindungi dengan petuah",
+   "stats1Star": {
+    "hp": 1600,
+    "atk": 132,
+    "attackSpeed": 0.9,
+    "range": 1,
+    "armor": 45,
+    "resist": 25,
+    "manaStart": 30,
+    "manaMax": 60
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Petuah Adat",
+    "type": "Shield",
+    "target": "Diri dan sekutu depan",
+    "description": "Petuah yang melindungi barisan depan.",
+    "value": 3,
+    "durationSec": 4,
+    "fx": [
+     {
+      "k": "shield",
+      "t": "adj",
+      "m": 3,
+      "dur": 4
+     }
+    ]
+   }
+  },
+  {
+   "id": "so",
+   "name": "So",
+   "formerName": "Guru Sibaso",
+   "cost": 3,
+   "asal": "Hut",
+   "laku": "Lir",
+   "backstory": "Datu yang berbicara dengan roh leluhur",
+   "stats1Star": {
+    "hp": 900,
+    "atk": 66,
+    "attackSpeed": 0.7,
+    "range": 2,
+    "armor": 10,
+    "resist": 20,
+    "manaStart": 20,
+    "manaMax": 70
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Bisikan Leluhur",
+    "type": "CC",
+    "target": "Satu musuh",
+    "description": "Roh leluhur membuat satu musuh tertahan.",
+    "value": 1,
+    "durationSec": 2,
+    "fx": [
+     {
+      "k": "cc",
+      "t": "near",
+      "dur": 2
+     }
+    ]
+   }
+  },
+  {
+   "id": "san",
+   "name": "San",
+   "formerName": "Sanro Pinisi",
+   "cost": 3,
+   "asal": "Jong",
+   "laku": "Wang",
+   "backstory": "Dukun kapal yang membaca ombak dan bintang",
+   "stats1Star": {
+    "hp": 750,
+    "atk": 69.7,
+    "attackSpeed": 0.7,
+    "range": 3,
+    "armor": 0,
+    "resist": 25,
+    "manaStart": 10,
+    "manaMax": 70
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Bacaan Ombak",
+    "type": "Damage area",
+    "target": "Area target",
+    "description": "Sihir ombak yang melukai dan mendorong musuh.",
+    "value": 2.8,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "aoe:1",
+      "m": 2.8,
+      "magic": 1
+     }
+    ]
+   }
+  },
+  {
+   "id": "bal",
+   "name": "Bal",
+   "formerName": "Balian Tapakan",
+   "cost": 3,
+   "asal": "Dwi",
+   "laku": "Lir",
+   "backstory": "Balian ritual yang memindahkan bayangan musuh",
+   "stats1Star": {
+    "hp": 990,
+    "atk": 79,
+    "attackSpeed": 0.7,
+    "range": 2,
+    "armor": 10,
+    "resist": 20,
+    "manaStart": 20,
+    "manaMax": 70
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Pindah Bayangan",
+    "type": "CC",
+    "target": "Dua musuh",
+    "description": "Menukar posisi dua musuh.",
+    "value": 1.5,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "swap"
+     }
+    ]
+   }
+  },
+  {
+   "id": "dau",
+   "name": "Dau",
+   "formerName": "Panglima Mandau",
+   "cost": 3,
+   "asal": "Rim",
+   "laku": "Mpu",
+   "backstory": "Pemegang mandau pusaka leluhur Dayak",
+   "stats1Star": {
+    "hp": 1100,
+    "atk": 98,
+    "attackSpeed": 0.8,
+    "range": 1,
+    "armor": 25,
+    "resist": 10,
+    "manaStart": 0,
+    "manaMax": 80
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Tebasan Mandau",
+    "type": "Damage area",
+    "target": "Kerucut depan",
+    "description": "Tebasan mandau pusaka dalam bentuk kerucut.",
+    "value": 3.2,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "aoe:1",
+      "m": 3.2
+     }
+    ]
+   }
+  },
+  {
+   "id": "len",
+   "name": "Len",
+   "formerName": "Putri Karang Melenu",
+   "cost": 3,
+   "asal": "Rim",
+   "laku": "Wang",
+   "backstory": "Putri dari kisah Kutai, lahir dari buih dan membawa sihir air",
+   "stats1Star": {
+    "hp": 750,
+    "atk": 66,
+    "attackSpeed": 0.7,
+    "range": 3,
+    "armor": 0,
+    "resist": 25,
+    "manaStart": 10,
+    "manaMax": 70
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Buih Sihir Air",
+    "type": "Damage dan Slow",
+    "target": "Area target",
+    "description": "Sihir air yang melukai dan memperlambat musuh.",
+    "value": 3,
+    "durationSec": 3,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "aoe:1",
+      "m": 3,
+      "magic": 1,
+      "slow": 0.4,
+      "slowDur": 3
+     }
+    ]
+   }
+  },
+  {
+   "id": "lak",
+   "name": "Lak",
+   "formerName": "Pengawal Salawaku",
+   "cost": 3,
+   "asal": "Kei",
+   "laku": "Dung",
+   "backstory": "Penjaga dengan perisai salawaku bergambar leluhur",
+   "stats1Star": {
+    "hp": 1840,
+    "atk": 184,
+    "attackSpeed": 0.9,
+    "range": 1,
+    "armor": 45,
+    "resist": 25,
+    "manaStart": 30,
+    "manaMax": 60
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Perisai Leluhur",
+    "type": "Shield",
+    "target": "Diri dan sekutu sebelah",
+    "description": "Tameng yang dibagi sebagian ke sekutu di samping.",
+    "value": 3.2,
+    "durationSec": 4,
+    "fx": [
+     {
+      "k": "shield",
+      "t": "adj",
+      "m": 3.2,
+      "dur": 4
+     }
+    ]
+   }
+  },
+  {
+   "id": "pra",
+   "name": "Pra",
+   "formerName": "Gusti Prabasuri",
+   "cost": 4,
+   "asal": "Sri",
+   "laku": "Wang",
+   "backstory": "Bangsawan ahli kebatinan yang memanggil cahaya keraton",
+   "stats1Star": {
+    "hp": 975,
+    "atk": 89.25,
+    "attackSpeed": 0.7,
+    "range": 3,
+    "armor": 0,
+    "resist": 25,
+    "manaStart": 10,
+    "manaMax": 70
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Cahaya Keraton",
+    "type": "Damage area",
+    "target": "Area besar",
+    "description": "Sinar besar yang memanggil cahaya keraton.",
+    "value": 4,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "aoe:2",
+      "m": 4,
+      "magic": 1
+     }
+    ]
+   }
+  },
+  {
+   "id": "day",
+   "name": "Day",
+   "formerName": "Sang Maung Lodaya",
+   "cost": 4,
+   "asal": "Hyang",
+   "laku": "Kar",
+   "backstory": "Macan jelmaan para pendekar Pajajaran dalam kisah lama",
+   "stats1Star": {
+    "hp": 1560,
+    "atk": 133,
+    "attackSpeed": 1,
+    "range": 1,
+    "armor": 15,
+    "resist": 15,
+    "manaStart": 0,
+    "manaMax": 70
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Terkaman Pajajaran",
+    "type": "Damage dan Heal",
+    "target": "Musuh terdekat",
+    "description": "Tiga serangan; sebagian damage menyembuhkan diri.",
+    "value": 4,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "near",
+      "m": 4,
+      "lifesteal": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "id": "bun",
+   "name": "Bun",
+   "formerName": "Bundo Sati Mudo",
+   "cost": 4,
+   "asal": "Tau",
+   "laku": "Gong",
+   "backstory": "Ibu adat penabuh talempong yang suaranya membangkitkan semangat",
+   "stats1Star": {
+    "hp": 1105,
+    "atk": 87,
+    "attackSpeed": 0.7,
+    "range": 3,
+    "armor": 5,
+    "resist": 20,
+    "manaStart": 30,
+    "manaMax": 60
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Talempong Semangat",
+    "type": "Buff",
+    "target": "Semua sekutu",
+    "description": "Menambah ATK dan energi sekutu.",
+    "value": 0.3,
+    "durationSec": 5,
+    "fx": [
+     {
+      "k": "buff",
+      "t": "allAllies",
+      "stat": "atk",
+      "amt": 0.3,
+      "dur": 5
+     },
+     {
+      "k": "mana",
+      "t": "allAllies",
+      "n": 10
+     }
+    ]
+   }
+  },
+  {
+   "id": "jab",
+   "name": "Jab",
+   "formerName": "Pande Besi Sijabat",
+   "cost": 4,
+   "asal": "Hut",
+   "laku": "Mpu",
+   "backstory": "Pandai besi legendaris yang tempaannya tak pernah patah",
+   "stats1Star": {
+    "hp": 1430,
+    "atk": 131,
+    "attackSpeed": 0.8,
+    "range": 1,
+    "armor": 25,
+    "resist": 10,
+    "manaStart": 0,
+    "manaMax": 80
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Tempaan Tak Patah",
+    "type": "Damage",
+    "target": "Musuh terdekat",
+    "description": "Hantaman besar yang mengurangi armor target.",
+    "value": 4.2,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "near",
+      "m": 4.2,
+      "shred": 10,
+      "shredDur": 6
+     }
+    ]
+   }
+  },
+  {
+   "id": "mat",
+   "name": "Mat",
+   "formerName": "Puang Matoa",
+   "cost": 4,
+   "asal": "Jong",
+   "laku": "Gong",
+   "backstory": "Pemimpin spiritual yang menjaga doa-doa pelayaran",
+   "stats1Star": {
+    "hp": 1105,
+    "atk": 96.2,
+    "attackSpeed": 0.7,
+    "range": 3,
+    "armor": 5,
+    "resist": 20,
+    "manaStart": 30,
+    "manaMax": 60
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Doa Pelayaran",
+    "type": "Shield",
+    "target": "Semua sekutu",
+    "description": "Doa yang memberi tameng dan memulihkan mana.",
+    "value": 2,
+    "durationSec": 4,
+    "fx": [
+     {
+      "k": "shield",
+      "t": "allAllies",
+      "m": 2,
+      "dur": 4
+     },
+     {
+      "k": "mana",
+      "t": "allAllies",
+      "n": 10
+     }
+    ]
+   }
+  },
+  {
+   "id": "cal",
+   "name": "Cal",
+   "formerName": "Gusti Ngurah Barong",
+   "cost": 4,
+   "asal": "Dwi",
+   "laku": "Dung",
+   "backstory": "Pecalang, penjaga adat yang menjaga batas pura dan menolak bala dengan perisai pusaka",
+   "stats1Star": {
+    "hp": 2288,
+    "atk": 227,
+    "attackSpeed": 0.9,
+    "range": 1,
+    "armor": 45,
+    "resist": 25,
+    "manaStart": 30,
+    "manaMax": 60
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Penolak Bala",
+    "type": "Shield",
+    "target": "Diri dan sekutu sekitar",
+    "description": "Tameng dan pembersih debuff.",
+    "value": 4,
+    "durationSec": 4,
+    "fx": [
+     {
+      "k": "shield",
+      "t": "adj",
+      "m": 4,
+      "dur": 4,
+      "cleanse": 1
+     }
+    ]
+   }
+  },
+  {
+   "id": "gai",
+   "name": "Gai",
+   "formerName": "Manang Bungai",
+   "cost": 4,
+   "asal": "Rim",
+   "laku": "Tam",
+   "backstory": "Penyembuh hutan yang berkomunikasi dengan roh tumbuhan",
+   "stats1Star": {
+    "hp": 1105,
+    "atk": 105,
+    "attackSpeed": 0.6,
+    "range": 3,
+    "armor": 5,
+    "resist": 20,
+    "manaStart": 20,
+    "manaMax": 60
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Roh Tumbuhan",
+    "type": "Heal",
+    "target": "Sekutu sekitar",
+    "description": "Penyembuhan besar dengan regenerasi.",
+    "value": 3.5,
+    "durationSec": 4,
+    "fx": [
+     {
+      "k": "heal",
+      "t": "radius:2",
+      "m": 3.5,
+      "regen": 0.02,
+      "dur": 4
+     }
+    ]
+   }
+  },
+  {
+   "id": "ki",
+   "name": "Ki",
+   "formerName": "Dalang Sejati Ki Ruwat",
+   "cost": 5,
+   "asal": "Sri",
+   "laku": "Lir",
+   "backstory": "Dalang agung yang meruwat dunia dari kutukan Sunyi dengan lakon semalam suntuk",
+   "stats1Star": {
+    "hp": 1485,
+    "atk": 108,
+    "attackSpeed": 0.7,
+    "range": 2,
+    "armor": 10,
+    "resist": 20,
+    "manaStart": 20,
+    "manaMax": 70
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Lakon Semalam Suntuk",
+    "type": "CC dan Damage",
+    "target": "Area besar",
+    "description": "Menahan musuh di area dan memanggil bayangan.",
+    "value": 3,
+    "durationSec": 3,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "aoe:2",
+      "m": 3,
+      "magic": 1
+     },
+     {
+      "k": "cc",
+      "t": "aoe:2",
+      "dur": 3
+     }
+    ]
+   }
+  },
+  {
+   "id": "bor",
+   "name": "Bor",
+   "formerName": "Si Boru Deak Parujar",
+   "cost": 5,
+   "asal": "Hut",
+   "laku": "Wang",
+   "backstory": "Perempuan pertama yang menciptakan daratan dari segenggam tanah",
+   "stats1Star": {
+    "hp": 1238,
+    "atk": 114.75,
+    "attackSpeed": 0.7,
+    "range": 3,
+    "armor": 0,
+    "resist": 25,
+    "manaStart": 10,
+    "manaMax": 70
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Tanah dari Genggaman",
+    "type": "Damage area",
+    "target": "Area besar",
+    "description": "Mengubah petak menjadi tanah teguh; melukai musuh dan melindungi sekutu.",
+    "value": 5,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "aoe:2",
+      "m": 5,
+      "magic": 1
+     },
+     {
+      "k": "shield",
+      "t": "radius:2",
+      "m": 1.5,
+      "dur": 4
+     }
+    ]
+   }
+  },
+  {
+   "id": "cin",
+   "name": "Cin",
+   "formerName": "Cindua Mato",
+   "cost": 5,
+   "asal": "Tau",
+   "laku": "Kar",
+   "backstory": "Pahlawan kaba yang bergerak lebih cepat dari bayangan",
+   "stats1Star": {
+    "hp": 1650,
+    "atk": 123,
+    "attackSpeed": 1,
+    "range": 1,
+    "armor": 15,
+    "resist": 15,
+    "manaStart": 0,
+    "manaMax": 70
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Lebih Cepat dari Bayangan",
+    "type": "Damage",
+    "target": "Musuh terdekat",
+    "description": "Lima serangan beruntun dengan peluang kritis.",
+    "value": 5,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "near",
+      "m": 5,
+      "crit": 0.5
+     }
+    ]
+   }
+  },
+  {
+   "id": "ding",
+   "name": "Ding",
+   "formerName": "Sawerigading",
+   "cost": 5,
+   "asal": "Jong",
+   "laku": "Mpu",
+   "backstory": "Pelaut epik dari epos La Galigo yang menempuh tujuh samudra",
+   "stats1Star": {
+    "hp": 1815,
+    "atk": 169,
+    "attackSpeed": 0.8,
+    "range": 1,
+    "armor": 25,
+    "resist": 10,
+    "manaStart": 0,
+    "manaMax": 80
+   },
+   "starMultiplier": {
+    "star2": 1.8,
+    "star3": 3.24
+   },
+   "skill": {
+    "name": "Tujuh Samudra",
+    "type": "Damage garis",
+    "target": "Seluruh baris",
+    "description": "Gelombang yang menembus seluruh baris musuh.",
+    "value": 5,
+    "durationSec": 0,
+    "fx": [
+     {
+      "k": "dmg",
+      "t": "line",
+      "m": 5
+     }
+    ]
+   }
+  }
+ ]
+}

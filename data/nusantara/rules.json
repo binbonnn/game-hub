@@ -1,0 +1,658 @@
+{
+ "match": {
+  "commanderStartHp": 100,
+  "startRound": 1,
+  "bossEveryRounds": 5,
+  "finalBossRound": 50,
+  "extremeRounds": [
+   51,
+   52,
+   53,
+   54,
+   55
+  ],
+  "endlessModeAfterRound50": "Solo dan Co-op boleh lanjut Mode Tanpa Akhir dengan bos berulang yang makin kuat"
+ },
+ "waves": {
+  "creepBaseHp": 300,
+  "creepHpGrowthPerRound": 1.042,
+  "creepBaseAtk": 20,
+  "creepAtkGrowthPerRound": 1.05,
+  "baseCreepCount": 6,
+  "extraCreepEvery5Rounds": 1,
+  "bossTotalHpMultiplierVsNormalWave": 1.6,
+  "extremeTotalHpMultiplierVsNormalWave": 2.2,
+  "bossAtkMultiplier": 1.5,
+  "leakDamage": {
+   "normal": "1 + floor(round/10)",
+   "boss": 20,
+   "extreme": 35
+  },
+  "targetBattleSeconds": 40,
+  "speedCellsPerSecondDraft": {
+   "creep": 0.9,
+   "boss": 0.6
+  },
+  "spawnGapSecondsDraft": 1.2,
+  "formulas": {
+   "hpPerEnemyNormal": "300*1.042^(r-1)*arenaHpMultiplier",
+   "countNormal": "6+floor(r/5)",
+   "totalHpBossRound": "countNormal(r)*300*1.042^(r-1)*1.6*arenaHpMultiplier",
+   "totalHpExtreme": "... *2.2"
+  }
+ },
+ "scoring": {
+  "matchScore": "round*100 + commanderHpLeft*5 + rankBonus",
+  "modeMultiplier": 1,
+  "minRoundForScore": 3,
+  "rankBonus": {
+   "duelWin": 200,
+   "partyCompetitive": {
+    "first": 400,
+    "second": 250,
+    "third": 150
+   },
+   "coop": 0,
+   "winByOpponentsLeaving": "bonus menang sesuai mode, hanya bila match sudah mencapai ronde 3"
+  },
+  "leavingVoluntarilyBeforeMatchEnds": "skor match hangus",
+  "eliminatedPlayers": "tetap mendapat skor ronde yang dicapai plus bonus peringkat sesuai urutan gugur",
+  "extremeRoundsCountInScore": true
+ },
+ "modes": {
+  "solo": {
+   "players": 1,
+   "win": "tidak ada pemenang; bertahan sampai bos ronde 50 lalu Mode Tanpa Akhir"
+  },
+  "duel": {
+   "players": 2,
+   "arena": "masing-masing punya arena sendiri; arena, creep, dan toko memakai seed sama",
+   "win": "bertahan lebih lama; seri ditentukan HP Commander sisa, lalu Ronde Ekstrem"
+  },
+  "partyCompetitive": {
+   "players": "3-5",
+   "win": "peringkat 1-5 berdasarkan ronde bertahan lalu HP sisa; seri di ronde 50 -> Ronde Ekstrem"
+  },
+  "partyCoop": {
+   "players": "3-5",
+   "win": "endless; berakhir saat HP Commander bersama habis atau bila tersisa 1 pemain (pemain itu menang)"
+  }
+ },
+ "disconnects": {
+  "temporary": "autopilot (beli unit termurah, taruh di posisi default) dan boleh masuk kembali",
+  "voluntaryLeave": "dikeluarkan dari match",
+  "matchEnds": "hanya bila tersisa 1 pemain (pemenang); match lanjut walau pemain < 3"
+ },
+ "extremeRounds": {
+  "trigger": "Duel/Party kompetitif: 2+ pemain hidup dengan HP Commander sama persis di akhir ronde 50",
+  "participants": "hanya pemain yang seri",
+  "mustPlayAll5": true,
+  "winner": "HP Commander tertinggi setelah ronde 55; seri -> tercepat mengalahkan bos ronde 55; masih seri -> peringkat dibagi",
+  "lontarPerExtremeBoss": true
+ },
+ "identity": {
+  "nameNormalization": "tidak peka huruf besar-kecil, spasi pinggir dibuang",
+  "pin": "PIN 4 digit dibuat saat nama pertama kali dipakai, diminta di perangkat baru, disimpan sebagai hash di server dengan batas percobaan salah",
+  "sameNameInOneRoom": "tidak boleh",
+  "leaderboardScope": "khusus game ini; total skor akumulasi semua mode; filter per mode; opsional mingguan"
+ },
+ "rooms": {
+  "roomCodeLength": "4-6 karakter",
+  "host": "membuat room dan memilih mode",
+  "duelPlayers": 2,
+  "partyMin": 3,
+  "partyMax": 5,
+  "handicapOptionalPerPlayer": "emas awal ekstra atau HP Commander lebih besar (diatur host)"
+ },
+ "phases": {
+  "prepSeconds": "30-45 (serempak; tombol Siap mempercepat)",
+  "battleSeconds": "30-60",
+  "battleSpeed": "Solo 1x/2x/4x; multiplayer sesuai pilihan host (1x atau 2x)"
+ },
+ "combatDraft": {
+  "unitAttack": "tiap unit menyerang musuh terdepan (paling dekat ke E) dalam jarak kotak <= range; interval 1/attackSpeed; damage = ATK",
+  "enemyContact": "musuh tetap berjalan; tiap 1 dtk menyerang unit terdekat dalam jarak kotak <= 1 dengan damage = ATKmusuh*100/(100+armor)*(1-damageReduction)",
+  "unitsReviveEachRound": true,
+  "units_cannot_stand_on_path": true
+ },
+ "mvpScope": {
+  "arenas": [
+   "Pelataran Keraton Wirasana",
+   "Kawah Putri Sanghyang",
+   "Sasana Sunyaruri"
+  ],
+  "bossesInMvp": 30
+ },
+ "fx": {
+  "note": "F3: semua angka efek pertempuran (draf; disetel lewat simulasi bot di Fase 4). Dibaca oleh sim-core, bukan ditulis di kode.",
+  "mana": {
+   "perAttack": 10
+  },
+  "supportAtkScale": 4,
+  "critDamage": 1.5,
+  "enemyDefense": {
+   "normal": {
+    "armor": 15,
+    "resist": 15
+   },
+   "bos": {
+    "armor": 25,
+    "resist": 25
+   }
+  },
+  "weakBonusPerWarisan": 0.25,
+  "senapati": {
+   "centerRows": [
+    2,
+    6
+   ],
+   "centerCols": [
+    3,
+    7
+   ],
+   "quakeEverySec": 10,
+   "kinds": {
+    "sen": "centerShield",
+    "yung": "healBonus",
+    "tuk": "streakGold",
+    "hat": "quake",
+    "deng": "shopSlot",
+    "jro": "durAmp",
+    "pang": "rearDodge",
+    "pit": "share"
+   }
+  },
+  "synergy": {
+   "sri": {
+    "scope": "all",
+    "tiers": [
+     {
+      "shield": 0.1
+     },
+     {
+      "shield": 0.15,
+      "def": 15
+     },
+     {
+      "shield": 0.25,
+      "def": 30,
+      "lirShield": 0.1
+     }
+    ]
+   },
+   "hyang": {
+    "scope": "members",
+    "tiers": [
+     {
+      "regen": 0.02
+     },
+     {
+      "regen": 0.04
+     },
+     {
+      "regen": 0.06
+     }
+    ]
+   },
+   "tau": {
+    "scope": "economy",
+    "tiers": [
+     {
+      "gold": 1
+     },
+     {
+      "gold": 2,
+      "interestCap": 1
+     },
+     {
+      "gold": 4,
+      "interestCap": 2
+     }
+    ]
+   },
+   "hut": {
+    "scope": "members",
+    "tiers": [
+     {
+      "boom": 0.8
+     },
+     {
+      "boom": 1.5
+     },
+     {
+      "boom": 2.5,
+      "splash": 0.2
+     }
+    ]
+   },
+   "jong": {
+    "scope": "members",
+    "tiers": [
+     {
+      "as": 0.15
+     },
+     {
+      "as": 0.25
+     },
+     {
+      "as": 0.4,
+      "mana": 10
+     }
+    ]
+   },
+   "dwi": {
+    "scope": "amp",
+    "tiers": [
+     {
+      "amp": 0.6
+     },
+     {
+      "amp": 1.1
+     },
+     {
+      "amp": 1.8,
+      "dur": 0.2
+     }
+    ]
+   },
+   "rim": {
+    "scope": "members",
+    "tiers": [
+     {
+      "dodge": 0.1,
+      "crit": 0.1
+     },
+     {
+      "dodge": 0.16,
+      "crit": 0.2
+     },
+     {
+      "dodge": 0.22,
+      "crit": 0.35,
+      "critDmg": 0.25
+     }
+    ]
+   },
+   "kei": {
+    "scope": "members",
+    "tiers": [
+     {
+      "share": 0.1
+     },
+     {
+      "share": 0.2,
+      "atk": 0.06
+     },
+     {
+      "share": 0.3,
+      "atk": 0.12
+     }
+    ]
+   },
+   "mpu": {
+    "scope": "members",
+    "tiers": [
+     {
+      "pen": 0.2
+     },
+     {
+      "pen": 0.35,
+      "atk": 0.1
+     },
+     {
+      "pen": 0.5,
+      "atk": 0.2
+     }
+    ]
+   },
+   "lir": {
+    "scope": "global",
+    "tiers": [
+     {
+      "every": 8,
+      "stun": 1,
+      "shadows": 0
+     },
+     {
+      "every": 8,
+      "stun": 1.5,
+      "shadows": 1
+     },
+     {
+      "every": 6,
+      "stun": 2,
+      "shadows": 2
+     }
+    ],
+    "shadowAtk": 0.4,
+    "shadowEvery": 2
+   },
+   "dung": {
+    "scope": "members",
+    "tiers": [
+     {
+      "dr": 0.2
+     },
+     {
+      "dr": 0.3
+     },
+     {
+      "dr": 0.4,
+      "reflect": 0.1
+     }
+    ]
+   },
+   "nah": {
+    "scope": "members",
+    "tiers": [
+     {
+      "pierce": 1
+     },
+     {
+      "pierce": 2,
+      "atk": 0.1
+     },
+     {
+      "pierce": 3,
+      "atk": 0.2
+     }
+    ]
+   },
+   "tam": {
+    "scope": "members",
+    "tiers": [
+     {
+      "heal": 0.4
+     },
+     {
+      "heal": 0.65,
+      "cleanse": 1
+     },
+     {
+      "heal": 1.0,
+      "cleanse": 1,
+      "ccImmune": 2
+     }
+    ]
+   },
+   "wang": {
+    "scope": "members",
+    "tiers": [
+     {
+      "resShred": 10,
+      "area": 1
+     },
+     {
+      "resShred": 20,
+      "area": 1
+     },
+     {
+      "resShred": 30,
+      "area": 2,
+      "magic": 0.15
+     }
+    ],
+    "areaDamage": 0.6
+   },
+   "kar": {
+    "scope": "members",
+    "tiers": [
+     {
+      "as": 0.2,
+      "rear": 1
+     },
+     {
+      "as": 0.35,
+      "rear": 1
+     },
+     {
+      "as": 0.5,
+      "rear": 1,
+      "exec": 0.15
+     }
+    ]
+   },
+   "gong": {
+    "scope": "all",
+    "tiers": [
+     {
+      "as": 0.1
+     },
+     {
+      "as": 0.2,
+      "mana": 10
+     },
+     {
+      "as": 0.3,
+      "mana": 20
+     }
+    ]
+   }
+  },
+  "ampKeys": [
+   "shield",
+   "def",
+   "regen",
+   "boom",
+   "splash",
+   "as",
+   "dodge",
+   "crit",
+   "critDmg",
+   "share",
+   "atk",
+   "pen",
+   "dr",
+   "reflect",
+   "heal",
+   "resShred",
+   "magic",
+   "exec"
+  ],
+  "caps": {
+   "dodge": 0.8,
+   "dr": 0.8,
+   "pen": 0.9
+  },
+  "boss": {
+   "scaleByTier": {
+    "bos": 1.0,
+    "puncak": 1.5,
+    "ekstrem": 1.3
+   },
+   "evade": {
+    "dodge": 0.25
+   },
+   "aoe": {
+    "every": 6,
+    "targets": 3,
+    "atk": 1.2
+   },
+   "focus": {
+    "every": 7,
+    "atk": 2.0
+   },
+   "slow": {
+    "asDebuff": 0.15
+   },
+   "curse": {
+    "atkDebuff": 0.15
+   },
+   "silence": {
+    "every": 12,
+    "dur": 4
+   },
+   "stun": {
+    "every": 10,
+    "targets": 2,
+    "dur": 2
+   },
+   "summon": {
+    "every": 10,
+    "count": 2,
+    "max": 8
+   },
+   "drain": {
+    "healPct": 0.02
+   },
+   "grow": {
+    "every": 8,
+    "atk": 0.1
+   },
+   "armor": {
+    "armor": 30,
+    "resist": 30
+   },
+   "fast": {
+    "speed": 1.5
+   },
+   "linger": {
+    "speed": 0.7,
+    "atk": 0.1
+   },
+   "shield": {
+    "every": 10,
+    "pct": 0.1
+   },
+   "steal": {
+    "gold": 3,
+    "slowSec": 30
+   },
+   "strip": {
+    "every": 12,
+    "dur": 5
+   },
+   "copy": {
+    "atkOfStrongest": 0.25
+   },
+   "asalGate": {
+    "bos": 3,
+    "puncak": 3,
+    "ekstrem": 4,
+    "damageMult": 0.3
+   }
+  },
+  "pusaka": [
+   {
+    "id": "keris-luk-tujuh",
+    "name": "Keris Luk Tujuh",
+    "desc": "+10% ATK semua Titisan",
+    "fx": {
+     "atk": 0.1
+    }
+   },
+   {
+    "id": "kain-songket",
+    "name": "Kain Songket",
+    "desc": "+10% HP semua Titisan",
+    "fx": {
+     "hp": 0.1
+    }
+   },
+   {
+    "id": "tombak-pusaka",
+    "name": "Tombak Pusaka",
+    "desc": "+8% kecepatan serang",
+    "fx": {
+     "as": 0.08
+    }
+   },
+   {
+    "id": "perisai-salawaku",
+    "name": "Perisai Salawaku",
+    "desc": "+10 armor dan resist",
+    "fx": {
+     "def": 10
+    }
+   },
+   {
+    "id": "batik-parang",
+    "name": "Batik Parang",
+    "desc": "Tameng awal 10% HP",
+    "fx": {
+     "shield": 0.1
+    }
+   },
+   {
+    "id": "cermin-perunggu",
+    "name": "Cermin Perunggu",
+    "desc": "+10 mana awal",
+    "fx": {
+     "mana": 10
+    }
+   },
+   {
+    "id": "beras-kuning",
+    "name": "Beras Kuning",
+    "desc": "+2 emas tiap pupuh",
+    "fx": {
+     "gold": 2
+    }
+   },
+   {
+    "id": "kendi-air-suci",
+    "name": "Kendi Air Suci",
+    "desc": "Regenerasi 1% HP per detik",
+    "fx": {
+     "regen": 0.01
+    }
+   },
+   {
+    "id": "topeng-penolak",
+    "name": "Topeng Penolak",
+    "desc": "10% lebih sedikit damage diterima",
+    "fx": {
+     "dr": 0.1
+    }
+   },
+   {
+    "id": "mahkota-raja",
+    "name": "Mahkota Raja",
+    "desc": "+1 batas Titisan di Sasana",
+    "fx": {
+     "unitLimit": 1
+    }
+   },
+   {
+    "id": "gong-perunggu",
+    "name": "Gong Perunggu",
+    "desc": "+8% peluang kritis",
+    "fx": {
+     "crit": 0.08
+    }
+   },
+   {
+    "id": "sirih-pinang",
+    "name": "Sirih Pinang",
+    "desc": "+10 HP Senapati seketika",
+    "fx": {
+     "hpPlus": 10
+    }
+   },
+   {
+    "id": "jimat-kerabat",
+    "name": "Jimat Kerabat",
+    "desc": "Sunyi yang lolos melukai Senapati 1 lebih sedikit (minimal 1)",
+    "fx": {
+     "leakDown": 1
+    }
+   },
+   {
+    "id": "pedang-sunyi",
+    "name": "Pedang Sunyi",
+    "desc": "+10% damage ke Penjaga",
+    "fx": {
+     "bossDmg": 0.1
+    }
+   },
+   {
+    "id": "mustika-lawang",
+    "name": "Mustika Lawang",
+    "desc": "Refresh toko 1 emas lebih murah (minimal 1)",
+    "fx": {
+     "rerollDown": 1
+    }
+   }
+  ]
+ }
+}

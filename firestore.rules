@@ -1,0 +1,755 @@
+rules_version = '2';
+
+/* =============================================================================
+   GAME HUB — FIRESTORE SECURITY RULES
+   -----------------------------------------------------------------------------
+   Cakupan:
+     • Profil pemain terpusat     : players/{uid}, players/{uid}/gameStats
+     • Papan peringkat solo       : records_10/20/30, knowledge_records,
+                                    advmath_records_10/20/30
+     • Data user (Firestore-only) : user_data/{uid} — satu-satunya tempat
+                                     preferensi, riwayat, dan papan pribadi
+      • Papan kemenangan duel      : multiply_duel_wins, knowledge_duel_wins,
+                                     advmath_duel_wins
+     • Room multiplayer (1v1)     : duels, knowledge_duels, advmath_duels, memo_duels
+     • Memo Mayhem (Auth anonim)  : memo_names, memo_profiles, memo_boards
+     • Nusantara Sirna            : ns_players, ns_secrets, ns_scores, ns_rooms
+
+    TIDAK ADA localStorage/sessionStorage untuk data user. Tamu tidak
+    menulis data apa pun; semua data permanen milik UID Firebase Auth.
+
+   Cara pakai:
+     1. Firebase Console → Firestore Database → Rules → tempel isi file ini.
+     2. Atau: firebase deploy --only firestore:rules
+     3. Uji dulu dengan Firestore Emulator sebelum produksi.
+
+   PENTING — identitas & penulisan permanen:
+     Game 1–4 (skor & duel) dan rekor permanen kini memakai Firebase Auth anonim, jadi
+     Rules memeriksa BENTUK data dan uid == request.auth.uid.
+     Klien yang dimodifikasi tetap bisa mengirim skor palsu. Rules tetap
+     menolak field tak dikenal, tipe salah, nilai
+     di luar rentang, dan penulisan ulang skor lama. Room multiplayer sengaja
+     dijaga agar hanya host/guest yang berhak mengubah status dan pemenang.
+     Lihat juga players/{uid} dan players/{uid}/gameStats di bawah.
+   ============================================================================= */
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /* =====================================================================
+       HELPER — semua fungsi dideklarasikan di awal agar pasti terlihat.
+       ===================================================================== */
+
+    function isStr(v, minLen, maxLen) {
+      return v is string && v.size() >= minLen && v.size() <= maxLen;
+    }
+    function isInt(v, minVal, maxVal) {
+      return v is int && v >= minVal && v <= maxVal;
+    }
+    function isNum(v, minVal, maxVal) {
+      return v is number && v >= minVal && v <= maxVal;
+    }
+    // Field opsional: boleh tidak ada, null, atau string pendek.
+    function optionalStr(d, key, maxLen) {
+      return !(key in d) || d[key] == null || isStr(d[key], 0, maxLen);
+    }
+
+    function validPlayerName(v) { return isStr(v, 1, 24); }
+    function validAvatar(v)     { return isStr(v, 0, 16); }
+    function validDuelCode(id)  { return id is string && id.matches('^[A-Z0-9]{4,6}$'); }
+    function validTime(v)       { return isNum(v, 0, 9999999999999); }
+    function isSignedIn()       { return request.auth != null; }
+
+    // UID opsional pada rekor lama; bila ada harus milik penulisnya.
+    function optionalUid(d) {
+      return !(('uid' in d)) || (isSignedIn() && d.uid == request.auth.uid);
+    }
+
+    /* ---------- Bentuk data tiap jenis dokumen ---------- */
+
+    function validGame1Record() {
+      return isSignedIn()
+        && validPlayerName(request.resource.data.name)
+        && isNum(request.resource.data.time, 0, 31536000)
+        && isInt(request.resource.data.mistakes, 0, 9999)
+        && validAvatar(request.resource.data.avatar)
+        && optionalStr(request.resource.data, 'bgColor', 32)
+        && optionalUid(request.resource.data)
+        && request.resource.data.keys().hasOnly(['name', 'time', 'mistakes', 'avatar', 'bgColor', 'uid']);
+    }
+
+    // Skor pengetahuan memakai desimal (mis. 7,3) dan bisa minus; jadi isNum.
+    function validKnowledgeRecord() {
+      return isSignedIn()
+        && validPlayerName(request.resource.data.name)
+        && isNum(request.resource.data.score, -100000, 100000)
+        && isInt(request.resource.data.correct, 0, 9999)
+        && isInt(request.resource.data.hints, 0, 9999)
+        && isInt(request.resource.data.burned, 0, 9999)
+        && validAvatar(request.resource.data.avatar)
+        && optionalUid(request.resource.data)
+        && request.resource.data.keys().hasOnly(['name', 'score', 'correct', 'hints', 'burned', 'avatar', 'uid']);
+    }
+
+    function validAdvmathRecord() {
+      return isSignedIn()
+        && validPlayerName(request.resource.data.name)
+        && isNum(request.resource.data.time, 0, 31536000)
+        && isInt(request.resource.data.mistakes, 0, 9999)
+        && isInt(request.resource.data.hints, 0, 9999)
+        && isInt(request.resource.data.burned, 0, 9999)
+        && validAvatar(request.resource.data.avatar)
+        && optionalUid(request.resource.data)
+        && request.resource.data.keys().hasOnly(['name', 'time', 'mistakes', 'hints', 'burned', 'avatar', 'uid']);
+    }
+
+    function validWinDoc() {
+      return isSignedIn()
+        && validPlayerName(request.resource.data.name)
+        && validAvatar(request.resource.data.avatar)
+        && isInt(request.resource.data.wins, 1, 1000000)
+        && validTime(request.resource.data.updatedAt)
+        && optionalUid(request.resource.data)
+        && request.resource.data.keys().hasOnly(['name', 'avatar', 'wins', 'updatedAt', 'uid']);
+    }
+
+    // Data hub per UID: satu dokumen privat berisi preferensi, riwayat,
+    // penanda harian, dan cache papan. Tidak ada field profil di sini.
+    function validHubState() {
+      return isSignedIn()
+        && request.resource.data.uid == request.auth.uid
+        && isInt(request.resource.data.version, 2, 2)
+        && request.resource.data.settings is map
+        && request.resource.data.boards is map
+        && request.resource.data.activity is list
+        && request.resource.data.activity.size() <= 14
+        && isInt(request.resource.data.sessions, 0, 10000000)
+        && request.resource.data.lastPlayed is map
+        && request.resource.data.daily is map
+        && request.resource.data.duelWins is map
+        && request.resource.data.memo is map
+        && request.resource.data.nusantara is map
+        && validTime(request.resource.data.createdAt)
+        && validTime(request.resource.data.updatedAt)
+        && request.resource.data.keys().hasOnly(['uid', 'version', 'createdAt', 'updatedAt', 'settings', 'boards', 'activity', 'sessions', 'lastPlayed', 'daily', 'duelWins', 'memo', 'nusantara']);
+    }
+
+    function validDuelPlayer1(p) {
+      return p is map
+        && isStr(p.uid, 1, 128)
+        && validPlayerName(p.name)
+        && validAvatar(p.avatar)
+        && isInt(p.progress, 0, 999)
+        && isInt(p.mistakes, 0, 999)
+        && isInt(p.correct, 0, 999)
+        && isInt(p.burned, 0, 999)
+        && isInt(p.hints, 0, 999)
+        && isInt(p.penaltySec, 0, 99999)
+        && (p.time == null || isNum(p.time, 0, 31536000))
+        && (p.finishedAt == null || validTime(p.finishedAt))
+        && validTime(p.lastSeen)
+        && p.keys().hasOnly(['uid', 'name', 'avatar', 'progress', 'mistakes', 'correct', 'burned', 'hints', 'penaltySec', 'time', 'finishedAt', 'lastSeen']);
+    }
+
+    function validDuelPlayer2(p) {
+      return p is map
+        && isStr(p.uid, 1, 128)
+        && validPlayerName(p.name)
+        && validAvatar(p.avatar)
+        && isNum(p.score, -100000, 100000)
+        && isInt(p.correct, 0, 9999)
+        && isInt(p.burned, 0, 9999)
+        && isInt(p.hints, 0, 9999)
+        && isInt(p.accuracy, 0, 100)
+        && (p.finishedAt == null || validTime(p.finishedAt))
+        && validTime(p.lastSeen)
+        && p.keys().hasOnly(['uid', 'name', 'avatar', 'score', 'correct', 'burned', 'hints', 'accuracy', 'finishedAt', 'lastSeen']);
+    }
+
+    function validDuelPlayer3(p) {
+      return p is map
+        && isStr(p.uid, 1, 128)
+        && validPlayerName(p.name)
+        && validAvatar(p.avatar)
+        && isInt(p.progress, 0, 999)
+        && isInt(p.mistakes, 0, 999)
+        && isInt(p.correct, 0, 999)
+        && isInt(p.burned, 0, 999)
+        && isInt(p.hints, 0, 999)
+        && isInt(p.penaltySec, 0, 99999)
+        && (p.time == null || isNum(p.time, 0, 31536000))
+        && (p.finishedAt == null || validTime(p.finishedAt))
+        && validTime(p.lastSeen)
+        && p.keys().hasOnly(['uid', 'name', 'avatar', 'progress', 'mistakes', 'correct', 'burned', 'hints', 'penaltySec', 'time', 'finishedAt', 'lastSeen']);
+    }
+
+    function validDuelPlayer4(p) {
+      return p is map
+        && isStr(p.uid, 1, 128)
+        && validPlayerName(p.name)
+        && validAvatar(p.avatar)
+        && isInt(p.progress, 0, 999)
+        && isInt(p.score, 0, 100000000)
+        && isInt(p.correct, 0, 999)
+        && isInt(p.mistakes, 0, 999)
+        && isInt(p.bestCombo, 0, 999)
+        && (p.finishedAt == null || validTime(p.finishedAt))
+        && validTime(p.lastSeen)
+        && p.keys().hasOnly(['uid', 'name', 'avatar', 'progress', 'score', 'correct', 'mistakes', 'bestCombo', 'finishedAt', 'lastSeen']);
+    }
+
+    // Identitas tamu tidak boleh berubah setelah tamu masuk. Saat guest masih
+    // null, penggabungan tamu diatur oleh guestJoinIsLegal() di bawah.
+    function sameGuestIdentity(oldRoom, newRoom) {
+      return oldRoom.guest == null
+        ? true
+        : (newRoom.guest != null
+            && newRoom.guest.name == oldRoom.guest.name
+            && newRoom.guest.avatar == oldRoom.guest.avatar);
+    }
+
+    // Tamu hanya boleh masuk saat room masih menunggu / mulai hitung mundur.
+    function guestJoinIsLegal(oldRoom, newRoom) {
+      return oldRoom.guest != null
+        || newRoom.guest == null
+        || newRoom.status == 'countdown';
+    }
+
+    // Duel online lintas-perangkat hanya untuk profil terdaftar.
+    function roomIsHost(room) {
+      return isSignedIn() && room.host != null && room.host.uid == request.auth.uid;
+    }
+    function roomIsGuest(room) {
+      return isSignedIn() && room.guest != null && room.guest.uid == request.auth.uid;
+    }
+    function roomGuestJoining(oldRoom, newRoom) {
+      return isSignedIn()
+        && oldRoom.guest == null
+        && newRoom.guest != null
+        && newRoom.guest.uid == request.auth.uid
+        && newRoom.status == 'countdown';
+    }
+    function roomSlotRule(oldRoom, newRoom) {
+      return roomGuestJoining(oldRoom, newRoom)
+        || (roomIsHost(oldRoom) && newRoom.guest == oldRoom.guest)
+        || (roomIsGuest(oldRoom) && newRoom.host == oldRoom.host);
+    }
+    function roomControlRule(oldRoom, newRoom, controlKey) {
+      return roomIsGuest(oldRoom) && !roomGuestJoining(oldRoom, newRoom)
+        ? newRoom[controlKey] == oldRoom[controlKey]
+        : true;
+    }
+
+    /* =====================================================================
+       0. PROFIL PEMAIN TERPUSAT
+       Satu dokumen per Firebase Auth UID. Hanya pemiliknya yang boleh
+       membaca atau menulis. UID tidak pernah diambil dari nama tampilan.
+       Rekor tamu sebelum pendaftaran tidak pernah dipindahkan ke profil.
+       ===================================================================== */
+
+    match /players/{uid} {
+      allow get: if isSignedIn() && uid == request.auth.uid;
+      allow list: if false;
+      allow create: if isSignedIn()
+        && uid == request.auth.uid
+        && request.resource.data.uid == request.auth.uid
+        && validPlayerName(request.resource.data.displayName)
+        && validPlayerName(request.resource.data.name)
+        && validAvatar(request.resource.data.avatar)
+        && validTime(request.resource.data.createdAt)
+        && validTime(request.resource.data.updatedAt)
+        && request.resource.data.keys().hasOnly(['uid', 'displayName', 'name', 'avatar', 'createdAt', 'updatedAt']);
+      allow update: if isSignedIn()
+        && uid == request.auth.uid
+        && resource.data.uid == request.auth.uid
+        && request.resource.data.uid == request.auth.uid
+        && validPlayerName(request.resource.data.displayName)
+        && validPlayerName(request.resource.data.name)
+        && validAvatar(request.resource.data.avatar)
+        && request.resource.data.createdAt == resource.data.createdAt
+        && validTime(request.resource.data.updatedAt)
+        && request.resource.data.keys().hasOnly(['uid', 'displayName', 'name', 'avatar', 'createdAt', 'updatedAt']);
+      allow delete: if false;
+
+      // Statistik ringkas per game. Ditulis hanya oleh UID pemiliknya.
+      match /gameStats/{gameId} {
+        allow get: if isSignedIn() && uid == request.auth.uid;
+        allow list: if false;
+        allow create, update: if isSignedIn()
+          && uid == request.auth.uid
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.gameId == gameId
+          && isStr(gameId, 1, 40)
+          && isInt(request.resource.data.lastScore, -1000000, 100000000)
+          && isInt(request.resource.data.bestScore, -1000000, 100000000)
+          && isInt(request.resource.data.plays, 1, 10000000)
+          && request.resource.data.progress is map
+          && request.resource.data.achievements is map
+          && request.resource.data.statistics is map
+          && request.resource.data.lastMeta is map
+          && validTime(request.resource.data.lastPlayedAt)
+          && validTime(request.resource.data.createdAt)
+          && validTime(request.resource.data.updatedAt)
+          && (resource == null || request.resource.data.createdAt == resource.data.createdAt)
+          && request.resource.data.keys().hasOnly(['uid', 'gameId', 'lastScore', 'bestScore', 'plays', 'progress', 'achievements', 'statistics', 'lastMeta', 'lastPlayedAt', 'createdAt', 'updatedAt']);
+        allow delete: if false;
+      }
+    }
+
+    /* =====================================================================
+        0b. DATA USER (menggantikan seluruh localStorage / sessionStorage)
+        Satu dokumen privat per UID. Pemain tamu tidak bisa menulis.
+        ===================================================================== */
+
+    match /user_data/{uid} {
+      allow get: if isSignedIn() && uid == request.auth.uid;
+      allow list: if false;
+      allow create, update: if isSignedIn()
+        && uid == request.auth.uid
+        && validHubState()
+        && (resource == null || resource.data.uid == request.auth.uid)
+        && (resource == null || request.resource.data.createdAt == resource.data.createdAt);
+      allow delete: if isSignedIn() && uid == request.auth.uid;
+    }
+
+    /* =====================================================================
+        1. PAPAN PERINGKAT SOLO
+       Skor hanya boleh DIBUAT, tidak boleh diubah/dihapus. Ini mencegah
+       penulisan ulang skor lama, tetapi tidak mencegah skor palsu baru.
+       ===================================================================== */
+
+    // Game 1 — Perkalian 1–10 (waktu terbaik, urut naik)
+    match /records_10/{docId} { allow read: if true; allow create: if validGame1Record(); allow update, delete: if false; }
+    match /records_20/{docId} { allow read: if true; allow create: if validGame1Record(); allow update, delete: if false; }
+    match /records_30/{docId} { allow read: if true; allow create: if validGame1Record(); allow update, delete: if false; }
+
+    // Game 2 — Pengetahuan Dasar (skor, urut turun)
+    match /knowledge_records/{docId} {
+      allow read: if true;
+      allow create: if validKnowledgeRecord();
+      allow update, delete: if false;
+    }
+
+    // Game 3 — Perkalian Lanjutan (waktu total + penalti, urut naik)
+    match /advmath_records_10/{docId} { allow read: if true; allow create: if validAdvmathRecord(); allow update, delete: if false; }
+    match /advmath_records_20/{docId} { allow read: if true; allow create: if validAdvmathRecord(); allow update, delete: if false; }
+    match /advmath_records_30/{docId} { allow read: if true; allow create: if validAdvmathRecord(); allow update, delete: if false; }
+
+    /* =====================================================================
+       2. PAPAN KEMENANGAN DUEL
+       Satu dokumen per nama (ID = nameToDocId(nama)). Klien memakai
+       FieldValue.increment(1); update diizinkan selama penghitung naik dan
+       identitas tidak berubah.
+       ===================================================================== */
+    match /multiply_duel_wins/{docId} {
+      allow read: if true;
+      allow create: if validWinDoc() && request.resource.data.wins == 1;
+      allow update: if validWinDoc()
+        && request.resource.data.name == resource.data.name
+        && request.resource.data.avatar == resource.data.avatar
+        && request.resource.data.wins > resource.data.wins;
+      allow delete: if false;
+    }
+
+    match /knowledge_duel_wins/{docId} {
+      allow read: if true;
+      allow create: if validWinDoc() && request.resource.data.wins == 1;
+      allow update: if validWinDoc()
+        && request.resource.data.name == resource.data.name
+        && request.resource.data.avatar == resource.data.avatar
+        && request.resource.data.wins > resource.data.wins;
+      allow delete: if false;
+    }
+
+    match /advmath_duel_wins/{docId} {
+      allow read: if true;
+      allow create: if validWinDoc() && request.resource.data.wins == 1;
+      allow update: if validWinDoc()
+        && request.resource.data.name == resource.data.name
+        && request.resource.data.avatar == resource.data.avatar
+        && request.resource.data.wins > resource.data.wins;
+      allow delete: if false;
+    }
+
+    /* =====================================================================
+       3. ROOM MULTIPLAYER 1v1
+       ===================================================================== */
+
+    // Game 1 — Perkalian 1–10
+    match /duels/{code} {
+      allow get: if validDuelCode(code) && isSignedIn();
+      allow create: if validDuelCode(code)
+        && isSignedIn()
+        && request.resource.data.keys().hasOnly(['count', 'questions', 'status', 'createdAt', 'startAtMillis', 'winner', 'rematch', 'host', 'guest'])
+        && request.resource.data.status == 'waiting'
+        && request.resource.data.count in [10, 20, 30]
+        && request.resource.data.questions is list
+        && request.resource.data.questions.size() == request.resource.data.count
+        && validDuelPlayer1(request.resource.data.host)
+        && request.resource.data.host.uid == request.auth.uid
+        && request.resource.data.guest == null
+        && request.resource.data.winner == null
+        && request.resource.data.rematch == null
+        && request.resource.data.startAtMillis == null
+        && validTime(request.resource.data.createdAt);
+      allow update: if validDuelCode(code)
+        && isSignedIn()
+        && roomSlotRule(resource.data, request.resource.data)
+        && request.resource.data.keys().hasOnly(['count', 'questions', 'status', 'createdAt', 'startAtMillis', 'winner', 'rematch', 'host', 'guest'])
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.count == resource.data.count
+        && request.resource.data.questions == resource.data.questions
+        && request.resource.data.status in ['waiting', 'countdown', 'playing', 'finished', 'abandoned']
+        && (request.resource.data.winner == null || request.resource.data.winner in ['host', 'guest', 'draw'])
+        && (request.resource.data.guest == null ? true : validDuelPlayer1(request.resource.data.guest))
+        && request.resource.data.host.uid == resource.data.host.uid
+        && request.resource.data.host.name == resource.data.host.name
+        && request.resource.data.host.avatar == resource.data.host.avatar
+        && sameGuestIdentity(resource.data, request.resource.data)
+        && guestJoinIsLegal(resource.data, request.resource.data)
+        && roomControlRule(resource.data, request.resource.data, 'status')
+        && roomControlRule(resource.data, request.resource.data, 'startAtMillis')
+        && roomControlRule(resource.data, request.resource.data, 'winner')
+        && (request.resource.data.startAtMillis == null || validTime(request.resource.data.startAtMillis));
+      allow delete: if validDuelCode(code) && isSignedIn() && roomIsHost(resource.data)
+        && request.time.toMillis() - resource.data.createdAt > 86400000;
+    }
+
+    // Game 2 — Pengetahuan Dasar (ronde 60 detik, sekuens soal)
+    match /knowledge_duels/{code} {
+      allow get: if validDuelCode(code) && isSignedIn();
+      allow create: if validDuelCode(code)
+        && isSignedIn()
+        && request.resource.data.keys().hasOnly(['status', 'createdAt', 'startAtMillis', 'winner', 'rematch', 'questions', 'host', 'guest'])
+        && request.resource.data.status == 'waiting'
+        && request.resource.data.questions is list
+        && request.resource.data.questions.size() >= 1
+        && request.resource.data.questions.size() <= 120
+        && validDuelPlayer2(request.resource.data.host)
+        && request.resource.data.host.uid == request.auth.uid
+        && request.resource.data.guest == null
+        && request.resource.data.winner == null
+        && request.resource.data.rematch == null
+        && request.resource.data.startAtMillis == null
+        && validTime(request.resource.data.createdAt);
+      allow update: if validDuelCode(code)
+        && isSignedIn()
+        && roomSlotRule(resource.data, request.resource.data)
+        && request.resource.data.keys().hasOnly(['status', 'createdAt', 'startAtMillis', 'winner', 'rematch', 'questions', 'host', 'guest'])
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.status in ['waiting', 'countdown', 'playing', 'finished', 'abandoned']
+        && request.resource.data.questions == resource.data.questions
+        && request.resource.data.questions.size() >= 1
+        && request.resource.data.questions.size() <= 120
+        && (request.resource.data.winner == null || request.resource.data.winner in ['host', 'guest', 'draw'])
+        && (request.resource.data.guest == null ? true : validDuelPlayer2(request.resource.data.guest))
+        && request.resource.data.host.uid == resource.data.host.uid
+        && request.resource.data.host.name == resource.data.host.name
+        && request.resource.data.host.avatar == resource.data.host.avatar
+        && sameGuestIdentity(resource.data, request.resource.data)
+        && guestJoinIsLegal(resource.data, request.resource.data)
+        && roomControlRule(resource.data, request.resource.data, 'status')
+        && roomControlRule(resource.data, request.resource.data, 'startAtMillis')
+        && roomControlRule(resource.data, request.resource.data, 'winner')
+        && (request.resource.data.startAtMillis == null || validTime(request.resource.data.startAtMillis));
+      allow delete: if validDuelCode(code) && isSignedIn() && roomIsHost(resource.data)
+        && request.time.toMillis() - resource.data.createdAt > 86400000;
+    }
+
+    // Game 3 — Perkalian Lanjutan (soal pilihan ganda + waktu)
+    match /advmath_duels/{code} {
+      allow get: if validDuelCode(code) && isSignedIn();
+      allow create: if validDuelCode(code)
+        && isSignedIn()
+        && request.resource.data.keys().hasOnly(['count', 'status', 'createdAt', 'startAtMillis', 'winner', 'rematch', 'questions', 'host', 'guest'])
+        && request.resource.data.status == 'waiting'
+        && request.resource.data.count in [10, 20, 30]
+        && request.resource.data.questions is list
+        && request.resource.data.questions.size() == request.resource.data.count
+        && validDuelPlayer3(request.resource.data.host)
+        && request.resource.data.host.uid == request.auth.uid
+        && request.resource.data.guest == null
+        && request.resource.data.winner == null
+        && request.resource.data.rematch == null
+        && request.resource.data.startAtMillis == null
+        && validTime(request.resource.data.createdAt);
+      allow update: if validDuelCode(code)
+        && isSignedIn()
+        && roomSlotRule(resource.data, request.resource.data)
+        && request.resource.data.keys().hasOnly(['count', 'status', 'createdAt', 'startAtMillis', 'winner', 'rematch', 'questions', 'host', 'guest'])
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.count == resource.data.count
+        && request.resource.data.status in ['waiting', 'countdown', 'playing', 'finished', 'abandoned']
+        && request.resource.data.questions == resource.data.questions
+        && request.resource.data.questions.size() == request.resource.data.count
+        && (request.resource.data.winner == null || request.resource.data.winner in ['host', 'guest', 'draw'])
+        && (request.resource.data.guest == null ? true : validDuelPlayer3(request.resource.data.guest))
+        && request.resource.data.host.uid == resource.data.host.uid
+        && request.resource.data.host.name == resource.data.host.name
+        && request.resource.data.host.avatar == resource.data.host.avatar
+        && sameGuestIdentity(resource.data, request.resource.data)
+        && guestJoinIsLegal(resource.data, request.resource.data)
+        && roomControlRule(resource.data, request.resource.data, 'status')
+        && roomControlRule(resource.data, request.resource.data, 'startAtMillis')
+        && roomControlRule(resource.data, request.resource.data, 'winner')
+        && (request.resource.data.startAtMillis == null || validTime(request.resource.data.startAtMillis));
+      allow delete: if validDuelCode(code) && isSignedIn() && roomIsHost(resource.data)
+        && request.time.toMillis() - resource.data.createdAt > 86400000;
+    }
+
+    /* =====================================================================
+    // Game 4 — Memo Mayhem (ronde deterministik identik di dua perangkat)
+    match /memo_duels/{code} {
+      allow get: if validDuelCode(code) && isSignedIn();
+      allow create: if validDuelCode(code)
+        && isSignedIn()
+        && request.resource.data.keys().hasOnly(['count', 'status', 'createdAt', 'startAtMillis', 'winner', 'rematch', 'questions', 'host', 'guest'])
+        && request.resource.data.status == 'waiting'
+        && request.resource.data.count in [10, 20, 30]
+        && request.resource.data.questions is list
+        && request.resource.data.questions.size() == request.resource.data.count
+        && validDuelPlayer4(request.resource.data.host)
+        && request.resource.data.host.uid == request.auth.uid
+        && request.resource.data.guest == null
+        && request.resource.data.winner == null
+        && request.resource.data.rematch == null
+        && request.resource.data.startAtMillis == null
+        && validTime(request.resource.data.createdAt);
+      allow update: if validDuelCode(code)
+        && isSignedIn()
+        && roomSlotRule(resource.data, request.resource.data)
+        && request.resource.data.keys().hasOnly(['count', 'status', 'createdAt', 'startAtMillis', 'winner', 'rematch', 'questions', 'host', 'guest'])
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.count == resource.data.count
+        && request.resource.data.status in ['waiting', 'countdown', 'playing', 'finished', 'abandoned']
+        && request.resource.data.questions == resource.data.questions
+        && request.resource.data.questions.size() == request.resource.data.count
+        && (request.resource.data.winner == null || request.resource.data.winner in ['host', 'guest', 'draw'])
+        && (request.resource.data.guest == null ? true : validDuelPlayer4(request.resource.data.guest))
+        && request.resource.data.host.uid == resource.data.host.uid
+        && request.resource.data.host.name == resource.data.host.name
+        && request.resource.data.host.avatar == resource.data.host.avatar
+        && sameGuestIdentity(resource.data, request.resource.data)
+        && guestJoinIsLegal(resource.data, request.resource.data)
+        && roomControlRule(resource.data, request.resource.data, 'status')
+        && roomControlRule(resource.data, request.resource.data, 'startAtMillis')
+        && roomControlRule(resource.data, request.resource.data, 'winner')
+        && (request.resource.data.startAtMillis == null || validTime(request.resource.data.startAtMillis));
+      allow delete: if validDuelCode(code) && isSignedIn() && roomIsHost(resource.data)
+        && request.time.toMillis() - resource.data.createdAt > 86400000;
+    }
+
+    /* =====================================================================
+       4. MEMO MAYHEM  (memakai Firebase Auth anonim)
+       Data publik boleh dibaca semua orang; penulisan hanya oleh pemilik
+       yang sedang login (owner == request.auth.uid).
+       ===================================================================== */
+
+    // Kunci nama unik: sekali buat, tidak boleh diubah/dihapus.
+    match /memo_names/{nameKey} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if request.auth != null
+        && request.resource.data.owner == request.auth.uid
+        && isStr(request.resource.data.pid, 3, 40)
+        && isStr(request.resource.data.name, 3, 14)
+        && request.resource.data.keys().hasOnly(['pid', 'owner', 'name', 'createdAt']);
+      allow update, delete: if false;
+    }
+
+    // Profil publik + statistik + pencapaian.
+    match /memo_profiles/{pid} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.owner == request.auth.uid
+        && request.resource.data.v == 1
+        && isStr(request.resource.data.name, 3, 14)
+        && isStr(request.resource.data.nameKey, 3, 14)
+        && isStr(request.resource.data.icon, 1, 16)
+        && isStr(request.resource.data.lastSid, 0, 40)
+        && request.resource.data.st is map
+        && request.resource.data.ach is map
+        && request.resource.data.keys().hasOnly(['v', 'name', 'nameKey', 'owner', 'icon', 'createdAt', 'updatedAt', 'lastSid', 'st', 'ach']);
+      allow update: if request.auth != null
+        && resource.data.owner == request.auth.uid
+        && request.resource.data.owner == request.auth.uid
+        && request.resource.data.v == resource.data.v
+        && request.resource.data.name == resource.data.name
+        && request.resource.data.nameKey == resource.data.nameKey
+        && request.resource.data.createdAt == resource.data.createdAt
+        && isStr(request.resource.data.icon, 1, 16)
+        && isStr(request.resource.data.lastSid, 0, 40)
+        && request.resource.data.st is map
+        && request.resource.data.ach is map;
+      allow delete: if false;
+
+      // Riwayat sesi: 1 sid = 1 dokumen (idempoten), hanya pemilik yang menulis.
+      match /sessions/{sid} {
+        allow read: if request.auth != null
+          && get(/databases/$(database)/documents/memo_profiles/$(pid)).data.owner == request.auth.uid;
+        allow create: if request.auth != null
+          && request.resource.data.owner == request.auth.uid
+          && request.resource.data.pid == pid
+          && isStr(request.resource.data.name, 3, 14)
+          && request.resource.data.score is int
+          && request.resource.data.total is int
+          && request.resource.data.correct is int
+          && request.resource.data.accP is int
+          && request.resource.data.totalMs is int
+          && request.resource.data.keys().hasOnly(['pid', 'owner', 'name', 'type', 'mode', 'diff', 'plannedRounds', 'total', 'correct', 'score', 'accP', 'totalMs', 'bestCombo', 'livesLost', 'maxSeqLen', 'done', 'failed', 'won', 'dateKey', 'bk', 'modesSeen', 'ts']);
+        allow update, delete: if false;
+      }
+    }
+
+    // Papan skor Memo: entries/{pid} = skor terbaik pemilik itu per kategori.
+    match /memo_boards/{boardKey} {
+      allow read: if true;
+      allow create, update, delete: if false;
+      match /entries/{pid} {
+        allow read: if true;
+        allow create, update: if request.auth != null
+          && request.resource.data.owner == request.auth.uid
+          && (resource == null || resource.data.owner == request.auth.uid)
+          && request.resource.data.pid == pid
+          && isStr(request.resource.data.name, 3, 14)
+          && isStr(request.resource.data.icon, 1, 16)
+          && isInt(request.resource.data.score, 1, 1000000)
+          && isInt(request.resource.data.accP, 0, 100000)
+          && isInt(request.resource.data.total, 0, 100000)
+          && isStr(request.resource.data.sid, 1, 40)
+          && optionalUid(request.resource.data)
+          && request.resource.data.keys().hasOnly(['pid', 'owner', 'name', 'icon', 'score', 'accP', 'total', 'sid', 'ts', 'uid'])
+          && (resource == null || request.resource.data.score >= resource.data.score);
+        allow delete: if false;
+      }
+    }
+
+    /* =====================================================================
+       5. NUSANTARA SIRNA  (terikat UID rebuild; aturan main tetap dari ZIP)
+       ===================================================================== */
+
+    // Bukti nama + hash PIN milik satu UID Auth rebuild. Tidak bisa dipakai lintas profil.
+    match /ns_profiles/{uid} {
+      allow read: if isSignedIn() && uid == request.auth.uid;
+      allow create: if isSignedIn()
+        && uid == request.auth.uid
+        && request.resource.data.uid == request.auth.uid
+        && isStr(request.resource.data.key, 1, 16)
+        && isStr(request.resource.data.name, 1, 16)
+        && isStr(request.resource.data.ph, 64, 64)
+        && validTime(request.resource.data.createdAt)
+        && validTime(request.resource.data.updatedAt)
+        && request.resource.data.keys().hasOnly(['uid', 'key', 'name', 'ph', 'createdAt', 'updatedAt']);
+      allow update: if isSignedIn()
+        && uid == request.auth.uid
+        && resource.data.uid == request.auth.uid
+        && request.resource.data.uid == request.auth.uid
+        && isStr(request.resource.data.key, 1, 16)
+        && isStr(request.resource.data.name, 1, 16)
+        && isStr(request.resource.data.ph, 64, 64)
+        && validTime(request.resource.data.updatedAt)
+        && request.resource.data.keys().hasOnly(['uid', 'key', 'name', 'ph', 'createdAt', 'updatedAt']);
+      allow delete: if isSignedIn() && uid == request.auth.uid;
+    }
+
+    // Profil publik: nama, total skor, skor mingguan. TIDAK memuat hash PIN.
+    match /ns_players/{nameKey} {
+      allow read: if true;
+      allow create: if isSignedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.v == 2
+        && !('pinHash' in request.resource.data)
+        && isStr(request.resource.data.name, 1, 16)
+        && request.resource.data.tot is map
+        && request.resource.data.mode is map
+        && request.resource.data.wk is map
+        && validTime(request.resource.data.createdAt)
+        && request.resource.data.keys().hasOnly(['uid', 'v', 'name', 'createdAt', 'tot', 'mode', 'wk']);
+      allow update: if isSignedIn()
+        && resource.data.uid == request.auth.uid
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.name == resource.data.name
+        && !('pinHash' in request.resource.data)
+        && request.resource.data.tot is map
+        && request.resource.data.mode is map
+        && request.resource.data.wk is map
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.keys().hasOnly(['uid', 'v', 'name', 'createdAt', 'tot', 'mode', 'wk']);
+      allow delete: if false;
+    }
+
+    // Rahasia PIN: hanya get (bukan list) agar hash tidak bisa dipanen massal.
+    match /ns_secrets/{nameKey} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if isSignedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.pinHash is string
+        && request.resource.data.pinHash.size() == 64
+        && request.resource.data.salt is string
+        && request.resource.data.salt.size() == 32
+        && isInt(request.resource.data.fails, 0, 5)
+        && validTime(request.resource.data.lockUntil)
+        && request.resource.data.keys().hasOnly(['uid', 'salt', 'pinHash', 'fails', 'lockUntil']);
+      allow update: if isSignedIn()
+        && resource.data.uid == request.auth.uid
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.pinHash == resource.data.pinHash
+        && request.resource.data.salt == resource.data.salt
+        && isInt(request.resource.data.fails, 0, 5)
+        && validTime(request.resource.data.lockUntil)
+        && request.resource.data.keys().hasOnly(['uid', 'salt', 'pinHash', 'fails', 'lockUntil']);
+      allow delete: if false;
+    }
+
+    match /ns_scores/{entryId} {
+      allow read: if true;
+      allow create: if isSignedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.score is int
+        && request.resource.data.score > 0
+        && request.resource.data.round >= 3
+        && request.resource.data.mode in ['solo', 'duel', 'party', 'coop']
+        && isStr(request.resource.data.name, 1, 16)
+        && isStr(request.resource.data.key, 0, 16)
+        && isStr(request.resource.data.matchId, 1, 80)
+        && request.resource.data.keys().hasOnly(['uid', 'name', 'key', 'mode', 'round', 'hp', 'score', 'matchId', 'at']);
+      allow update, delete: if false;
+    }
+
+    match /ns_rooms/{code} {
+      allow read: if code.matches('^[A-Z0-9]{4,6}$');
+      allow create: if code.matches('^[A-Z0-9]{4,6}$')
+        && request.resource.data.keys().hasOnly(['v', 'lobby', 'matchJson', 'round', 'subs', 'pub', 'hb', 'last', 'createdAt'])
+        && request.resource.data.v == 1
+        && request.resource.data.lobby is map
+        && request.resource.data.lobby.mode in ['duel', 'party', 'coop']
+        && request.resource.data.lobby.players is map
+        && request.resource.data.lobby.players.keys().size() >= 1
+        // Duel maksimal 2 pemain; party/coop maksimal 5 (lihat NS.Match.MODES).
+        && request.resource.data.lobby.players.keys().size()
+           <= (request.resource.data.lobby.mode == 'duel' ? 2 : 5)
+        && request.resource.data.hb is map
+        && request.resource.data.matchJson == null
+        && request.resource.data.round == 0
+        && validTime(request.resource.data.createdAt);
+      allow update: if code.matches('^[A-Z0-9]{4,6}$')
+        && request.resource.data.keys().hasOnly(['v', 'lobby', 'matchJson', 'round', 'subs', 'pub', 'hb', 'last', 'createdAt'])
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.lobby.code == resource.data.lobby.code
+        && request.resource.data.lobby.mode == resource.data.lobby.mode
+        && request.resource.data.v == 1
+        && (request.resource.data.matchJson == null || request.resource.data.matchJson.size() < 200000)
+        && request.resource.data.lobby.players.keys().size()
+           <= (request.resource.data.lobby.mode == 'duel' ? 2 : 5);
+      allow delete: if false;
+    }
+
+    /* =====================================================================
+       Sisanya ditolak. Koleksi baru harus ditambahkan eksplisit di atas.
+       ===================================================================== */
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

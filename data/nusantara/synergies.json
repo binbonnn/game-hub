@@ -1,0 +1,494 @@
+{
+ "note": "Efek 'effectsDraft' adalah angka draf yang dipakai prototype: hp/atk/as/regen = pengali persen, damageReduction = pengurangan damage diterima, gold = emas per ronde, enemySlow = perlambatan musuh, amp = penguat semua bonus sinergi lain. 'global' berarti berlaku untuk semua unit, bukan hanya anggota sinergi. Hitung anggota sebagai karakter unik di papan. | F3: effectsText Hyang/Jong/Kar/Tam/Lir disesuaikan dengan mesin (unit diam, HP pulih tiap pupuh); angka tidak berubah kecuali Jong tingkat 3 (+10 mana awal menggantikan pindah posisi).",
+ "synergies": [
+  {
+   "id": "sri",
+   "name": "Sri",
+   "kind": "asal",
+   "formerName": "Mataram Wangsa",
+   "regionOrRole": "Jawa",
+   "nameMeaning": "kemuliaan dan kemakmuran, gelar keraton",
+   "memberCount": 5,
+   "thresholds": [
+    2,
+    3,
+    5
+   ],
+   "effectsText": [
+    "Semua unit mendapat tameng awal 10% HP",
+    "Tameng awal 15% HP dan +15 armor/resist",
+    "Tameng awal 25% HP, +30 armor/resist; tameng +10% bila ada Lir"
+   ],
+   "effectsDraft": [
+    {
+     "hp": 0.1
+    },
+    {
+     "hp": 0.18
+    },
+    {
+     "hp": 0.3
+    }
+   ]
+  },
+  {
+   "id": "hyang",
+   "name": "Hyang",
+   "kind": "asal",
+   "formerName": "Pasundan Parahyangan",
+   "regionOrRole": "Sunda",
+   "nameMeaning": "roh leluhur yang disucikan",
+   "memberCount": 5,
+   "thresholds": [
+    2,
+    3,
+    5
+   ],
+   "effectsText": [
+    "Regenerasi 2% HP maks per detik",
+    "Regenerasi 4% HP/dtk",
+    "Regenerasi 6% HP/dtk"
+   ],
+   "effectsDraft": [
+    {
+     "regen": 0.01
+    },
+    {
+     "regen": 0.02
+    },
+    {
+     "regen": 0.03
+    }
+   ]
+  },
+  {
+   "id": "tau",
+   "name": "Tau",
+   "kind": "asal",
+   "formerName": "Minang Rantau",
+   "regionOrRole": "Minangkabau",
+   "nameMeaning": "suku kata akhir Rantau; perantau pulang membawa pengetahuan",
+   "memberCount": 5,
+   "thresholds": [
+    2,
+    3,
+    5
+   ],
+   "effectsText": [
+    "+1 emas per pupuh",
+    "+2 emas per pupuh; batas bunga +1",
+    "+4 emas per pupuh; batas bunga +2"
+   ],
+   "effectsDraft": [
+    {
+     "gold": 1
+    },
+    {
+     "gold": 2
+    },
+    {
+     "gold": 4
+    }
+   ]
+  },
+  {
+   "id": "hut",
+   "name": "Hut",
+   "kind": "asal",
+   "formerName": "Bonapasogit",
+   "regionOrRole": "Batak",
+   "nameMeaning": "dari huta (kampung)",
+   "memberCount": 5,
+   "thresholds": [
+    2,
+    3,
+    5
+   ],
+   "effectsText": [
+    "Unit gugur meledak: 80% ATK area kecil",
+    "Ledakan 150% ATK",
+    "Ledakan 250% ATK; serangan biasa memercik 20% ke musuh sekitar"
+   ],
+   "effectsDraft": [
+    {
+     "atk": 0.08
+    },
+    {
+     "atk": 0.15
+    },
+    {
+     "atk": 0.25
+    }
+   ]
+  },
+  {
+   "id": "jong",
+   "name": "Jong",
+   "kind": "asal",
+   "formerName": "Pinisi Samudra",
+   "regionOrRole": "Bugis-Makassar",
+   "nameMeaning": "kapal layar besar Nusantara",
+   "memberCount": 5,
+   "thresholds": [
+    2,
+    3,
+    5
+   ],
+   "effectsText": [
+    "+15% kecepatan serang",
+    "+25% kecepatan serang",
+    "+40% kecepatan serang; +10 mana awal"
+   ],
+   "effectsDraft": [
+    {
+     "as": 0.15
+    },
+    {
+     "as": 0.25
+    },
+    {
+     "as": 0.4
+    }
+   ]
+  },
+  {
+   "id": "dwi",
+   "name": "Dwi",
+   "kind": "asal",
+   "formerName": "Dwipa Dewata",
+   "regionOrRole": "Bali",
+   "nameMeaning": "dari dwipa (pulau)",
+   "memberCount": 5,
+   "thresholds": [
+    2,
+    3,
+    5
+   ],
+   "effectsText": [
+    "Efek Warisan lain +60%",
+    "Efek Warisan lain +110%",
+    "Efek Warisan lain +180%; durasi efek +20%"
+   ],
+   "effectsDraft": [
+    {
+     "amp": 0.1
+    },
+    {
+     "amp": 0.2
+    },
+    {
+     "amp": 0.35
+    }
+   ]
+  },
+  {
+   "id": "rim",
+   "name": "Rim",
+   "kind": "asal",
+   "formerName": "Mahakam Rimba",
+   "regionOrRole": "Dayak",
+   "nameMeaning": "dari rimba",
+   "memberCount": 5,
+   "thresholds": [
+    2,
+    3,
+    5
+   ],
+   "effectsText": [
+    "Barisan belakang 10% lebih sulit dibidik; +10% peluang kritis",
+    "16% sulit dibidik; +20% peluang kritis",
+    "22% sulit dibidik; +35% peluang kritis, damage kritis +25%"
+   ],
+   "effectsDraft": [
+    {
+     "atk": 0.1
+    },
+    {
+     "atk": 0.2
+    },
+    {
+     "atk": 0.35
+    }
+   ]
+  },
+  {
+   "id": "kei",
+   "name": "Kei",
+   "kind": "asal",
+   "formerName": "Cakalele Timur",
+   "regionOrRole": "Maluku-Papua",
+   "nameMeaning": "Kepulauan Kei di Maluku",
+   "memberCount": 5,
+   "thresholds": [
+    2,
+    3,
+    5
+   ],
+   "effectsText": [
+    "Unit bersebelahan berbagi 10% tameng",
+    "Berbagi 20% tameng; +6% ATK",
+    "Berbagi 30% tameng; +12% ATK"
+   ],
+   "effectsDraft": [
+    {
+     "atk": 0.05,
+     "hp": 0.05
+    },
+    {
+     "atk": 0.1,
+     "hp": 0.1
+    },
+    {
+     "atk": 0.2,
+     "hp": 0.15
+    }
+   ]
+  },
+  {
+   "id": "mpu",
+   "name": "Mpu",
+   "kind": "laku",
+   "formerName": "Mpu Pusaka",
+   "regionOrRole": "Penyerang jarak dekat",
+   "nameMeaning": "pandai penempa pusaka",
+   "memberCount": 6,
+   "thresholds": [
+    2,
+    3,
+    4
+   ],
+   "effectsText": [
+    "Serangan menembus 20% armor",
+    "Menembus 35% armor; +10% ATK",
+    "Menembus 50% armor; +20% ATK"
+   ],
+   "effectsDraft": [
+    {
+     "atk": 0.1
+    },
+    {
+     "atk": 0.18
+    },
+    {
+     "atk": 0.3
+    }
+   ]
+  },
+  {
+   "id": "lir",
+   "name": "Lir",
+   "kind": "laku",
+   "formerName": "Dalang Wayang",
+   "regionOrRole": "Pengendali",
+   "nameMeaning": "dari kelir, layar wayang",
+   "memberCount": 4,
+   "thresholds": [
+    2,
+    3,
+    4
+   ],
+   "effectsText": [
+    "Tiap 8 dtk satu musuh acak tertahan 1 dtk",
+    "Tiap 8 dtk musuh tertahan 1,5 dtk; satu bayangan membantu",
+    "Tiap 6 dtk musuh tertahan 2 dtk; dua bayangan membantu"
+   ],
+   "effectsDraft": [
+    {
+     "enemySlow": 0.1
+    },
+    {
+     "enemySlow": 0.15
+    },
+    {
+     "enemySlow": 0.25
+    }
+   ]
+  },
+  {
+   "id": "dung",
+   "name": "Dung",
+   "kind": "laku",
+   "formerName": "Tameng Kori",
+   "regionOrRole": "Penahan",
+   "nameMeaning": "dari lindung",
+   "memberCount": 7,
+   "thresholds": [
+    2,
+    3,
+    4
+   ],
+   "effectsText": [
+    "Semua Penahan menerima 20% lebih sedikit damage",
+    "30% lebih sedikit damage",
+    "40% lebih sedikit damage; memantulkan 10% damage"
+   ],
+   "effectsDraft": [
+    {
+     "damageReduction": 0.2
+    },
+    {
+     "damageReduction": 0.3
+    },
+    {
+     "damageReduction": 0.4
+    }
+   ]
+  },
+  {
+   "id": "nah",
+   "name": "Nah",
+   "kind": "laku",
+   "formerName": "Jemparing Sakti",
+   "regionOrRole": "Penyerang jarak jauh",
+   "nameMeaning": "dari panah",
+   "memberCount": 4,
+   "thresholds": [
+    2,
+    3,
+    4
+   ],
+   "effectsText": [
+    "Serangan menembus 1 musuh",
+    "Menembus 2 musuh; +10% ATK",
+    "Menembus 3 musuh; +20% ATK"
+   ],
+   "effectsDraft": [
+    {
+     "atk": 0.1
+    },
+    {
+     "atk": 0.18
+    },
+    {
+     "atk": 0.3
+    }
+   ]
+  },
+  {
+   "id": "tam",
+   "name": "Tam",
+   "kind": "laku",
+   "formerName": "Tabib Jamu",
+   "regionOrRole": "Penyembuh",
+   "nameMeaning": "dari tamba, obat dan ramuan",
+   "memberCount": 4,
+   "thresholds": [
+    2,
+    3,
+    4
+   ],
+   "effectsText": [
+    "Penyembuhan +40%",
+    "Penyembuhan +65%; skill penyembuh membersihkan tahanan (CC)",
+    "Penyembuhan +100%; sekutu kebal tahanan (CC) 2 dtk di awal pupuh"
+   ],
+   "effectsDraft": [
+    {
+     "regen": 0.01,
+     "global": true
+    },
+    {
+     "regen": 0.02,
+     "global": true
+    },
+    {
+     "regen": 0.03,
+     "global": true
+    }
+   ]
+  },
+  {
+   "id": "wang",
+   "name": "Wang",
+   "kind": "laku",
+   "formerName": "Pawang Gaib",
+   "regionOrRole": "Penyihir",
+   "nameMeaning": "dari pawang",
+   "memberCount": 5,
+   "thresholds": [
+    2,
+    3,
+    4
+   ],
+   "effectsText": [
+    "Sihir mengenai area kecil; musuh terkena -10 resist",
+    "Area lebih besar; -20 resist",
+    "Area besar; -30 resist; +15% damage sihir"
+   ],
+   "effectsDraft": [
+    {
+     "atk": 0.1
+    },
+    {
+     "atk": 0.18
+    },
+    {
+     "atk": 0.3
+    }
+   ]
+  },
+  {
+   "id": "kar",
+   "name": "Kar",
+   "kind": "laku",
+   "formerName": "Pendekar Silat",
+   "regionOrRole": "Penyerang cepat",
+   "nameMeaning": "dari pendekar",
+   "memberCount": 6,
+   "thresholds": [
+    2,
+    3,
+    4
+   ],
+   "effectsText": [
+    "+20% kecepatan serang; menyerang musuh paling belakang dalam jangkauan",
+    "+35% kecepatan serang",
+    "+50% kecepatan serang; langsung membunuh musuh di bawah 15% HP"
+   ],
+   "effectsDraft": [
+    {
+     "as": 0.2
+    },
+    {
+     "as": 0.35
+    },
+    {
+     "as": 0.5
+    }
+   ]
+  },
+  {
+   "id": "gong",
+   "name": "Gong",
+   "kind": "laku",
+   "formerName": "Laras Gamelan",
+   "regionOrRole": "Pendukung",
+   "nameMeaning": "pusat irama gamelan",
+   "memberCount": 4,
+   "thresholds": [
+    2,
+    3,
+    4
+   ],
+   "effectsText": [
+    "Aura: +10% kecepatan serang sekutu",
+    "+20% kecepatan serang; +10 mana awal",
+    "+30% kecepatan serang; +20 mana awal"
+   ],
+   "effectsDraft": [
+    {
+     "as": 0.1,
+     "global": true
+    },
+    {
+     "as": 0.2,
+     "global": true
+    },
+    {
+     "as": 0.3,
+     "global": true
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,2993 @@
+{
+ "note": "Arena dipilih acak tiap Play, sama untuk semua pemain dalam satu room. pathOrder = urutan sel jalur dari S ke E (1-indexed [baris, kolom]). coverageN = jumlah sel jalur dalam jarak kotak (Chebyshev) <= N dari petak unit tersebut. enemyHpMultiplier menyeimbangkan arena (0,80-1,20).",
+ "arenas": [
+  {
+   "id": "pelataran-keraton-wirasana",
+   "name": "Pelataran Keraton Wirasana",
+   "region": "Jawa",
+   "pathShape": "Tiga lintasan datar berkelok",
+   "environmentEffectDraft": "Petak tengah memberi bonus serangan",
+   "description": "Halaman keraton tempat pusaka pertama dititipkan.",
+   "affinityCommander": "Sen",
+   "supportingAsal": "Sri",
+   "portalS": [
+    2,
+    1
+   ],
+   "commanderE": [
+    6,
+    9
+   ],
+   "grid": {
+    "rows": 7,
+    "cols": 9,
+    "unitTiles": 24,
+    "pathCells": 25
+   },
+   "layout": [
+    ".UUUUUU..",
+    "SJJJJJJJ.",
+    "UUUUUUUJU",
+    ".JJJJJJJ.",
+    "UJUUUUUUU",
+    ".JJJJJJJE",
+    "..UU....."
+   ],
+   "layoutLegend": "S=Lawang Sunyi (awal jalur), E=Senapati (akhir jalur), J=jalur, U=petak unit, titik=kosong. Baris 1..7 dari atas, kolom 1..9 dari kiri.",
+   "pathOrder": [
+    [
+     2,
+     1
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     2,
+     3
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     2,
+     5
+    ],
+    [
+     2,
+     6
+    ],
+    [
+     2,
+     7
+    ],
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     8
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     4,
+     7
+    ],
+    [
+     4,
+     6
+    ],
+    [
+     4,
+     5
+    ],
+    [
+     4,
+     4
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     5,
+     2
+    ],
+    [
+     6,
+     2
+    ],
+    [
+     6,
+     3
+    ],
+    [
+     6,
+     4
+    ],
+    [
+     6,
+     5
+    ],
+    [
+     6,
+     6
+    ],
+    [
+     6,
+     7
+    ],
+    [
+     6,
+     8
+    ],
+    [
+     6,
+     9
+    ]
+   ],
+   "unitTileCoverage": [
+    {
+     "row": 1,
+     "col": 2,
+     "coverage1": 3,
+     "coverage2": 4,
+     "coverage3": 9,
+     "coverage4": 12
+    },
+    {
+     "row": 1,
+     "col": 3,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 11,
+     "coverage4": 14
+    },
+    {
+     "row": 1,
+     "col": 4,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 13,
+     "coverage4": 17
+    },
+    {
+     "row": 1,
+     "col": 5,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 15,
+     "coverage4": 17
+    },
+    {
+     "row": 1,
+     "col": 6,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 13,
+     "coverage4": 16
+    },
+    {
+     "row": 1,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 11,
+     "coverage4": 13
+    },
+    {
+     "row": 3,
+     "col": 1,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 11,
+     "coverage4": 14
+    },
+    {
+     "row": 3,
+     "col": 2,
+     "coverage1": 5,
+     "coverage2": 8,
+     "coverage3": 14,
+     "coverage4": 17
+    },
+    {
+     "row": 3,
+     "col": 3,
+     "coverage1": 6,
+     "coverage2": 10,
+     "coverage3": 17,
+     "coverage4": 20
+    },
+    {
+     "row": 3,
+     "col": 4,
+     "coverage1": 6,
+     "coverage2": 11,
+     "coverage3": 20,
+     "coverage4": 24
+    },
+    {
+     "row": 3,
+     "col": 5,
+     "coverage1": 6,
+     "coverage2": 10,
+     "coverage3": 23,
+     "coverage4": 25
+    },
+    {
+     "row": 3,
+     "col": 6,
+     "coverage1": 6,
+     "coverage2": 11,
+     "coverage3": 20,
+     "coverage4": 24
+    },
+    {
+     "row": 3,
+     "col": 7,
+     "coverage1": 7,
+     "coverage2": 9,
+     "coverage3": 17,
+     "coverage4": 20
+    },
+    {
+     "row": 3,
+     "col": 9,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 11,
+     "coverage4": 14
+    },
+    {
+     "row": 5,
+     "col": 1,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 11,
+     "coverage4": 14
+    },
+    {
+     "row": 5,
+     "col": 3,
+     "coverage1": 7,
+     "coverage2": 9,
+     "coverage3": 17,
+     "coverage4": 20
+    },
+    {
+     "row": 5,
+     "col": 4,
+     "coverage1": 6,
+     "coverage2": 11,
+     "coverage3": 20,
+     "coverage4": 24
+    },
+    {
+     "row": 5,
+     "col": 5,
+     "coverage1": 6,
+     "coverage2": 10,
+     "coverage3": 23,
+     "coverage4": 25
+    },
+    {
+     "row": 5,
+     "col": 6,
+     "coverage1": 6,
+     "coverage2": 11,
+     "coverage3": 20,
+     "coverage4": 24
+    },
+    {
+     "row": 5,
+     "col": 7,
+     "coverage1": 6,
+     "coverage2": 10,
+     "coverage3": 17,
+     "coverage4": 20
+    },
+    {
+     "row": 5,
+     "col": 8,
+     "coverage1": 5,
+     "coverage2": 8,
+     "coverage3": 14,
+     "coverage4": 17
+    },
+    {
+     "row": 5,
+     "col": 9,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 11,
+     "coverage4": 14
+    },
+    {
+     "row": 7,
+     "col": 3,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 11,
+     "coverage4": 13
+    },
+    {
+     "row": 7,
+     "col": 4,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 13,
+     "coverage4": 16
+    }
+   ],
+   "balanceIndex": 1.121,
+   "enemyHpMultiplier": 1.12
+  },
+  {
+   "id": "kawah-putri-sanghyang",
+   "name": "Kawah Putri Sanghyang",
+   "region": "Sunda",
+   "pathShape": "Spiral ke dalam menuju pusat kawah",
+   "environmentEffectDraft": "Uap kawah memperlambat musuh berkala",
+   "description": "Kawah yang konon menyimpan tangis sang putri.",
+   "affinityCommander": "Yung",
+   "supportingAsal": "Hyang",
+   "portalS": [
+    1,
+    1
+   ],
+   "commanderE": [
+    3,
+    3
+   ],
+   "grid": {
+    "rows": 7,
+    "cols": 9,
+    "unitTiles": 24,
+    "pathCells": 25
+   },
+   "layout": [
+    "SJJJJJJJJ",
+    "UUUUUUUUJ",
+    ".UEU...UJ",
+    ".UJU...UJ",
+    ".UJU...UJ",
+    ".UJUUUUUJ",
+    ".UJJJJJJJ"
+   ],
+   "layoutLegend": "S=Lawang Sunyi (awal jalur), E=Senapati (akhir jalur), J=jalur, U=petak unit, titik=kosong. Baris 1..7 dari atas, kolom 1..9 dari kiri.",
+   "pathOrder": [
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     1,
+     3
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     7
+    ],
+    [
+     1,
+     8
+    ],
+    [
+     1,
+     9
+    ],
+    [
+     2,
+     9
+    ],
+    [
+     3,
+     9
+    ],
+    [
+     4,
+     9
+    ],
+    [
+     5,
+     9
+    ],
+    [
+     6,
+     9
+    ],
+    [
+     7,
+     9
+    ],
+    [
+     7,
+     8
+    ],
+    [
+     7,
+     7
+    ],
+    [
+     7,
+     6
+    ],
+    [
+     7,
+     5
+    ],
+    [
+     7,
+     4
+    ],
+    [
+     7,
+     3
+    ],
+    [
+     6,
+     3
+    ],
+    [
+     5,
+     3
+    ],
+    [
+     4,
+     3
+    ],
+    [
+     3,
+     3
+    ]
+   ],
+   "unitTileCoverage": [
+    {
+     "row": 2,
+     "col": 1,
+     "coverage1": 2,
+     "coverage2": 5,
+     "coverage3": 7,
+     "coverage4": 9
+    },
+    {
+     "row": 2,
+     "col": 2,
+     "coverage1": 4,
+     "coverage2": 6,
+     "coverage3": 8,
+     "coverage4": 10
+    },
+    {
+     "row": 2,
+     "col": 3,
+     "coverage1": 4,
+     "coverage2": 7,
+     "coverage3": 9,
+     "coverage4": 11
+    },
+    {
+     "row": 2,
+     "col": 4,
+     "coverage1": 4,
+     "coverage2": 7,
+     "coverage3": 10,
+     "coverage4": 12
+    },
+    {
+     "row": 2,
+     "col": 5,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 10,
+     "coverage4": 18
+    },
+    {
+     "row": 2,
+     "col": 6,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 14,
+     "coverage4": 17
+    },
+    {
+     "row": 2,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 10,
+     "coverage4": 16
+    },
+    {
+     "row": 2,
+     "col": 8,
+     "coverage1": 5,
+     "coverage2": 7,
+     "coverage3": 9,
+     "coverage4": 11
+    },
+    {
+     "row": 3,
+     "col": 2,
+     "coverage1": 2,
+     "coverage2": 7,
+     "coverage3": 9,
+     "coverage4": 14
+    },
+    {
+     "row": 3,
+     "col": 4,
+     "coverage1": 2,
+     "coverage2": 8,
+     "coverage3": 11,
+     "coverage4": 18
+    },
+    {
+     "row": 3,
+     "col": 8,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 10,
+     "coverage4": 17
+    },
+    {
+     "row": 4,
+     "col": 2,
+     "coverage1": 3,
+     "coverage2": 4,
+     "coverage3": 12,
+     "coverage4": 14
+    },
+    {
+     "row": 4,
+     "col": 4,
+     "coverage1": 3,
+     "coverage2": 4,
+     "coverage3": 16,
+     "coverage4": 18
+    },
+    {
+     "row": 4,
+     "col": 8,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 15,
+     "coverage4": 17
+    },
+    {
+     "row": 5,
+     "col": 2,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 7,
+     "coverage4": 14
+    },
+    {
+     "row": 5,
+     "col": 4,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 9,
+     "coverage4": 18
+    },
+    {
+     "row": 5,
+     "col": 8,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 10,
+     "coverage4": 17
+    },
+    {
+     "row": 6,
+     "col": 2,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 7,
+     "coverage4": 8
+    },
+    {
+     "row": 6,
+     "col": 4,
+     "coverage1": 5,
+     "coverage2": 7,
+     "coverage3": 9,
+     "coverage4": 10
+    },
+    {
+     "row": 6,
+     "col": 5,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 10,
+     "coverage4": 16
+    },
+    {
+     "row": 6,
+     "col": 6,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 15,
+     "coverage4": 16
+    },
+    {
+     "row": 6,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 10,
+     "coverage4": 16
+    },
+    {
+     "row": 6,
+     "col": 8,
+     "coverage1": 5,
+     "coverage2": 7,
+     "coverage3": 9,
+     "coverage4": 11
+    },
+    {
+     "row": 7,
+     "col": 2,
+     "coverage1": 2,
+     "coverage2": 4,
+     "coverage3": 6,
+     "coverage4": 8
+    }
+   ],
+   "balanceIndex": 0.779,
+   "enemyHpMultiplier": 0.8
+  },
+  {
+   "id": "ngarai-silang-bajanjang",
+   "name": "Ngarai Silang Bajanjang",
+   "region": "Minangkabau",
+   "pathShape": "Tiga lorong vertikal sempit",
+   "environmentEffectDraft": "Tebing membatasi gerak melompat",
+   "description": "Ngarai bertangga tempat para pendekar berlatih silek.",
+   "affinityCommander": "Tuk",
+   "supportingAsal": "Tau",
+   "portalS": [
+    1,
+    2
+   ],
+   "commanderE": [
+    7,
+    8
+   ],
+   "grid": {
+    "rows": 7,
+    "cols": 9,
+    "unitTiles": 24,
+    "pathCells": 25
+   },
+   "layout": [
+    "USUJJJU..",
+    "UJUJUJU..",
+    "UJUJUJU..",
+    "UJUJUJU..",
+    "UJUJUJU..",
+    "UJUJUJU..",
+    ".JJJUJJE."
+   ],
+   "layoutLegend": "S=Lawang Sunyi (awal jalur), E=Senapati (akhir jalur), J=jalur, U=petak unit, titik=kosong. Baris 1..7 dari atas, kolom 1..9 dari kiri.",
+   "pathOrder": [
+    [
+     1,
+     2
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     5,
+     2
+    ],
+    [
+     6,
+     2
+    ],
+    [
+     7,
+     2
+    ],
+    [
+     7,
+     3
+    ],
+    [
+     7,
+     4
+    ],
+    [
+     6,
+     4
+    ],
+    [
+     5,
+     4
+    ],
+    [
+     4,
+     4
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     2,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     4,
+     6
+    ],
+    [
+     5,
+     6
+    ],
+    [
+     6,
+     6
+    ],
+    [
+     7,
+     6
+    ],
+    [
+     7,
+     7
+    ],
+    [
+     7,
+     8
+    ]
+   ],
+   "unitTileCoverage": [
+    {
+     "row": 1,
+     "col": 1,
+     "coverage1": 2,
+     "coverage2": 3,
+     "coverage3": 8,
+     "coverage4": 11
+    },
+    {
+     "row": 1,
+     "col": 3,
+     "coverage1": 4,
+     "coverage2": 7,
+     "coverage3": 13,
+     "coverage4": 16
+    },
+    {
+     "row": 1,
+     "col": 7,
+     "coverage1": 2,
+     "coverage2": 4,
+     "coverage3": 9,
+     "coverage4": 11
+    },
+    {
+     "row": 2,
+     "col": 1,
+     "coverage1": 3,
+     "coverage2": 4,
+     "coverage3": 10,
+     "coverage4": 13
+    },
+    {
+     "row": 2,
+     "col": 3,
+     "coverage1": 6,
+     "coverage2": 9,
+     "coverage3": 16,
+     "coverage4": 19
+    },
+    {
+     "row": 2,
+     "col": 5,
+     "coverage1": 7,
+     "coverage2": 9,
+     "coverage3": 16,
+     "coverage4": 19
+    },
+    {
+     "row": 2,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 11,
+     "coverage4": 13
+    },
+    {
+     "row": 3,
+     "col": 1,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 12,
+     "coverage4": 16
+    },
+    {
+     "row": 3,
+     "col": 3,
+     "coverage1": 6,
+     "coverage2": 11,
+     "coverage3": 19,
+     "coverage4": 24
+    },
+    {
+     "row": 3,
+     "col": 5,
+     "coverage1": 6,
+     "coverage2": 11,
+     "coverage3": 19,
+     "coverage4": 25
+    },
+    {
+     "row": 3,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 13,
+     "coverage4": 18
+    },
+    {
+     "row": 4,
+     "col": 1,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 15,
+     "coverage4": 16
+    },
+    {
+     "row": 4,
+     "col": 3,
+     "coverage1": 6,
+     "coverage2": 10,
+     "coverage3": 23,
+     "coverage4": 24
+    },
+    {
+     "row": 4,
+     "col": 5,
+     "coverage1": 6,
+     "coverage2": 10,
+     "coverage3": 25,
+     "coverage4": 25
+    },
+    {
+     "row": 4,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 17,
+     "coverage4": 18
+    },
+    {
+     "row": 5,
+     "col": 1,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 13,
+     "coverage4": 16
+    },
+    {
+     "row": 5,
+     "col": 3,
+     "coverage1": 6,
+     "coverage2": 11,
+     "coverage3": 19,
+     "coverage4": 24
+    },
+    {
+     "row": 5,
+     "col": 5,
+     "coverage1": 6,
+     "coverage2": 12,
+     "coverage3": 21,
+     "coverage4": 25
+    },
+    {
+     "row": 5,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 14,
+     "coverage4": 18
+    },
+    {
+     "row": 6,
+     "col": 1,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 11,
+     "coverage4": 13
+    },
+    {
+     "row": 6,
+     "col": 3,
+     "coverage1": 7,
+     "coverage2": 9,
+     "coverage3": 16,
+     "coverage4": 20
+    },
+    {
+     "row": 6,
+     "col": 5,
+     "coverage1": 6,
+     "coverage2": 10,
+     "coverage3": 18,
+     "coverage4": 21
+    },
+    {
+     "row": 6,
+     "col": 7,
+     "coverage1": 5,
+     "coverage2": 6,
+     "coverage3": 12,
+     "coverage4": 15
+    },
+    {
+     "row": 7,
+     "col": 5,
+     "coverage1": 4,
+     "coverage2": 8,
+     "coverage3": 15,
+     "coverage4": 18
+    }
+   ],
+   "balanceIndex": 1.132,
+   "enemyHpMultiplier": 1.13
+  },
+  {
+   "id": "kaldera-toba-purba",
+   "name": "Kaldera Toba Purba",
+   "region": "Batak",
+   "pathShape": "Melingkar mengelilingi danau",
+   "environmentEffectDraft": "Gempa kecil menggeser sebagian petak",
+   "description": "Kaldera tempat bumi pertama diciptakan.",
+   "affinityCommander": "Hat",
+   "supportingAsal": "Hut",
+   "portalS": [
+    1,
+    2
+   ],
+   "commanderE": [
+    5,
+    2
+   ],
+   "grid": {
+    "rows": 7,
+    "cols": 9,
+    "unitTiles": 24,
+    "pathCells": 25
+   },
+   "layout": [
+    "JSUUUUU..",
+    "JJJJJJJJ.",
+    "JJUUUUUJU",
+    "JJU...UJU",
+    "UEUUUUUJU",
+    ".JJJJJJJ.",
+    "..UUU...."
+   ],
+   "layoutLegend": "S=Lawang Sunyi (awal jalur), E=Senapati (akhir jalur), J=jalur, U=petak unit, titik=kosong. Baris 1..7 dari atas, kolom 1..9 dari kiri.",
+   "pathOrder": [
+    [
+     1,
+     2
+    ],
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     2,
+     3
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     2,
+     5
+    ],
+    [
+     2,
+     6
+    ],
+    [
+     2,
+     7
+    ],
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     8
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     5,
+     8
+    ],
+    [
+     6,
+     8
+    ],
+    [
+     6,
+     7
+    ],
+    [
+     6,
+     6
+    ],
+    [
+     6,
+     5
+    ],
+    [
+     6,
+     4
+    ],
+    [
+     6,
+     3
+    ],
+    [
+     6,
+     2
+    ],
+    [
+     5,
+     2
+    ]
+   ],
+   "unitTileCoverage": [
+    {
+     "row": 1,
+     "col": 3,
+     "coverage1": 4,
+     "coverage2": 9,
+     "coverage3": 12,
+     "coverage4": 14
+    },
+    {
+     "row": 1,
+     "col": 4,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 13,
+     "coverage4": 18
+    },
+    {
+     "row": 1,
+     "col": 5,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 12,
+     "coverage4": 18
+    },
+    {
+     "row": 1,
+     "col": 6,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 8,
+     "coverage4": 14
+    },
+    {
+     "row": 1,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 7,
+     "coverage4": 9
+    },
+    {
+     "row": 3,
+     "col": 3,
+     "coverage1": 5,
+     "coverage2": 12,
+     "coverage3": 18,
+     "coverage4": 20
+    },
+    {
+     "row": 3,
+     "col": 4,
+     "coverage1": 3,
+     "coverage2": 9,
+     "coverage3": 20,
+     "coverage4": 25
+    },
+    {
+     "row": 3,
+     "col": 5,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 21,
+     "coverage4": 25
+    },
+    {
+     "row": 3,
+     "col": 6,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 15,
+     "coverage4": 21
+    },
+    {
+     "row": 3,
+     "col": 7,
+     "coverage1": 5,
+     "coverage2": 7,
+     "coverage3": 13,
+     "coverage4": 15
+    },
+    {
+     "row": 3,
+     "col": 9,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 9,
+     "coverage4": 11
+    },
+    {
+     "row": 4,
+     "col": 3,
+     "coverage1": 3,
+     "coverage2": 14,
+     "coverage3": 18,
+     "coverage4": 20
+    },
+    {
+     "row": 4,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 11,
+     "coverage3": 13,
+     "coverage4": 15
+    },
+    {
+     "row": 4,
+     "col": 9,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 9,
+     "coverage4": 11
+    },
+    {
+     "row": 5,
+     "col": 1,
+     "coverage1": 4,
+     "coverage2": 7,
+     "coverage3": 12,
+     "coverage4": 16
+    },
+    {
+     "row": 5,
+     "col": 3,
+     "coverage1": 5,
+     "coverage2": 9,
+     "coverage3": 16,
+     "coverage4": 20
+    },
+    {
+     "row": 5,
+     "col": 4,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 18,
+     "coverage4": 25
+    },
+    {
+     "row": 5,
+     "col": 5,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 20,
+     "coverage4": 25
+    },
+    {
+     "row": 5,
+     "col": 6,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 15,
+     "coverage4": 21
+    },
+    {
+     "row": 5,
+     "col": 7,
+     "coverage1": 5,
+     "coverage2": 7,
+     "coverage3": 13,
+     "coverage4": 15
+    },
+    {
+     "row": 5,
+     "col": 9,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 9,
+     "coverage4": 11
+    },
+    {
+     "row": 7,
+     "col": 3,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 8,
+     "coverage4": 11
+    },
+    {
+     "row": 7,
+     "col": 4,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 9,
+     "coverage4": 15
+    },
+    {
+     "row": 7,
+     "col": 5,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 11,
+     "coverage4": 15
+    }
+   ],
+   "balanceIndex": 0.928,
+   "enemyHpMultiplier": 0.93
+  },
+  {
+   "id": "dermaga-tallo-apung",
+   "name": "Dermaga Tallo Apung",
+   "region": "Bugis-Makassar",
+   "pathShape": "Tepi kiri, dermaga bawah, naik ke pier",
+   "environmentEffectDraft": "Pasang surut mempercepat dan memperlambat musuh bergantian",
+   "description": "Dermaga terapung tempat pinisi diberangkatkan.",
+   "affinityCommander": "Deng",
+   "supportingAsal": "Jong",
+   "portalS": [
+    1,
+    1
+   ],
+   "commanderE": [
+    7,
+    9
+   ],
+   "grid": {
+    "rows": 7,
+    "cols": 9,
+    "unitTiles": 24,
+    "pathCells": 25
+   },
+   "layout": [
+    "SU...UU..",
+    "JU..JJJJ.",
+    "JU.UJUUJU",
+    "JU.UJUUJU",
+    "JU.UJUUJU",
+    "JUUUJU.JJ",
+    "JJJJJ..UE"
+   ],
+   "layoutLegend": "S=Lawang Sunyi (awal jalur), E=Senapati (akhir jalur), J=jalur, U=petak unit, titik=kosong. Baris 1..7 dari atas, kolom 1..9 dari kiri.",
+   "pathOrder": [
+    [
+     1,
+     1
+    ],
+    [
+     2,
+     1
+    ],
+    [
+     3,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     5,
+     1
+    ],
+    [
+     6,
+     1
+    ],
+    [
+     7,
+     1
+    ],
+    [
+     7,
+     2
+    ],
+    [
+     7,
+     3
+    ],
+    [
+     7,
+     4
+    ],
+    [
+     7,
+     5
+    ],
+    [
+     6,
+     5
+    ],
+    [
+     5,
+     5
+    ],
+    [
+     4,
+     5
+    ],
+    [
+     3,
+     5
+    ],
+    [
+     2,
+     5
+    ],
+    [
+     2,
+     6
+    ],
+    [
+     2,
+     7
+    ],
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     8
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     5,
+     8
+    ],
+    [
+     6,
+     8
+    ],
+    [
+     6,
+     9
+    ],
+    [
+     7,
+     9
+    ]
+   ],
+   "unitTileCoverage": [
+    {
+     "row": 1,
+     "col": 2,
+     "coverage1": 2,
+     "coverage2": 3,
+     "coverage3": 7,
+     "coverage4": 10
+    },
+    {
+     "row": 1,
+     "col": 6,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 8,
+     "coverage4": 10
+    },
+    {
+     "row": 1,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 8,
+     "coverage4": 10
+    },
+    {
+     "row": 2,
+     "col": 2,
+     "coverage1": 3,
+     "coverage2": 4,
+     "coverage3": 9,
+     "coverage4": 12
+    },
+    {
+     "row": 3,
+     "col": 2,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 11,
+     "coverage4": 17
+    },
+    {
+     "row": 3,
+     "col": 4,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 13,
+     "coverage4": 23
+    },
+    {
+     "row": 3,
+     "col": 6,
+     "coverage1": 5,
+     "coverage2": 10,
+     "coverage3": 13,
+     "coverage4": 18
+    },
+    {
+     "row": 3,
+     "col": 7,
+     "coverage1": 5,
+     "coverage2": 10,
+     "coverage3": 13,
+     "coverage4": 17
+    },
+    {
+     "row": 3,
+     "col": 9,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 8,
+     "coverage4": 15
+    },
+    {
+     "row": 4,
+     "col": 2,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 16,
+     "coverage4": 17
+    },
+    {
+     "row": 4,
+     "col": 4,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 18,
+     "coverage4": 23
+    },
+    {
+     "row": 4,
+     "col": 6,
+     "coverage1": 3,
+     "coverage2": 12,
+     "coverage3": 17,
+     "coverage4": 18
+    },
+    {
+     "row": 4,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 13,
+     "coverage3": 16,
+     "coverage4": 17
+    },
+    {
+     "row": 4,
+     "col": 9,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 9,
+     "coverage4": 15
+    },
+    {
+     "row": 5,
+     "col": 2,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 15,
+     "coverage4": 17
+    },
+    {
+     "row": 5,
+     "col": 4,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 17,
+     "coverage4": 23
+    },
+    {
+     "row": 5,
+     "col": 6,
+     "coverage1": 3,
+     "coverage2": 10,
+     "coverage3": 17,
+     "coverage4": 18
+    },
+    {
+     "row": 5,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 11,
+     "coverage3": 16,
+     "coverage4": 17
+    },
+    {
+     "row": 5,
+     "col": 9,
+     "coverage1": 4,
+     "coverage2": 6,
+     "coverage3": 9,
+     "coverage4": 15
+    },
+    {
+     "row": 6,
+     "col": 2,
+     "coverage1": 5,
+     "coverage2": 7,
+     "coverage3": 13,
+     "coverage4": 16
+    },
+    {
+     "row": 6,
+     "col": 3,
+     "coverage1": 3,
+     "coverage2": 11,
+     "coverage3": 13,
+     "coverage4": 17
+    },
+    {
+     "row": 6,
+     "col": 4,
+     "coverage1": 5,
+     "coverage2": 7,
+     "coverage3": 13,
+     "coverage4": 22
+    },
+    {
+     "row": 6,
+     "col": 6,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 13,
+     "coverage4": 18
+    },
+    {
+     "row": 7,
+     "col": 8,
+     "coverage1": 3,
+     "coverage2": 4,
+     "coverage3": 9,
+     "coverage4": 12
+    }
+   ],
+   "balanceIndex": 0.874,
+   "enemyHpMultiplier": 0.87
+  },
+  {
+   "id": "pura-segara-tirta-langit",
+   "name": "Pura Segara Tirta Langit",
+   "region": "Bali",
+   "pathShape": "Tangga diagonal lalu naik tepi kanan",
+   "environmentEffectDraft": "Air suci menyembuhkan unit di petak tertentu",
+   "description": "Pura di tepi laut yang menghadap langit.",
+   "affinityCommander": "Jro",
+   "supportingAsal": "Dwi",
+   "portalS": [
+    1,
+    1
+   ],
+   "commanderE": [
+    1,
+    5
+   ],
+   "grid": {
+    "rows": 7,
+    "cols": 9,
+    "unitTiles": 24,
+    "pathCells": 25
+   },
+   "layout": [
+    "SJUUEJJJJ",
+    "UJJUUUUUJ",
+    "UUJJUU.UJ",
+    ".UUJJUUUJ",
+    "...UJJUUJ",
+    "....UJJUJ",
+    ".....UJJJ"
+   ],
+   "layoutLegend": "S=Lawang Sunyi (awal jalur), E=Senapati (akhir jalur), J=jalur, U=petak unit, titik=kosong. Baris 1..7 dari atas, kolom 1..9 dari kiri.",
+   "pathOrder": [
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     2,
+     3
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     4,
+     4
+    ],
+    [
+     4,
+     5
+    ],
+    [
+     5,
+     5
+    ],
+    [
+     5,
+     6
+    ],
+    [
+     6,
+     6
+    ],
+    [
+     6,
+     7
+    ],
+    [
+     7,
+     7
+    ],
+    [
+     7,
+     8
+    ],
+    [
+     7,
+     9
+    ],
+    [
+     6,
+     9
+    ],
+    [
+     5,
+     9
+    ],
+    [
+     4,
+     9
+    ],
+    [
+     3,
+     9
+    ],
+    [
+     2,
+     9
+    ],
+    [
+     1,
+     9
+    ],
+    [
+     1,
+     8
+    ],
+    [
+     1,
+     7
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     5
+    ]
+   ],
+   "unitTileCoverage": [
+    {
+     "row": 1,
+     "col": 3,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 10,
+     "coverage4": 13
+    },
+    {
+     "row": 1,
+     "col": 4,
+     "coverage1": 2,
+     "coverage2": 7,
+     "coverage3": 11,
+     "coverage4": 14
+    },
+    {
+     "row": 2,
+     "col": 1,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 7,
+     "coverage4": 10
+    },
+    {
+     "row": 2,
+     "col": 4,
+     "coverage1": 4,
+     "coverage2": 9,
+     "coverage3": 13,
+     "coverage4": 16
+    },
+    {
+     "row": 2,
+     "col": 5,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 13,
+     "coverage4": 22
+    },
+    {
+     "row": 2,
+     "col": 6,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 16,
+     "coverage4": 21
+    },
+    {
+     "row": 2,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 9,
+     "coverage3": 14,
+     "coverage4": 19
+    },
+    {
+     "row": 2,
+     "col": 8,
+     "coverage1": 5,
+     "coverage2": 7,
+     "coverage3": 12,
+     "coverage4": 17
+    },
+    {
+     "row": 3,
+     "col": 1,
+     "coverage1": 1,
+     "coverage2": 5,
+     "coverage3": 7,
+     "coverage4": 10
+    },
+    {
+     "row": 3,
+     "col": 2,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 10,
+     "coverage4": 13
+    },
+    {
+     "row": 3,
+     "col": 5,
+     "coverage1": 3,
+     "coverage2": 10,
+     "coverage3": 15,
+     "coverage4": 25
+    },
+    {
+     "row": 3,
+     "col": 6,
+     "coverage1": 1,
+     "coverage2": 9,
+     "coverage3": 19,
+     "coverage4": 24
+    },
+    {
+     "row": 3,
+     "col": 8,
+     "coverage1": 3,
+     "coverage2": 9,
+     "coverage3": 15,
+     "coverage4": 20
+    },
+    {
+     "row": 4,
+     "col": 2,
+     "coverage1": 1,
+     "coverage2": 5,
+     "coverage3": 10,
+     "coverage4": 13
+    },
+    {
+     "row": 4,
+     "col": 3,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 13,
+     "coverage4": 16
+    },
+    {
+     "row": 4,
+     "col": 6,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 22,
+     "coverage4": 24
+    },
+    {
+     "row": 4,
+     "col": 7,
+     "coverage1": 1,
+     "coverage2": 10,
+     "coverage3": 20,
+     "coverage4": 22
+    },
+    {
+     "row": 4,
+     "col": 8,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 18,
+     "coverage4": 20
+    },
+    {
+     "row": 5,
+     "col": 4,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 11,
+     "coverage4": 18
+    },
+    {
+     "row": 5,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 12,
+     "coverage3": 15,
+     "coverage4": 22
+    },
+    {
+     "row": 5,
+     "col": 8,
+     "coverage1": 4,
+     "coverage2": 10,
+     "coverage3": 13,
+     "coverage4": 20
+    },
+    {
+     "row": 6,
+     "col": 5,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 10,
+     "coverage4": 18
+    },
+    {
+     "row": 6,
+     "col": 8,
+     "coverage1": 6,
+     "coverage2": 9,
+     "coverage3": 12,
+     "coverage4": 15
+    },
+    {
+     "row": 7,
+     "col": 6,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 12,
+     "coverage4": 15
+    }
+   ],
+   "balanceIndex": 0.895,
+   "enemyHpMultiplier": 0.89
+  },
+  {
+   "id": "rimba-tabalong-kayangan",
+   "name": "Rimba Tabalong Kayangan",
+   "region": "Dayak",
+   "pathShape": "Berkelok tak beraturan",
+   "environmentEffectDraft": "Kabut rimba menyembunyikan unit",
+   "description": "Hutan tiga lapis, dari akar sampai kanopi.",
+   "affinityCommander": "Pang",
+   "supportingAsal": "Rim",
+   "portalS": [
+    5,
+    1
+   ],
+   "commanderE": [
+    7,
+    9
+   ],
+   "grid": {
+    "rows": 7,
+    "cols": 9,
+    "unitTiles": 24,
+    "pathCells": 25
+   },
+   "layout": [
+    ".UUU.UU..",
+    ".JJJUJJJ.",
+    "UJUJUJUJU",
+    "JJUJUJUJU",
+    "SUUJUJUJU",
+    "...JJJUJU",
+    "....U.UJE"
+   ],
+   "layoutLegend": "S=Lawang Sunyi (awal jalur), E=Senapati (akhir jalur), J=jalur, U=petak unit, titik=kosong. Baris 1..7 dari atas, kolom 1..9 dari kiri.",
+   "pathOrder": [
+    [
+     5,
+     1
+    ],
+    [
+     4,
+     1
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     2,
+     2
+    ],
+    [
+     2,
+     3
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     4,
+     4
+    ],
+    [
+     5,
+     4
+    ],
+    [
+     6,
+     4
+    ],
+    [
+     6,
+     5
+    ],
+    [
+     6,
+     6
+    ],
+    [
+     5,
+     6
+    ],
+    [
+     4,
+     6
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     2,
+     6
+    ],
+    [
+     2,
+     7
+    ],
+    [
+     2,
+     8
+    ],
+    [
+     3,
+     8
+    ],
+    [
+     4,
+     8
+    ],
+    [
+     5,
+     8
+    ],
+    [
+     6,
+     8
+    ],
+    [
+     7,
+     8
+    ],
+    [
+     7,
+     9
+    ]
+   ],
+   "unitTileCoverage": [
+    {
+     "row": 1,
+     "col": 2,
+     "coverage1": 2,
+     "coverage2": 5,
+     "coverage3": 8,
+     "coverage4": 14
+    },
+    {
+     "row": 1,
+     "col": 3,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 11,
+     "coverage4": 15
+    },
+    {
+     "row": 1,
+     "col": 4,
+     "coverage1": 2,
+     "coverage2": 7,
+     "coverage3": 12,
+     "coverage4": 19
+    },
+    {
+     "row": 1,
+     "col": 6,
+     "coverage1": 2,
+     "coverage2": 7,
+     "coverage3": 11,
+     "coverage4": 17
+    },
+    {
+     "row": 1,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 10,
+     "coverage4": 14
+    },
+    {
+     "row": 2,
+     "col": 5,
+     "coverage1": 4,
+     "coverage2": 8,
+     "coverage3": 17,
+     "coverage4": 23
+    },
+    {
+     "row": 3,
+     "col": 1,
+     "coverage1": 4,
+     "coverage2": 6,
+     "coverage3": 11,
+     "coverage4": 12
+    },
+    {
+     "row": 3,
+     "col": 3,
+     "coverage1": 7,
+     "coverage2": 10,
+     "coverage3": 17,
+     "coverage4": 18
+    },
+    {
+     "row": 3,
+     "col": 5,
+     "coverage1": 6,
+     "coverage2": 10,
+     "coverage3": 21,
+     "coverage4": 25
+    },
+    {
+     "row": 3,
+     "col": 7,
+     "coverage1": 7,
+     "coverage2": 9,
+     "coverage3": 17,
+     "coverage4": 20
+    },
+    {
+     "row": 3,
+     "col": 9,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 11,
+     "coverage4": 14
+    },
+    {
+     "row": 4,
+     "col": 3,
+     "coverage1": 5,
+     "coverage2": 12,
+     "coverage3": 17,
+     "coverage4": 18
+    },
+    {
+     "row": 4,
+     "col": 5,
+     "coverage1": 6,
+     "coverage2": 13,
+     "coverage3": 22,
+     "coverage4": 25
+    },
+    {
+     "row": 4,
+     "col": 7,
+     "coverage1": 6,
+     "coverage2": 12,
+     "coverage3": 19,
+     "coverage4": 20
+    },
+    {
+     "row": 4,
+     "col": 9,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 13,
+     "coverage4": 14
+    },
+    {
+     "row": 5,
+     "col": 2,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 12,
+     "coverage4": 17
+    },
+    {
+     "row": 5,
+     "col": 3,
+     "coverage1": 4,
+     "coverage2": 9,
+     "coverage3": 17,
+     "coverage4": 18
+    },
+    {
+     "row": 5,
+     "col": 5,
+     "coverage1": 7,
+     "coverage2": 9,
+     "coverage3": 22,
+     "coverage4": 25
+    },
+    {
+     "row": 5,
+     "col": 7,
+     "coverage1": 6,
+     "coverage2": 11,
+     "coverage3": 19,
+     "coverage4": 20
+    },
+    {
+     "row": 5,
+     "col": 9,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 13,
+     "coverage4": 14
+    },
+    {
+     "row": 6,
+     "col": 7,
+     "coverage1": 5,
+     "coverage2": 9,
+     "coverage3": 15,
+     "coverage4": 20
+    },
+    {
+     "row": 6,
+     "col": 9,
+     "coverage1": 4,
+     "coverage2": 5,
+     "coverage3": 10,
+     "coverage4": 14
+    },
+    {
+     "row": 7,
+     "col": 5,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 12,
+     "coverage4": 19
+    },
+    {
+     "row": 7,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 12,
+     "coverage4": 15
+    }
+   ],
+   "balanceIndex": 1.126,
+   "enemyHpMultiplier": 1.13
+  },
+  {
+   "id": "pelabuhan-karang-banda",
+   "name": "Pelabuhan Karang Banda",
+   "region": "Maluku-Papua",
+   "pathShape": "Gelombang turun lalu kembali lewat dermaga",
+   "environmentEffectDraft": "Angin timur menambah kecepatan serangan",
+   "description": "Pelabuhan rempah dengan karang jingga.",
+   "affinityCommander": "Pit",
+   "supportingAsal": "Kei",
+   "portalS": [
+    4,
+    1
+   ],
+   "commanderE": [
+    5,
+    2
+   ],
+   "grid": {
+    "rows": 7,
+    "cols": 9,
+    "unitTiles": 24,
+    "pathCells": 25
+   },
+   "layout": [
+    ".UUUUU...",
+    ".UJJJU...",
+    "UJJUJJU..",
+    "SJUUUJJU.",
+    "UEJJUUJJU",
+    ".UUJUUUJJ",
+    "..UJJJJJJ"
+   ],
+   "layoutLegend": "S=Lawang Sunyi (awal jalur), E=Senapati (akhir jalur), J=jalur, U=petak unit, titik=kosong. Baris 1..7 dari atas, kolom 1..9 dari kiri.",
+   "pathOrder": [
+    [
+     4,
+     1
+    ],
+    [
+     4,
+     2
+    ],
+    [
+     3,
+     2
+    ],
+    [
+     3,
+     3
+    ],
+    [
+     2,
+     3
+    ],
+    [
+     2,
+     4
+    ],
+    [
+     2,
+     5
+    ],
+    [
+     3,
+     5
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     4,
+     6
+    ],
+    [
+     4,
+     7
+    ],
+    [
+     5,
+     7
+    ],
+    [
+     5,
+     8
+    ],
+    [
+     6,
+     8
+    ],
+    [
+     6,
+     9
+    ],
+    [
+     7,
+     9
+    ],
+    [
+     7,
+     8
+    ],
+    [
+     7,
+     7
+    ],
+    [
+     7,
+     6
+    ],
+    [
+     7,
+     5
+    ],
+    [
+     7,
+     4
+    ],
+    [
+     6,
+     4
+    ],
+    [
+     5,
+     4
+    ],
+    [
+     5,
+     3
+    ],
+    [
+     5,
+     2
+    ]
+   ],
+   "unitTileCoverage": [
+    {
+     "row": 1,
+     "col": 2,
+     "coverage1": 1,
+     "coverage2": 4,
+     "coverage3": 8,
+     "coverage4": 13
+    },
+    {
+     "row": 1,
+     "col": 3,
+     "coverage1": 2,
+     "coverage2": 6,
+     "coverage3": 10,
+     "coverage4": 15
+    },
+    {
+     "row": 1,
+     "col": 4,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 11,
+     "coverage4": 16
+    },
+    {
+     "row": 1,
+     "col": 5,
+     "coverage1": 2,
+     "coverage2": 6,
+     "coverage3": 10,
+     "coverage4": 16
+    },
+    {
+     "row": 1,
+     "col": 6,
+     "coverage1": 1,
+     "coverage2": 4,
+     "coverage3": 8,
+     "coverage4": 15
+    },
+    {
+     "row": 2,
+     "col": 2,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 11,
+     "coverage4": 14
+    },
+    {
+     "row": 2,
+     "col": 6,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 12,
+     "coverage4": 18
+    },
+    {
+     "row": 3,
+     "col": 1,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 10,
+     "coverage4": 14
+    },
+    {
+     "row": 3,
+     "col": 4,
+     "coverage1": 5,
+     "coverage2": 12,
+     "coverage3": 16,
+     "coverage4": 23
+    },
+    {
+     "row": 3,
+     "col": 7,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 12,
+     "coverage4": 21
+    },
+    {
+     "row": 4,
+     "col": 3,
+     "coverage1": 6,
+     "coverage2": 12,
+     "coverage3": 17,
+     "coverage4": 20
+    },
+    {
+     "row": 4,
+     "col": 4,
+     "coverage1": 4,
+     "coverage2": 13,
+     "coverage3": 20,
+     "coverage4": 23
+    },
+    {
+     "row": 4,
+     "col": 5,
+     "coverage1": 4,
+     "coverage2": 12,
+     "coverage3": 22,
+     "coverage4": 25
+    },
+    {
+     "row": 4,
+     "col": 8,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 14,
+     "coverage4": 18
+    },
+    {
+     "row": 5,
+     "col": 1,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 11,
+     "coverage4": 14
+    },
+    {
+     "row": 5,
+     "col": 5,
+     "coverage1": 3,
+     "coverage2": 13,
+     "coverage3": 22,
+     "coverage4": 25
+    },
+    {
+     "row": 5,
+     "col": 6,
+     "coverage1": 3,
+     "coverage2": 14,
+     "coverage3": 21,
+     "coverage4": 24
+    },
+    {
+     "row": 5,
+     "col": 9,
+     "coverage1": 3,
+     "coverage2": 8,
+     "coverage3": 11,
+     "coverage4": 14
+    },
+    {
+     "row": 6,
+     "col": 2,
+     "coverage1": 2,
+     "coverage2": 7,
+     "coverage3": 11,
+     "coverage4": 17
+    },
+    {
+     "row": 6,
+     "col": 3,
+     "coverage1": 5,
+     "coverage2": 8,
+     "coverage3": 14,
+     "coverage4": 20
+    },
+    {
+     "row": 6,
+     "col": 5,
+     "coverage1": 5,
+     "coverage2": 10,
+     "coverage3": 19,
+     "coverage4": 25
+    },
+    {
+     "row": 6,
+     "col": 6,
+     "coverage1": 4,
+     "coverage2": 12,
+     "coverage3": 18,
+     "coverage4": 24
+    },
+    {
+     "row": 6,
+     "col": 7,
+     "coverage1": 6,
+     "coverage2": 11,
+     "coverage3": 16,
+     "coverage4": 21
+    },
+    {
+     "row": 7,
+     "col": 3,
+     "coverage1": 2,
+     "coverage2": 6,
+     "coverage3": 10,
+     "coverage4": 17
+    }
+   ],
+   "balanceIndex": 1.02,
+   "enemyHpMultiplier": 1.02
+  },
+  {
+   "id": "sasana-sunyaruri",
+   "name": "Sasana Sunyaruri",
+   "region": "Pusat Sunyi",
+   "pathShape": "Zig-zag petir dari atas ke bawah",
+   "environmentEffectDraft": "Petak-petak perlahan menghilang",
+   "description": "Sasana pusat Sunyi, tempat semua kisah dilupakan.",
+   "affinityCommander": null,
+   "supportingAsal": null,
+   "portalS": [
+    1,
+    1
+   ],
+   "commanderE": [
+    7,
+    3
+   ],
+   "grid": {
+    "rows": 7,
+    "cols": 9,
+    "unitTiles": 24,
+    "pathCells": 25
+   },
+   "layout": [
+    "SJJJJJJU.",
+    "UUUUUUJU.",
+    "..UJJJJU.",
+    "..UJUUUU.",
+    "..UJJJJJU",
+    "..UUUUUJU",
+    "..EJJJJJU"
+   ],
+   "layoutLegend": "S=Lawang Sunyi (awal jalur), E=Senapati (akhir jalur), J=jalur, U=petak unit, titik=kosong. Baris 1..7 dari atas, kolom 1..9 dari kiri.",
+   "pathOrder": [
+    [
+     1,
+     1
+    ],
+    [
+     1,
+     2
+    ],
+    [
+     1,
+     3
+    ],
+    [
+     1,
+     4
+    ],
+    [
+     1,
+     5
+    ],
+    [
+     1,
+     6
+    ],
+    [
+     1,
+     7
+    ],
+    [
+     2,
+     7
+    ],
+    [
+     3,
+     7
+    ],
+    [
+     3,
+     6
+    ],
+    [
+     3,
+     5
+    ],
+    [
+     3,
+     4
+    ],
+    [
+     4,
+     4
+    ],
+    [
+     5,
+     4
+    ],
+    [
+     5,
+     5
+    ],
+    [
+     5,
+     6
+    ],
+    [
+     5,
+     7
+    ],
+    [
+     5,
+     8
+    ],
+    [
+     6,
+     8
+    ],
+    [
+     7,
+     8
+    ],
+    [
+     7,
+     7
+    ],
+    [
+     7,
+     6
+    ],
+    [
+     7,
+     5
+    ],
+    [
+     7,
+     4
+    ],
+    [
+     7,
+     3
+    ]
+   ],
+   "unitTileCoverage": [
+    {
+     "row": 1,
+     "col": 8,
+     "coverage1": 2,
+     "coverage2": 5,
+     "coverage3": 7,
+     "coverage4": 15
+    },
+    {
+     "row": 2,
+     "col": 1,
+     "coverage1": 2,
+     "coverage2": 3,
+     "coverage3": 7,
+     "coverage4": 10
+    },
+    {
+     "row": 2,
+     "col": 2,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 10,
+     "coverage4": 13
+    },
+    {
+     "row": 2,
+     "col": 3,
+     "coverage1": 4,
+     "coverage2": 8,
+     "coverage3": 13,
+     "coverage4": 17
+    },
+    {
+     "row": 2,
+     "col": 4,
+     "coverage1": 5,
+     "coverage2": 9,
+     "coverage3": 17,
+     "coverage4": 19
+    },
+    {
+     "row": 2,
+     "col": 5,
+     "coverage1": 6,
+     "coverage2": 11,
+     "coverage3": 17,
+     "coverage4": 19
+    },
+    {
+     "row": 2,
+     "col": 6,
+     "coverage1": 7,
+     "coverage2": 10,
+     "coverage3": 16,
+     "coverage4": 18
+    },
+    {
+     "row": 2,
+     "col": 8,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 11,
+     "coverage4": 16
+    },
+    {
+     "row": 3,
+     "col": 3,
+     "coverage1": 2,
+     "coverage2": 10,
+     "coverage3": 13,
+     "coverage4": 22
+    },
+    {
+     "row": 3,
+     "col": 8,
+     "coverage1": 2,
+     "coverage2": 8,
+     "coverage3": 12,
+     "coverage4": 21
+    },
+    {
+     "row": 4,
+     "col": 3,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 17,
+     "coverage4": 22
+    },
+    {
+     "row": 4,
+     "col": 5,
+     "coverage1": 7,
+     "coverage2": 10,
+     "coverage3": 24,
+     "coverage4": 25
+    },
+    {
+     "row": 4,
+     "col": 6,
+     "coverage1": 6,
+     "coverage2": 12,
+     "coverage3": 23,
+     "coverage4": 24
+    },
+    {
+     "row": 4,
+     "col": 7,
+     "coverage1": 5,
+     "coverage2": 9,
+     "coverage3": 21,
+     "coverage4": 23
+    },
+    {
+     "row": 4,
+     "col": 8,
+     "coverage1": 3,
+     "coverage2": 7,
+     "coverage3": 16,
+     "coverage4": 21
+    },
+    {
+     "row": 5,
+     "col": 3,
+     "coverage1": 2,
+     "coverage2": 8,
+     "coverage3": 11,
+     "coverage4": 22
+    },
+    {
+     "row": 5,
+     "col": 9,
+     "coverage1": 2,
+     "coverage2": 6,
+     "coverage3": 10,
+     "coverage4": 16
+    },
+    {
+     "row": 6,
+     "col": 3,
+     "coverage1": 3,
+     "coverage2": 6,
+     "coverage3": 11,
+     "coverage4": 15
+    },
+    {
+     "row": 6,
+     "col": 4,
+     "coverage1": 5,
+     "coverage2": 8,
+     "coverage3": 14,
+     "coverage4": 18
+    },
+    {
+     "row": 6,
+     "col": 5,
+     "coverage1": 6,
+     "coverage2": 10,
+     "coverage3": 17,
+     "coverage4": 18
+    },
+    {
+     "row": 6,
+     "col": 6,
+     "coverage1": 6,
+     "coverage2": 12,
+     "coverage3": 17,
+     "coverage4": 18
+    },
+    {
+     "row": 6,
+     "col": 7,
+     "coverage1": 7,
+     "coverage2": 9,
+     "coverage3": 16,
+     "coverage4": 18
+    },
+    {
+     "row": 6,
+     "col": 9,
+     "coverage1": 3,
+     "coverage2": 5,
+     "coverage3": 9,
+     "coverage4": 13
+    },
+    {
+     "row": 7,
+     "col": 9,
+     "coverage1": 2,
+     "coverage2": 5,
+     "coverage3": 7,
+     "coverage4": 12
+    }
+   ],
+   "balanceIndex": 1.126,
+   "enemyHpMultiplier": 1.13
+  }
+ ]
+}

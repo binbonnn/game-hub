@@ -1,0 +1,143 @@
+/* =========================================================
+   Game Hub v2 · Design tokens
+   ========================================================= */
+:root {
+  /* Type */
+  --font-display: "Baloo 2", "Trebuchet MS", system-ui, sans-serif;
+  --font-body: "Plus Jakarta Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "Cascadia Code", "SFMono-Regular", ui-monospace, monospace;
+
+  /* Core palette */
+  --bg: #070b17;
+  --bg-deep: #040711;
+  --bg-soft: #0b1122;
+  --surface: #111a31;
+  --surface-2: #182342;
+  --surface-3: #202d52;
+  --surface-glass: rgba(18, 27, 51, 0.72);
+  --surface-glass-strong: rgba(20, 30, 57, 0.92);
+  --text: #f6f8ff;
+  --text-soft: #d7def3;
+  --muted: #95a2c2;
+  --muted-2: #6f7c9e;
+  --line: rgba(255, 255, 255, 0.10);
+  --line-strong: rgba(255, 255, 255, 0.18);
+
+  /* Brand */
+  --brand: #ffc46b;
+  --brand-strong: #ffab3d;
+  --brand-soft: rgba(255, 196, 107, 0.14);
+  --accent: #8d7bff;
+  --accent-2: #ff79c6;
+  --accent-soft: rgba(141, 123, 255, 0.16);
+
+  /* Semantic */
+  --success: #4fe0a6;
+  --success-soft: rgba(79, 224, 166, 0.14);
+  --danger: #ff7188;
+  --danger-soft: rgba(255, 113, 136, 0.14);
+  --warning: #ffd166;
+  --warning-soft: rgba(255, 209, 102, 0.14);
+  --info: #62c9ff;
+  --info-soft: rgba(98, 201, 255, 0.14);
+
+  /* Game identities */
+  --g1: #ff8a5b;
+  --g1-2: #ffc46b;
+  --g1-soft: rgba(255, 138, 91, 0.14);
+  --g2: #5de0c2;
+  --g2-2: #62c9ff;
+  --g2-soft: rgba(93, 224, 194, 0.14);
+  --g3: #b18cff;
+  --g3-2: #ff79c6;
+  --g3-soft: rgba(177, 140, 255, 0.14);
+  --g4: #9d8cff;
+  --g4-2: #6cf5c8;
+  --g4-soft: rgba(157, 140, 255, 0.14);
+  --g5: #e6b86a;
+  --g5-2: #63d6b0;
+  --g5-soft: rgba(230, 184, 106, 0.14);
+
+  /* Spacing */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4rem;
+
+  /* Radius */
+  --r-xs: 8px;
+  --r-sm: 12px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-xl: 32px;
+  --r-pill: 999px;
+
+  /* Elevation */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.22);
+  --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.32);
+  --shadow-lg: 0 28px 70px rgba(2, 6, 18, 0.55);
+  --shadow-glow: 0 0 0 1px rgba(255, 255, 255, 0.06), 0 18px 50px rgba(0, 0, 0, 0.36);
+
+  /* Motion */
+  --dur-1: 100ms;
+  --dur-2: 160ms;
+  --dur-3: 250ms;
+  --dur-4: 350ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Layout */
+  --container: 1240px;
+  --head-h: 76px;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+
+  /* Layers */
+  --z-ambient: 0;
+  --z-content: 10;
+  --z-head: 50;
+  --z-toast: 90;
+  --z-modal: 100;
+
+  color-scheme: dark;
+}
+
+/* Theme scope helper */
+[data-theme="multiply"] { --theme: var(--g1); --theme-2: var(--g1-2); --theme-soft: var(--g1-soft); }
+[data-theme="knowledge"] { --theme: var(--g2); --theme-2: var(--g2-2); --theme-soft: var(--g2-soft); }
+[data-theme="advmath"] { --theme: var(--g3); --theme-2: var(--g3-2); --theme-soft: var(--g3-soft); }
+[data-theme="memo"] { --theme: var(--g4); --theme-2: var(--g4-2); --theme-soft: var(--g4-soft); }
+[data-theme="nusantara"] { --theme: var(--g5); --theme-2: var(--g5-2); --theme-soft: var(--g5-soft); }
+[data-theme="hub"] { --theme: var(--brand); --theme-2: var(--accent); --theme-soft: var(--brand-soft); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-1: 0ms;
+    --dur-2: 0ms;
+    --dur-3: 0ms;
+    --dur-4: 0ms;
+  }
+}
+
+html[data-reduced-motion="true"] {
+  --dur-1: 0ms;
+  --dur-2: 0ms;
+  --dur-3: 0ms;
+  --dur-4: 0ms;
+}
+html[data-reduced-motion="true"] *,
+html[data-reduced-motion="true"] *::before,
+html[data-reduced-motion="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}

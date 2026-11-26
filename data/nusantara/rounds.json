@@ -1,0 +1,171 @@
+{
+ "note": "Konfigurasi ronde dan antarmuka Nusantara Sirna (BUKAN dari paket builder awal; ditambahkan di Fase 2 atas permintaan pemilik). prepSeconds menggantikan 30-45 dtk di spesifikasi.",
+ "prepSeconds": 60,
+ "transitionSeconds": 3.5,
+ "endless": {
+  "name": "Tanpa Akhir",
+  "desc": "Sunyi nggak ada habisnya. Bertahan selama kamu bisa."
+ },
+ "normalRounds": {
+  "1": {
+   "name": "Bisikan Pertama",
+   "desc": "Sunyi baru merayap keluar dari Lawang Sunyi."
+  },
+  "2": {
+   "name": "Jejak di Debu",
+   "desc": "Bayangan kosong mengikuti ingatan yang pudar."
+  },
+  "3": {
+   "name": "Kabut Lupa",
+   "desc": "Kabut tipis mulai menelan nama-nama kampung."
+  },
+  "4": {
+   "name": "Gerbang Mengintip",
+   "desc": "Sunyi berkumpul, Penjaga sudah dekat."
+  },
+  "6": {
+   "name": "Sisa Cerita",
+   "desc": "Kisah lama yang tersisa jadi umpan Sunyi."
+  },
+  "7": {
+   "name": "Langkah Tanpa Suara",
+   "desc": "Musuh datang lebih rapat, jangan lengah."
+  },
+  "8": {
+   "name": "Lorong Sunyi",
+   "desc": "Tanpa gema, hanya bayangan yang berbaris."
+  },
+  "9": {
+   "name": "Janji yang Terlupa",
+   "desc": "Gelombang menebal sebelum penjaga kedua."
+  },
+  "11": {
+   "name": "Api Kampung Padam",
+   "desc": "Sunyi mendekat ke tempat api terakhir menyala."
+  },
+  "12": {
+   "name": "Pasar Tanpa Suara",
+   "desc": "Bayangan memenuhi pasar yang sudah kosong."
+  },
+  "13": {
+   "name": "Lembar yang Hilang",
+   "desc": "Halaman Lontar rontok satu per satu."
+  },
+  "14": {
+   "name": "Pintu Berderit",
+   "desc": "Ada yang mengetuk dari sisi lain Lawang Sunyi."
+  },
+  "16": {
+   "name": "Nama yang Tertukar",
+   "desc": "Sunyi meniru wajah yang kamu kenal."
+  },
+  "17": {
+   "name": "Sungai Berbalik",
+   "desc": "Arus ingatan mengalir ke arah yang salah."
+  },
+  "18": {
+   "name": "Gema Terakhir",
+   "desc": "Suara leluhur makin lirih di antara musuh."
+  },
+  "19": {
+   "name": "Fajar Tertahan",
+   "desc": "Gelombang berat menjelang penjaga keempat."
+  },
+  "21": {
+   "name": "Seruan dari Hutan",
+   "desc": "Roh rimba memanggil, Sunyi menjawab."
+  },
+  "22": {
+   "name": "Tanah Bergetar",
+   "desc": "Langkah serentak mengguncang jalur."
+  },
+  "23": {
+   "name": "Bayang Tanpa Wajah",
+   "desc": "Musuh makin kuat, rapikan sinergimu."
+  },
+  "24": {
+   "name": "Malam Panjang",
+   "desc": "Gelap bertahan lebih lama dari biasanya."
+  },
+  "26": {
+   "name": "Benang Terputus",
+   "desc": "Tenun kisah terurai di tengah medan."
+  },
+  "27": {
+   "name": "Layar Terbakar",
+   "desc": "Kelir wayang menyala, bayangan menari."
+  },
+  "28": {
+   "name": "Ombak Hitam",
+   "desc": "Gelombang Sunyi datang bertubi-tubi."
+  },
+  "29": {
+   "name": "Hening Sebelum Badai",
+   "desc": "Tenang sejenak. Cek emas dan formasimu."
+  },
+  "31": {
+   "name": "Kidung yang Pecah",
+   "desc": "Nada gamelan sumbang menggoyang barisan."
+  },
+  "32": {
+   "name": "Pelabuhan Kelam",
+   "desc": "Kapal-kapal bayangan merapat tanpa suara."
+  },
+  "33": {
+   "name": "Puncak Terlupa",
+   "desc": "Sunyi mendaki, memakan apa yang tersisa."
+  },
+  "34": {
+   "name": "Tiga Gerbang",
+   "desc": "Musuh datang tanpa putus, tahan formasi."
+  },
+  "36": {
+   "name": "Abu Ingatan",
+   "desc": "Sisa ingatan bertebaran, jangan sampai hilang."
+  },
+  "37": {
+   "name": "Taring Kosong",
+   "desc": "Musuh jauh lebih tebal, andalkan bintang tinggi."
+  },
+  "38": {
+   "name": "Pusaran Sunyi",
+   "desc": "Barisan nyaris tak putus sampai Lawang Sunyi."
+  },
+  "39": {
+   "name": "Sunyi Memanggil",
+   "desc": "Penjaga ketujuh menunggu di ujung jalan."
+  },
+  "41": {
+   "name": "Lontar Terkoyak",
+   "desc": "Kitab terakhir nyaris habis dimakan Sunyi."
+  },
+  "42": {
+   "name": "Hujan Bayangan",
+   "desc": "Bayangan turun deras, tak ada celah."
+  },
+  "43": {
+   "name": "Janji Leluhur",
+   "desc": "Leluhur menitipkan harapan terakhir padamu."
+  },
+  "44": {
+   "name": "Nyala Terakhir",
+   "desc": "Gelombang besar menjelang penjaga kesembilan."
+  },
+  "46": {
+   "name": "Tepi Sirna",
+   "desc": "Sunyi hampir sampai ke inti kisah."
+  },
+  "47": {
+   "name": "Kelam Tanpa Dasar",
+   "desc": "Musuh tebal dan kuat, bertahan dulu."
+  },
+  "48": {
+   "name": "Seribu Bayangan",
+   "desc": "Jumlah musuh terbanyak sejauh ini."
+  },
+  "49": {
+   "name": "Sebelum Sunyaruri",
+   "desc": "Satu langkah lagi ke Penjaga puncak."
+  }
+ }
+}

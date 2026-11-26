@@ -1,0 +1,1798 @@
+{
+ "note": "135 bos: 9 arena x (10 bos utama ronde 5,10,...,50 + 5 bos Ronde Ekstrem ronde 51-55). Ronde Ekstrem hanya untuk Duel dan Party kompetitif saat seri di ronde 50. Detail mekanik singkat; builder boleh menerjemahkannya ke efek sederhana. Empat bos sakral sudah diganti (lihat replacedBosses). | F3: bidang fx = jenis mekanik generik hasil terjemahan dari teks mekanik (lihat rules.json fx.boss).",
+ "replacedBosses": {
+  "Batara Kala": "Pemakan Waktu",
+  "Kala Rau": "Pemangsa Rembulan",
+  "Bhuta Kala Dengen": "Penunggu Persimpangan",
+  "Barong Landung Sunyi": "Penari Wajah Kosong"
+ },
+ "bosses": {
+  "Pelataran Keraton Wirasana": [
+   {
+    "round": 5,
+    "roundName": "Bayang di Bawah Beringin",
+    "boss": "Genderuwo Penunggu Beringin",
+    "originalCreation": false,
+    "mechanic": "Menghilang sebentar dari papan",
+    "weakAgainst": [
+     "Sri"
+    ],
+    "tier": "bos",
+    "fx": [
+     "evade"
+    ]
+   },
+   {
+    "round": 10,
+    "roundName": "Api yang Tak Mau Padam",
+    "boss": "Banaspati",
+    "originalCreation": false,
+    "mechanic": "Membakar petak di sekitarnya; kalah oleh pemulihan",
+    "weakAgainst": [
+     "Tam",
+     "Hyang"
+    ],
+    "tier": "bos",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 15,
+    "roundName": "Tangis di Pucuk Gombel",
+    "boss": "Wewe Gombel",
+    "originalCreation": false,
+    "mechanic": "Mengincar unit biaya rendah",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "focus"
+    ]
+   },
+   {
+    "round": 20,
+    "roundName": "Pelahap Berwajah Hijau",
+    "boss": "Buto Ijo",
+    "originalCreation": false,
+    "mechanic": "Membesar tiap pupuh",
+    "weakAgainst": [
+     "Kar"
+    ],
+    "tier": "bos",
+    "fx": [
+     "grow"
+    ]
+   },
+   {
+    "round": 25,
+    "roundName": "Naga dari Rawa Pening",
+    "boss": "Baru Klinting",
+    "originalCreation": false,
+    "mechanic": "Rawa memperlambat unit di barisan depan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "slow"
+    ]
+   },
+   {
+    "round": 30,
+    "roundName": "Sisik Emas yang Menggoda",
+    "boss": "Nyai Blorong",
+    "originalCreation": false,
+    "mechanic": "Merampas emas bila tidak dikalahkan cepat",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "steal"
+    ]
+   },
+   {
+    "round": 35,
+    "roundName": "Tarian Si Gigi Taring",
+    "boss": "Buto Cakil",
+    "originalCreation": false,
+    "mechanic": "Melompat menyerang barisan belakang",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 40,
+    "roundName": "Gerhana Pemakan Rembulan",
+    "boss": "Pemangsa Rembulan",
+    "originalCreation": true,
+    "mechanic": "Gelap menutup sebagian papan",
+    "weakAgainst": [
+     "Gong"
+    ],
+    "tier": "bos",
+    "fx": [
+     "curse"
+    ]
+   },
+   {
+    "round": 45,
+    "roundName": "Sang Waktu Berubah Lapar",
+    "boss": "Pemakan Waktu",
+    "originalCreation": true,
+    "mechanic": "Mempercepat dan memperlambat waktu",
+    "weakAgainst": [
+     "Lir"
+    ],
+    "tier": "bos",
+    "fx": [
+     "fast",
+     "slow"
+    ]
+   },
+   {
+    "round": 50,
+    "roundName": "Raja Tanpa Kisah",
+    "boss": "Sunyasena",
+    "originalCreation": true,
+    "mechanic": "Penjaga puncak; menyalin satu kemampuan Penjaga sebelumnya tiap fase",
+    "weakAgainst": [],
+    "tier": "puncak",
+    "fx": [
+     "copy",
+     "aoe"
+    ]
+   },
+   {
+    "round": 51,
+    "roundName": "Tangan Kecil di Lumbung",
+    "boss": "Tuyul Sunyi",
+    "originalCreation": false,
+    "mechanic": "Mencuri emas tiap pupuh lalu menghilang dari petak",
+    "weakAgainst": [
+     "Nah"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "steal",
+     "evade"
+    ]
+   },
+   {
+    "round": 52,
+    "roundName": "Angin yang Membawa Pasukan",
+    "boss": "Lampor",
+    "originalCreation": false,
+    "mechanic": "Memanggil gelombang bayangan yang melintasi seluruh papan",
+    "weakAgainst": [
+     "Wang"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "summon"
+    ]
+   },
+   {
+    "round": 53,
+    "roundName": "Keris yang Berbalik Tuan",
+    "boss": "Keris Luk Tujuh Sunya",
+    "originalCreation": true,
+    "mechanic": "Menyalin satu unit pemain lalu menyerang pemiliknya",
+    "weakAgainst": [
+     "Sri"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "copy",
+     "focus"
+    ]
+   },
+   {
+    "round": 54,
+    "roundName": "Kelir Tanpa Lakon",
+    "boss": "Dalang Bisu Kelir Sunyi",
+    "originalCreation": true,
+    "mechanic": "Memindahkan unit pemain secara acak tiap fase",
+    "weakAgainst": [
+     "Gong"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 55,
+    "roundName": "Cermin Sang Senapati",
+    "boss": "Senapati Bayangan",
+    "originalCreation": true,
+    "mechanic": "Meniru pasif Senapati pemain dan menggandakannya",
+    "weakAgainst": [
+     "Lir"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "copy"
+    ]
+   }
+  ],
+  "Kawah Putri Sanghyang": [
+   {
+    "round": 5,
+    "roundName": "Tangis dari Pohon Kapuk",
+    "boss": "Kuntilanak",
+    "originalCreation": false,
+    "mechanic": "Jeritan memperlambat unit terdekat",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "slow"
+    ]
+   },
+   {
+    "round": 10,
+    "roundName": "Lubang di Punggung Malam",
+    "boss": "Sundel Bolong",
+    "originalCreation": false,
+    "mechanic": "Menarik unit ke tepi papan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 15,
+    "roundName": "Raung Putih di Lereng",
+    "boss": "Maung Bodas",
+    "originalCreation": false,
+    "mechanic": "Sangat cepat",
+    "weakAgainst": [
+     "Dung"
+    ],
+    "tier": "bos",
+    "fx": [
+     "fast"
+    ]
+   },
+   {
+    "round": 20,
+    "roundName": "Perahu yang Terbalik",
+    "boss": "Sangkuriang yang Murka",
+    "originalCreation": false,
+    "mechanic": "Melempar batu besar ke area",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 25,
+    "roundName": "Jarum Tenun Tak Berujung",
+    "boss": "Dayang Sumbi Sunyi",
+    "originalCreation": false,
+    "mechanic": "Menenun jaring yang mengikat unit",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 30,
+    "roundName": "Gunung yang Terjaga",
+    "boss": "Jin Burangrang",
+    "originalCreation": false,
+    "mechanic": "Gempa kecil mengubah petak",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 35,
+    "roundName": "Situ yang Menelan Langit",
+    "boss": "Buaya Putih Penunggu Situ",
+    "originalCreation": false,
+    "mechanic": "Menyeret unit ke dalam air",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 40,
+    "roundName": "Kera Hitam dari Hutan Tua",
+    "boss": "Lutung Hitam",
+    "originalCreation": false,
+    "mechanic": "Melompat antar petak dan menghindari serangan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "evade"
+    ]
+   },
+   {
+    "round": 45,
+    "roundName": "Bayangan Pajajaran",
+    "boss": "Rakean Layang Sunya",
+    "originalCreation": true,
+    "mechanic": "Memanggil pasukan bayangan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "summon"
+    ]
+   },
+   {
+    "round": 50,
+    "roundName": "Raja Tanpa Pajajaran",
+    "boss": "Prabu Sunyaloka",
+    "originalCreation": true,
+    "mechanic": "Penjaga puncak; uap kawah memadamkan Warisan acak",
+    "weakAgainst": [],
+    "tier": "puncak",
+    "fx": [
+     "strip"
+    ]
+   },
+   {
+    "round": 51,
+    "roundName": "Telaga dari Keserakahan",
+    "boss": "Nyai Endit Sunyi",
+    "originalCreation": false,
+    "mechanic": "Menaikkan harga toko dan menyapu sebagian emas tabungan",
+    "weakAgainst": [
+     "Tau"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "steal"
+    ]
+   },
+   {
+    "round": 52,
+    "roundName": "Uap yang Menelan Suara",
+    "boss": "Siluman Uap Kawah",
+    "originalCreation": true,
+    "mechanic": "Uap memadamkan Warisan acak tiap fase",
+    "weakAgainst": [
+     "Tam"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "strip"
+    ]
+   },
+   {
+    "round": 53,
+    "roundName": "Naga di Bibir Kawah",
+    "boss": "Naga Kawah Sunyi",
+    "originalCreation": true,
+    "mechanic": "Menyemburkan uap panas ke satu baris penuh",
+    "weakAgainst": [
+     "Dung"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 54,
+    "roundName": "Bayang Sang Patih",
+    "boss": "Patih Bayangan Kawah",
+    "originalCreation": true,
+    "mechanic": "Memanggil pasukan bayangan dan menyalin unit terkuat",
+    "weakAgainst": [
+     "Hyang"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "summon",
+     "copy"
+    ]
+   },
+   {
+    "round": 55,
+    "roundName": "Tangis yang Menutup Langit",
+    "boss": "Putri Kawah Sunya",
+    "originalCreation": true,
+    "mechanic": "Tangis berubah uap, menutup sebagian papan dan memperlambat semua unit",
+    "weakAgainst": [
+     "Gong"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "slow"
+    ]
+   }
+  ],
+  "Ngarai Silang Bajanjang": [
+   {
+    "round": 5,
+    "roundName": "Penghisap Fajar",
+    "boss": "Palasik",
+    "originalCreation": false,
+    "mechanic": "Menyedot HP unit",
+    "weakAgainst": [
+     "Tau"
+    ],
+    "tier": "bos",
+    "fx": [
+     "drain"
+    ]
+   },
+   {
+    "round": 10,
+    "roundName": "Harimau yang Pernah Manusia",
+    "boss": "Cindaku",
+    "originalCreation": false,
+    "mechanic": "Berubah bentuk tiap pupuh",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "evade"
+    ]
+   },
+   {
+    "round": 15,
+    "roundName": "Cakar dari Balik Kabut",
+    "boss": "Sijundai",
+    "originalCreation": false,
+    "mechanic": "Menyerang dari petak tak terlihat",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "evade"
+    ]
+   },
+   {
+    "round": 20,
+    "roundName": "Pasar di Balik Kabut",
+    "boss": "Orang Bunian Pencuri",
+    "originalCreation": false,
+    "mechanic": "Mencuri emas dan menghilang",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "steal",
+     "evade"
+    ]
+   },
+   {
+    "round": 25,
+    "roundName": "Batu yang Pernah Berlayar",
+    "boss": "Malin Kundang",
+    "originalCreation": false,
+    "mechanic": "Berubah menjadi batu kebal sementara",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "armor"
+    ]
+   },
+   {
+    "round": 30,
+    "roundName": "Raung di Ngarai",
+    "boss": "Inyiak Balang",
+    "originalCreation": false,
+    "mechanic": "Harimau besar yang menerjang barisan depan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 35,
+    "roundName": "Sembilan Bayang di Danau",
+    "boss": "Bujang Sembilan Sunyi",
+    "originalCreation": false,
+    "mechanic": "Sembilan bayangan kecil menyerang bersamaan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "summon"
+    ]
+   },
+   {
+    "round": 40,
+    "roundName": "Hutan yang Tak Boleh Dimasuki",
+    "boss": "Penunggu Rimbo Larangan",
+    "originalCreation": false,
+    "mechanic": "Mengurung sebagian papan dengan akar",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 45,
+    "roundName": "Kembali Tanpa Pulang",
+    "boss": "Tuan Gadang Rantau",
+    "originalCreation": true,
+    "mechanic": "Merebut buff Warisan pemain",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "strip"
+    ]
+   },
+   {
+    "round": 50,
+    "roundName": "Pagaruyung yang Dilupakan",
+    "boss": "Rajo Sunyalam",
+    "originalCreation": true,
+    "mechanic": "Penjaga puncak; menguras emas tiap pupuh",
+    "weakAgainst": [],
+    "tier": "puncak",
+    "fx": [
+     "steal",
+     "drain"
+    ]
+   },
+   {
+    "round": 51,
+    "roundName": "Belang di Balik Rumpun Bambu",
+    "boss": "Harimau Campo",
+    "originalCreation": false,
+    "mechanic": "Melompati barisan depan dua kali per fase",
+    "weakAgainst": [
+     "Dung"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 52,
+    "roundName": "Kaba yang Menjadi Racun",
+    "boss": "Penebar Kaba Sunya",
+    "originalCreation": true,
+    "mechanic": "Menyembunyikan indikator Warisan dan mengacak tampilan toko",
+    "weakAgainst": [
+     "Lir"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "strip"
+    ]
+   },
+   {
+    "round": 53,
+    "roundName": "Tangga Tanpa Ujung",
+    "boss": "Penjaga Janjang Sunya",
+    "originalCreation": true,
+    "mechanic": "Memperpanjang jalur sehingga musuh menyerang lebih lama",
+    "weakAgainst": [
+     "Nah"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "linger"
+    ]
+   },
+   {
+    "round": 54,
+    "roundName": "Guru yang Lupa Murid",
+    "boss": "Hulubalang Silek Sunya",
+    "originalCreation": true,
+    "mechanic": "Meniru gerakan Kar pemain dan melompat ke belakang",
+    "weakAgainst": [
+     "Gong"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "evade",
+     "copy"
+    ]
+   },
+   {
+    "round": 55,
+    "roundName": "Pantun Terakhir di Tebing",
+    "boss": "Penghulu Pagaruyung Sunyi",
+    "originalCreation": true,
+    "mechanic": "Membungkam Warisan tingkat tertinggi pemain sementara",
+    "weakAgainst": [
+     "Tau"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "strip",
+     "silence"
+    ]
+   }
+  ],
+  "Kaldera Toba Purba": [
+   {
+    "round": 5,
+    "roundName": "Hantu Tinggi dari Huta",
+    "boss": "Begu Ganjang",
+    "originalCreation": false,
+    "mechanic": "Sangat tinggi; menjangkau barisan belakang",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "focus"
+    ]
+   },
+   {
+    "round": 10,
+    "roundName": "Penjaga dari Tanah Liat",
+    "boss": "Pangulubalang",
+    "originalCreation": false,
+    "mechanic": "Kebal sampai pelindungnya dihancurkan",
+    "weakAgainst": [
+     "Mpu"
+    ],
+    "tier": "bos",
+    "fx": [
+     "armor"
+    ]
+   },
+   {
+    "round": 15,
+    "roundName": "Boneka yang Menari Sendiri",
+    "boss": "Si Gale-gale Sunyi",
+    "originalCreation": false,
+    "mechanic": "Meniru gerakan unit pemain",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "evade",
+     "copy"
+    ]
+   },
+   {
+    "round": 20,
+    "roundName": "Roh di Hutan Larangan",
+    "boss": "Sombaon",
+    "originalCreation": false,
+    "mechanic": "Menebar kutukan yang melemahkan serangan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 25,
+    "roundName": "Gempa dari Dasar Bumi",
+    "boss": "Naga Padoha",
+    "originalCreation": false,
+    "mechanic": "Gempa menggeser posisi petak",
+    "weakAgainst": [
+     "Hut"
+    ],
+    "tier": "bos",
+    "fx": [
+     "stun",
+     "aoe"
+    ]
+   },
+   {
+    "round": 30,
+    "roundName": "Penjaga Tanah yang Murka",
+    "boss": "Boraspati ni Tano",
+    "originalCreation": false,
+    "mechanic": "Menahan unit di tanah dengan akar",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 35,
+    "roundName": "Panglima Tanpa Huta",
+    "boss": "Ulubalang Sunya",
+    "originalCreation": true,
+    "mechanic": "Memanggil prajurit bayangan tiap beberapa detik",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "summon"
+    ]
+   },
+   {
+    "round": 40,
+    "roundName": "Hari Baik yang Terbalik",
+    "boss": "Datu Parhalaan Sunyi",
+    "originalCreation": true,
+    "mechanic": "Mengacak urutan giliran serangan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 45,
+    "roundName": "Silsilah yang Terputus",
+    "boss": "Raja Ompu Sunya",
+    "originalCreation": true,
+    "mechanic": "Menghapus bonus Warisan Asal sementara",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "strip"
+    ]
+   },
+   {
+    "round": 50,
+    "roundName": "Kaldera yang Meledakkan Ingatan",
+    "boss": "Sunya Toba",
+    "originalCreation": true,
+    "mechanic": "Penjaga puncak; ledakan area tiap fase",
+    "weakAgainst": [],
+    "tier": "puncak",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 51,
+    "roundName": "Jejak di Hutan Danau",
+    "boss": "Umang Sunyi",
+    "originalCreation": false,
+    "mechanic": "Menghindari serangan dan menghilang bergantian",
+    "weakAgainst": [
+     "Nah"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "evade"
+    ]
+   },
+   {
+    "round": 52,
+    "roundName": "Gondang yang Berhenti",
+    "boss": "Penabuh Gondang Bisu",
+    "originalCreation": true,
+    "mechanic": "Membungkam Gong dan semua aura",
+    "weakAgainst": [
+     "Wang"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "silence"
+    ]
+   },
+   {
+    "round": 53,
+    "roundName": "Lintah dari Dasar Danau",
+    "boss": "Lintah Raksasa Toba",
+    "originalCreation": true,
+    "mechanic": "Menyedot HP unit dan menyembuhkan dirinya",
+    "weakAgainst": [
+     "Kar"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "drain"
+    ]
+   },
+   {
+    "round": 54,
+    "roundName": "Palu di Tangan Kosong",
+    "boss": "Pande Sunya",
+    "originalCreation": true,
+    "mechanic": "Menempa tameng lalu melemparkannya ke barisan",
+    "weakAgainst": [
+     "Mpu"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "shield"
+    ]
+   },
+   {
+    "round": 55,
+    "roundName": "Abu yang Menutup Silsilah",
+    "boss": "Penguasa Abu Toba",
+    "originalCreation": true,
+    "mechanic": "Letusan abu menutup papan dan menggeser petak",
+    "weakAgainst": [
+     "Hut"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "stun",
+     "aoe"
+    ]
+   }
+  ],
+  "Dermaga Tallo Apung": [
+   {
+    "round": 5,
+    "roundName": "Wajah Kedua di Malam Pasang",
+    "boss": "Parakang",
+    "originalCreation": false,
+    "mechanic": "Menyamar sebagai unit pemain",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "evade"
+    ]
+   },
+   {
+    "round": 10,
+    "roundName": "Layar yang Tak Pernah Berlabuh",
+    "boss": "Kapal Hantu Pinisi",
+    "originalCreation": false,
+    "mechanic": "Menembakkan meriam ke barisan belakang",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 15,
+    "roundName": "Delapan Lengan Teluk Bone",
+    "boss": "Gurita Raksasa Teluk Bone",
+    "originalCreation": false,
+    "mechanic": "Mencengkeram beberapa unit sekaligus",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 20,
+    "roundName": "Perompak Tanpa Nama",
+    "boss": "Daeng Gelap",
+    "originalCreation": true,
+    "mechanic": "Mencuri emas dan kabur",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "steal"
+    ]
+   },
+   {
+    "round": 25,
+    "roundName": "Naga Karang Spermonde",
+    "boss": "Ular Laut Spermonde",
+    "originalCreation": false,
+    "mechanic": "Serangan area dari dalam air",
+    "weakAgainst": [
+     "Jong"
+    ],
+    "tier": "bos",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 30,
+    "roundName": "Doa yang Dibalik",
+    "boss": "Sanro Hitam",
+    "originalCreation": true,
+    "mechanic": "Membalik efek penyembuhan menjadi kerusakan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "drain"
+    ]
+   },
+   {
+    "round": 35,
+    "roundName": "Penanggung Dermaga",
+    "boss": "Penyu Raksasa Tallo",
+    "originalCreation": false,
+    "mechanic": "Sangat tahan; lambat",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "armor"
+    ]
+   },
+   {
+    "round": 40,
+    "roundName": "Angin Barat Mengamuk",
+    "boss": "Topan Karaeng Angin",
+    "originalCreation": true,
+    "mechanic": "Mendorong unit menjauh dari posisi",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 45,
+    "roundName": "Armada dari Dasar Laut",
+    "boss": "Karaeng Sunya",
+    "originalCreation": true,
+    "mechanic": "Memanggil kapal bayangan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "summon"
+    ]
+   },
+   {
+    "round": 50,
+    "roundName": "Pusaran Terakhir",
+    "boss": "Sunya Samudra",
+    "originalCreation": true,
+    "mechanic": "Penjaga puncak; pasang naik mempersempit papan",
+    "weakAgainst": [],
+    "tier": "puncak",
+    "fx": [
+     "stun",
+     "aoe"
+    ]
+   },
+   {
+    "round": 51,
+    "roundName": "Jangkar yang Menolak Naik",
+    "boss": "Jangkar Hantu Tallo",
+    "originalCreation": true,
+    "mechanic": "Menahan unit di tempat dan menyeretnya ke tepi dermaga",
+    "weakAgainst": [
+     "Jong"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 52,
+    "roundName": "Peti yang Berlayar Sendiri",
+    "boss": "Peti Harta Terkutuk",
+    "originalCreation": true,
+    "mechanic": "Menyamar sebagai hadiah lalu menggigit unit yang mendekat",
+    "weakAgainst": [
+     "Kar"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "aoe",
+     "evade"
+    ]
+   },
+   {
+    "round": 53,
+    "roundName": "Nakhoda tanpa Bayangan",
+    "boss": "Nakhoda Bayangan",
+    "originalCreation": true,
+    "mechanic": "Memerintah kapal hantu menembak barisan belakang",
+    "weakAgainst": [
+     "Kei"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 54,
+    "roundName": "Pusaran yang Haus",
+    "boss": "Pusaran Hitam Selat",
+    "originalCreation": true,
+    "mechanic": "Menyedot unit ke pusat dan mengacak posisinya",
+    "weakAgainst": [
+     "Dung"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 55,
+    "roundName": "Layar Terakhir Tallo",
+    "boss": "Armada Sunya Tallo",
+    "originalCreation": true,
+    "mechanic": "Memanggil armada kapal bayangan bergelombang",
+    "weakAgainst": [
+     "Lir"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "summon"
+    ]
+   }
+  ],
+  "Pura Segara Tirta Langit": [
+   {
+    "round": 5,
+    "roundName": "Tawa di Atas Pura",
+    "boss": "Celuluk",
+    "originalCreation": false,
+    "mechanic": "Terbang dan menghindari serangan darat",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "evade"
+    ]
+   },
+   {
+    "round": 10,
+    "roundName": "Bisik dari Bambu Tua",
+    "boss": "Tonya",
+    "originalCreation": false,
+    "mechanic": "Mengacaukan targetan unit",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "silence"
+    ]
+   },
+   {
+    "round": 15,
+    "roundName": "Raja yang Menantang Dewa",
+    "boss": "Mayadanawa",
+    "originalCreation": false,
+    "mechanic": "Kebal sihir sementara",
+    "weakAgainst": [
+     "Dwi"
+    ],
+    "tier": "bos",
+    "fx": [
+     "armor"
+    ]
+   },
+   {
+    "round": 20,
+    "roundName": "Penghuni Jurang Sunyi",
+    "boss": "Gamang",
+    "originalCreation": false,
+    "mechanic": "Menurunkan kecepatan serang",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "slow"
+    ]
+   },
+   {
+    "round": 25,
+    "roundName": "Raksasa Pembuat Batu",
+    "boss": "Kebo Iwa Sunyi",
+    "originalCreation": false,
+    "mechanic": "Menghancurkan petak di depannya",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 30,
+    "roundName": "Bhuta di Persimpangan",
+    "boss": "Penunggu Persimpangan",
+    "originalCreation": true,
+    "mechanic": "Menangkal unit yang berkumpul rapat",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 35,
+    "roundName": "Tarian Tinggi Tanpa Wajah",
+    "boss": "Penari Wajah Kosong",
+    "originalCreation": true,
+    "mechanic": "Memanggil pasangan bayangan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "summon"
+    ]
+   },
+   {
+    "round": 40,
+    "roundName": "Persembahan yang Terlupa",
+    "boss": "Raksasa Sunya Taksu",
+    "originalCreation": true,
+    "mechanic": "Menyerap buff aura",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "strip"
+    ]
+   },
+   {
+    "round": 45,
+    "roundName": "Pendeta Tanpa Doa",
+    "boss": "Raja Hitam Dalem Sunya",
+    "originalCreation": true,
+    "mechanic": "Membungkam aura dan Warisan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "silence"
+    ]
+   },
+   {
+    "round": 50,
+    "roundName": "Samudra yang Mengering",
+    "boss": "Sunya Segara",
+    "originalCreation": true,
+    "mechanic": "Penjaga puncak; air suci berbalik menyerang",
+    "weakAgainst": [],
+    "tier": "puncak",
+    "fx": [
+     "aoe",
+     "drain"
+    ]
+   },
+   {
+    "round": 51,
+    "roundName": "Tarian di Antara Dupa",
+    "boss": "Wong Samar Sunyi",
+    "originalCreation": false,
+    "mechanic": "Tak terlihat sampai menyerang",
+    "weakAgainst": [
+     "Wang"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "evade"
+    ]
+   },
+   {
+    "round": 52,
+    "roundName": "Gong yang Retak",
+    "boss": "Penabuh Gong Retak",
+    "originalCreation": true,
+    "mechanic": "Menurunkan kecepatan serang semua unit",
+    "weakAgainst": [
+     "Dwi"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "slow"
+    ]
+   },
+   {
+    "round": 53,
+    "roundName": "Sesajen yang Dikosongkan",
+    "boss": "Penjaga Sesajen Kosong",
+    "originalCreation": true,
+    "mechanic": "Menyerap penyembuhan lalu mengubahnya menjadi tameng sendiri",
+    "weakAgainst": [
+     "Kar"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "drain",
+     "armor"
+    ]
+   },
+   {
+    "round": 54,
+    "roundName": "Topeng Seribu Wajah",
+    "boss": "Penari Topeng Sunya",
+    "originalCreation": true,
+    "mechanic": "Meniru wajah unit pemain dan bertukar posisi",
+    "weakAgainst": [
+     "Lir"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "copy",
+     "stun"
+    ]
+   },
+   {
+    "round": 55,
+    "roundName": "Pasang Purnama yang Menolak Pulang",
+    "boss": "Pasang Purnama Sunya",
+    "originalCreation": true,
+    "mechanic": "Air naik bertahap dan menenggelamkan baris depan",
+    "weakAgainst": [
+     "Tam"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "stun",
+     "grow"
+    ]
+   }
+  ],
+  "Rimba Tabalong Kayangan": [
+   {
+    "round": 5,
+    "roundName": "Kepala yang Terbang Malam",
+    "boss": "Kuyang",
+    "originalCreation": false,
+    "mechanic": "Melayang melewati barisan depan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "evade"
+    ]
+   },
+   {
+    "round": 10,
+    "roundName": "Bisik dari Akar Pohon",
+    "boss": "Hantuen",
+    "originalCreation": false,
+    "mechanic": "Menyembunyikan diri dalam kabut rimba",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "evade"
+    ]
+   },
+   {
+    "round": 15,
+    "roundName": "Sungai yang Bernyanyi",
+    "boss": "Pesut Siluman Mahakam",
+    "originalCreation": false,
+    "mechanic": "Memanggil arus yang menghanyutkan unit",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 20,
+    "roundName": "Sisik di Rawa Barito",
+    "boss": "Ular Raksasa Rawa Barito",
+    "originalCreation": false,
+    "mechanic": "Melilit satu unit sampai dibebaskan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 25,
+    "roundName": "Burung yang Membawa Pesan Kematian",
+    "boss": "Antang Sunyi",
+    "originalCreation": false,
+    "mechanic": "Menandai unit yang akan diserang",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "focus"
+    ]
+   },
+   {
+    "round": 30,
+    "roundName": "Taring dari Kanopi",
+    "boss": "Beruang Rimba Berapi",
+    "originalCreation": true,
+    "mechanic": "Serangan api",
+    "weakAgainst": [
+     "Rim"
+    ],
+    "tier": "bos",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 35,
+    "roundName": "Air yang Naik dari Hulu",
+    "boss": "Naga Jata Hitam",
+    "originalCreation": false,
+    "mechanic": "Banjir menyapu barisan belakang",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 40,
+    "roundName": "Panglima Kabut",
+    "boss": "Panglima Hantu Kabut",
+    "originalCreation": true,
+    "mechanic": "Menyembunyikan seluruh papan sebentar",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "evade"
+    ]
+   },
+   {
+    "round": 45,
+    "roundName": "Raja Tanpa Kerangka",
+    "boss": "Raja Kayangan Sunya",
+    "originalCreation": true,
+    "mechanic": "Memanggil kerangka prajurit",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "summon"
+    ]
+   },
+   {
+    "round": 50,
+    "roundName": "Rimba yang Dilupakan",
+    "boss": "Sunya Rimba",
+    "originalCreation": true,
+    "mechanic": "Penjaga puncak; menghapus penyamaran semua unit",
+    "weakAgainst": [],
+    "tier": "puncak",
+    "fx": [
+     "strip",
+     "aoe"
+    ]
+   },
+   {
+    "round": 51,
+    "roundName": "Jejak yang Berbalik Arah",
+    "boss": "Macan Dahan Sunyi",
+    "originalCreation": true,
+    "mechanic": "Melompat antar petak dan menghindari serangan",
+    "weakAgainst": [
+     "Nah"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "evade"
+    ]
+   },
+   {
+    "round": 52,
+    "roundName": "Kerangka di Bawah Akar",
+    "boss": "Jerangkong Rimba",
+    "originalCreation": false,
+    "mechanic": "Memanggil kerangka dari tanah tiap fase",
+    "weakAgainst": [
+     "Wang"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "summon"
+    ]
+   },
+   {
+    "round": 53,
+    "roundName": "Kabut yang Menelan Suara",
+    "boss": "Hantu Kabut Pengunci",
+    "originalCreation": true,
+    "mechanic": "Membungkam kemampuan aktif dan menyembunyikan papan sebentar",
+    "weakAgainst": [
+     "Rim"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "silence",
+     "evade"
+    ]
+   },
+   {
+    "round": 54,
+    "roundName": "Sungai yang Membalik Arus",
+    "boss": "Buaya Sunya Kahayan",
+    "originalCreation": true,
+    "mechanic": "Menyeret unit ke air dan melahap yang terlemah",
+    "weakAgainst": [
+     "Jong"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "stun",
+     "focus"
+    ]
+   },
+   {
+    "round": 55,
+    "roundName": "Pohon Tertinggi yang Layu",
+    "boss": "Pohon Kayangan Sunya",
+    "originalCreation": true,
+    "mechanic": "Akar mengikat seluruh papan dan mematikan penyamaran",
+    "weakAgainst": [
+     "Mpu"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "stun"
+    ]
+   }
+  ],
+  "Pelabuhan Karang Banda": [
+   {
+    "round": 5,
+    "roundName": "Cahaya di Pantai Gelap",
+    "boss": "Suanggi",
+    "originalCreation": false,
+    "mechanic": "Mengutuk satu unit tiap pupuh",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 10,
+    "roundName": "Ombak yang Berbulu",
+    "boss": "Kuda Laut Raksasa",
+    "originalCreation": true,
+    "mechanic": "Cepat; menyapu barisan depan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "aoe",
+     "fast"
+    ]
+   },
+   {
+    "round": 15,
+    "roundName": "Buaya dari Tanjung Merah",
+    "boss": "Buaya Keramat Ambon",
+    "originalCreation": false,
+    "mechanic": "Tahan serangan",
+    "weakAgainst": [
+     "Kei"
+    ],
+    "tier": "bos",
+    "fx": [
+     "armor"
+    ]
+   },
+   {
+    "round": 20,
+    "roundName": "Raung Hitam di Hutan Seram",
+    "boss": "Rimau Hitam Seram",
+    "originalCreation": true,
+    "mechanic": "Menerjang barisan belakang",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 25,
+    "roundName": "Delapan Pelukan Karang",
+    "boss": "Gurita Karang Banda",
+    "originalCreation": false,
+    "mechanic": "Mencengkeram dan menahan beberapa unit",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 30,
+    "roundName": "Naga Pembawa Telur",
+    "boss": "Ular Pembawa Telur Raja Ampat",
+    "originalCreation": true,
+    "mechanic": "Menetaskan anak bayangan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "summon"
+    ]
+   },
+   {
+    "round": 35,
+    "roundName": "Kapal Bermuatan Rempah Hitam",
+    "boss": "Kapten Rempah Hitam",
+    "originalCreation": true,
+    "mechanic": "Meledakkan tong rempah di area",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "aoe"
+    ]
+   },
+   {
+    "round": 40,
+    "roundName": "Bulu yang Memudar",
+    "boss": "Cenderawasih Sunyi",
+    "originalCreation": false,
+    "mechanic": "Menyerap warna dan buff unit",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "strip"
+    ]
+   },
+   {
+    "round": 45,
+    "roundName": "Topan Pembawa Rempah",
+    "boss": "Topan Rempah",
+    "originalCreation": true,
+    "mechanic": "Angin timur membalik arah serangan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "curse"
+    ]
+   },
+   {
+    "round": 50,
+    "roundName": "Pulau yang Tenggelam",
+    "boss": "Sunya Timur",
+    "originalCreation": true,
+    "mechanic": "Penjaga puncak; petak tenggelam bertahap",
+    "weakAgainst": [],
+    "tier": "puncak",
+    "fx": [
+     "aoe",
+     "grow"
+    ]
+   },
+   {
+    "round": 51,
+    "roundName": "Lonceng di Dasar Teluk",
+    "boss": "Penyelam Mutiara Sunyi",
+    "originalCreation": true,
+    "mechanic": "Menarik unit ke bawah sehingga tak bisa menyerang sesaat",
+    "weakAgainst": [
+     "Kei"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 52,
+    "roundName": "Hiu yang Mengikuti Kapal",
+    "boss": "Hiu Karang Hitam",
+    "originalCreation": true,
+    "mechanic": "Menerjang barisan belakang dengan cepat",
+    "weakAgainst": [
+     "Dung"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "aoe",
+     "fast"
+    ]
+   },
+   {
+    "round": 53,
+    "roundName": "Pala yang Berubah Dingin",
+    "boss": "Pala Beracun Sunyi",
+    "originalCreation": true,
+    "mechanic": "Menyebar racun yang menurunkan kecepatan serang",
+    "weakAgainst": [
+     "Tam"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "slow",
+     "aoe"
+    ]
+   },
+   {
+    "round": 54,
+    "roundName": "Burung Pembawa Badai",
+    "boss": "Kasuari Badai Sunyi",
+    "originalCreation": true,
+    "mechanic": "Menerjang dan mendorong unit keluar posisi",
+    "weakAgainst": [
+     "Mpu"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "stun",
+     "aoe"
+    ]
+   },
+   {
+    "round": 55,
+    "roundName": "Gunung Api yang Terjaga",
+    "boss": "Gunung Api Banda Sunya",
+    "originalCreation": true,
+    "mechanic": "Letusan rempah panas di area, makin sering tiap fase",
+    "weakAgainst": [
+     "Gong"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "aoe",
+     "grow"
+    ]
+   }
+  ],
+  "Sasana Sunyaruri": [
+   {
+    "round": 5,
+    "roundName": "Nama yang Hilang",
+    "boss": "Pelupa Nama",
+    "originalCreation": true,
+    "mechanic": "Menghapus nama unit dan menonaktifkan satu Warisan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "strip"
+    ]
+   },
+   {
+    "round": 10,
+    "roundName": "Aksara yang Tersobek",
+    "boss": "Penyobek Lontar",
+    "originalCreation": true,
+    "mechanic": "Merobek buff kertas pemain",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "strip"
+    ]
+   },
+   {
+    "round": 15,
+    "roundName": "Nyanyian yang Diam",
+    "boss": "Penghisap Lagu",
+    "originalCreation": true,
+    "mechanic": "Membungkam Gong",
+    "weakAgainst": [
+     "Gong"
+    ],
+    "tier": "bos",
+    "fx": [
+     "silence"
+    ]
+   },
+   {
+    "round": 20,
+    "roundName": "Wajah yang Terhapus",
+    "boss": "Penelan Wajah",
+    "originalCreation": true,
+    "mechanic": "Meniru unit paling kuat pemain",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "copy"
+    ]
+   },
+   {
+    "round": 25,
+    "roundName": "Garis Keturunan Putus",
+    "boss": "Pemutus Silsilah",
+    "originalCreation": true,
+    "mechanic": "Menghapus bonus Asal sementara",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "strip"
+    ]
+   },
+   {
+    "round": 30,
+    "roundName": "Prajurit Tanpa Isi",
+    "boss": "Panglima Kosong",
+    "originalCreation": true,
+    "mechanic": "Memanggil pasukan kosong yang menyerap kerusakan",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "summon",
+     "armor"
+    ]
+   },
+   {
+    "round": 35,
+    "roundName": "Takhta Tanpa Dongeng",
+    "boss": "Ratu Tanpa Cerita",
+    "originalCreation": true,
+    "mechanic": "Menukar posisi unit secara acak",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "stun"
+    ]
+   },
+   {
+    "round": 40,
+    "roundName": "Mahkota yang Bisu",
+    "boss": "Raja Bisu",
+    "originalCreation": true,
+    "mechanic": "Membungkam kemampuan aktif",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "silence"
+    ]
+   },
+   {
+    "round": 45,
+    "roundName": "Bayangan Sang Lontar",
+    "boss": "Kembaran Sangkala",
+    "originalCreation": true,
+    "mechanic": "Meniru para Penjaga sebelumnya",
+    "weakAgainst": [],
+    "tier": "bos",
+    "fx": [
+     "copy"
+    ]
+   },
+   {
+    "round": 50,
+    "roundName": "Sunyi yang Menelan Segalanya",
+    "boss": "Sunyaruri, Sang Kekosongan",
+    "originalCreation": true,
+    "mechanic": "Penjaga akhir cerita; hanya bisa dikalahkan bila banyak Asal berbeda bersatu",
+    "weakAgainst": [],
+    "tier": "puncak",
+    "fx": [
+     "asalGate",
+     "strip"
+    ]
+   },
+   {
+    "round": 51,
+    "roundName": "Gema Tanpa Suara",
+    "boss": "Gema Sunyi",
+    "originalCreation": true,
+    "mechanic": "Menggandakan efek Penjaga pada pemain",
+    "weakAgainst": [
+     "Gong"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "curse",
+     "aoe"
+    ]
+   },
+   {
+    "round": 52,
+    "roundName": "Tinta yang Menetes ke Atas",
+    "boss": "Penetes Tinta Sunya",
+    "originalCreation": true,
+    "mechanic": "Menghapus indikator Warisan dan nama unit",
+    "weakAgainst": [
+     "Lir"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "strip"
+    ]
+   },
+   {
+    "round": 53,
+    "roundName": "Tangga ke Tak Ada",
+    "boss": "Penjaga Tangga Kosong",
+    "originalCreation": true,
+    "mechanic": "Menghilangkan petak lebih cepat dari biasanya",
+    "weakAgainst": [
+     "Jong"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "grow"
+    ]
+   },
+   {
+    "round": 54,
+    "roundName": "Lontar yang Dibaca Terbalik",
+    "boss": "Pembaca Lontar Kosong",
+    "originalCreation": true,
+    "mechanic": "Menonaktifkan semua Pusaka pemain sementara",
+    "weakAgainst": [
+     "Sri"
+    ],
+    "tier": "ekstrem",
+    "fx": [
+     "strip",
+     "silence"
+    ]
+   },
+   {
+    "round": 55,
+    "roundName": "Lupa yang Pertama",
+    "boss": "Sunyaruri, Sang Lupa Pertama",
+    "originalCreation": true,
+    "mechanic": "Penjaga Ekstrem terakhir; menyalin satu kemampuan dari tiap Penjaga sebelumnya; hanya bisa dilukai penuh bila minimal 4 Asal berbeda aktif",
+    "weakAgainst": [],
+    "tier": "ekstrem",
+    "fx": [
+     "asalGate",
+     "copy"
+    ]
+   }
+  ]
+ }
+}
